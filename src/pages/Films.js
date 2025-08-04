@@ -29,9 +29,9 @@ export const Films = ({
           </button>
           {isOpen1 && (
             <ul className="list">
-              {movies?.map((movie) => (
-                <MovieInfoItem movie={movie}></MovieInfoItem>
-              ))}
+              {movies?.map((movie) => {
+                return <MovieInfoItem key={movie.imdbID} movie={movie} />;
+              })}
             </ul>
           )}
         </div>

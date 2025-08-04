@@ -1,6 +1,7 @@
 import React from "react";
 import LogoScalable from "./LogoScalable";
 import ProfilePicUsername from "../core/ProfilePicUsername";
+import { Link } from "react-router-dom";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   return (
@@ -15,15 +16,17 @@ export const Navbar = ({ movies, query, setQuery }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <div>
-          <p>Films</p>
-        </div>
-        <div>
-          <p>Community</p>
-        </div>
-        <div>
-          <p>News</p>
-        </div>
+        <ul>
+          <li>
+            <Link to="/films">Film</Link>
+          </li>
+          <li>
+            <Link to="/community">Community</Link>
+          </li>
+          <li>
+            <Link to="/news">News</Link>
+          </li>
+        </ul>
       </div>
       <p className="num-results">
         Found <strong>{movies.length}</strong> results

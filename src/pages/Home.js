@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Home = () => {
   return (
     <div>
@@ -7,3 +5,4 @@ export const Home = () => {
     </div>
   );
 };
+export default Home;

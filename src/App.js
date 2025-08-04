@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { tempMovieData } from "../src/storage/tempMovieData";
-import { tempWatchedData } from "./storage/tempWatchedData";
-import LogoScalable from "./components/LogoScalable";
+import { tempWatchedData } from "../src/storage/tempWatchedData";
 
-import MovieInfoItem from "./components/MovieInfoItem";
-import RatedMovieItem from "./components/RatedMovieItem";
-import { ReviewsSummary } from "./components/ReviewsSummary";
-import ProfilePicUsername from "./core/ProfilePicUsername";
 import Navbar from "./components/Navbar";
 import { Home } from "./pages/Home";
-import Films from "./pages/Films";
+import { Films } from "./pages/Films";
+import { Community } from "./pages/Community";
+import News from "./pages/News";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -28,19 +25,21 @@ export default function App() {
     <Router>
       <Navbar movies={movies} query={query} setQuery={setQuery} />
       <Routes>
-        <Route path="/" element={<Home />}>
-          <Route
-            path="/films"
-            element={
-              <Films
-                avgImdbRating={avgImdbRating}
-                avgUserRating={avgUserRating}
-                avgRuntime={avgRuntime}
-                watched={watched}
-              />
-            }
-          ></Route>{" "}
-        </Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route
+          path="/films"
+          element={
+            <Films
+              avgImdbRating={avgImdbRating}
+              avgUserRating={avgUserRating}
+              avgRuntime={avgRuntime}
+              watched={watched}
+              movies={movies}
+            />
+          }
+        ></Route>
+        <Route path="/community" element={<Community />}></Route>
+        <Route path="/news" element={<News></News>}></Route>
       </Routes>
     </Router>
   );

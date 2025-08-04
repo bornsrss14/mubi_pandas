@@ -32,9 +32,11 @@ export const ReviewsSummary = ({
       </div>
 
       <ul className="list">
-        {watched.map((movie) => (
-          <RatedMovieItem movie={movie}></RatedMovieItem>
-        ))}
+        {watched.map((movie) => {
+          return (
+            <RatedMovieItem key={movie.imdbID} movie={movie}></RatedMovieItem>
+          );
+        })}
       </ul>
     </>
   );
