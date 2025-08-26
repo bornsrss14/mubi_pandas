@@ -1,0 +1,187 @@
+.container-filters {
+  width: 98%;
+  margin: 2rem auto;
+  justify-content: space-between;
+  padding: 1rem 0rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.229);
+}
+
+/* Aquí también agrego los estilos de el contenedor de las películas y de sus ItemsMovies, en su caso con sus tres estados */
+
+.container-films-user {
+  min-width: 98%;
+  max-width: 98%;
+  border: 1px solid rgba(128, 128, 128, 0.229);
+  min-height: 25rem;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+}
+.grid-footer {
+  display: grid;
+  min-width: 100%;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, 1fr);
+  margin: 1rem auto;
+  column-gap: 6rem;
+  padding: 1rem 2rem;
+  row-gap: 1rem;
+  width: fit-content;
+  background-color: red;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.social-icons {
+  display: flex;
+  width: auto;
+  gap: 1rem;
+}
+
+.menu-flot {
+  position: absolute;
+  display: none;
+  width: 16rem;
+  font-size: 1.5rem;
+  padding: 0.5rem 0;
+  z-index: 100;
+}
+.menu-flot > ul > li {
+  width: 100%;
+  color: black;
+  background-color: rgb(153, 170, 187);
+}
+.container-menu-profile:hover .menu-flot {
+  display: block;
+}
+.menu-flot > ul > li {
+  padding: 0.6rem 1.3rem;
+  list-style-type: none;
+}
+.menu-flot > ul > li:hover {
+  color: white;
+  background-color: rgb(130, 146, 162);
+  cursor: pointer;
+}
+
+/* HOME */
+.username-txt {
+  font-size: 2.8rem;
+}
+.welcome-msg {
+  width: 80%;
+  text-align: center;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.div-new-on-mubi {
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 2rem auto;
+  width: 70%;
+}
+.overly-options {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 20rem;
+  top: -8rem;
+  color: black;
+  background-color: rgb(153, 170, 187);
+  left: 9rem;
+  font-size: 1.5rem;
+  z-index: 100;
+}
+.overly-true {
+  display: flex;
+}
+.overly-options > div:hover {
+  background-color: rgb(112, 120, 128);
+  cursor: pointer;
+  color: white;
+}
+.overly-options > div {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 0.6rem 1.3rem;
+}
+.icon-action-h {
+  color: white;
+  size: 1rem;
+}
+.icon-action-h:hover {
+  color: rgb(209, 251, 237);
+}
+.overly-actions {
+  display: none;
+  flex-direction: row;
+  gap: 0.4rem;
+  z-index: 5;
+  margin: 0.5rem 0.4rem;
+  position: absolute;
+  top: 80%;
+  border-radius: 5px;
+  padding: 0.3rem 1rem;
+  right: 15%;
+  background-color: rgba(0, 0, 0, 0.653);
+}
+
+#img-full-cover:hover .overly-actions {
+  display: flex;
+}
+#img-full-cover {
+  height: 24rem;
+  width: 15rem;
+  position: relative;
+}
+#img-full-cover:hover {
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* footer card pposter */
+.ratingAndDate {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  padding: 0.1rem 4%;
+  justify-content: space-between;
+  align-items: center;
+}
+.ratingUser {
+  background-color: gray;
+  height: fit-content;
+  padding: 0.4rem;
+}
+
+.firstPartReviewPreview {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 13rem 1fr;
+}
+.likesCount {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.grid-container-reviews {
+  display: grid;
+  width: 70%;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+  gap: 3rem;
+}
+.main-review-preview {
+  width: 100%;
+}

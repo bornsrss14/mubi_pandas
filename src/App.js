@@ -8,6 +8,9 @@ import { Home } from "./pages/Home";
 import { Films } from "./pages/Films";
 import { Community } from "./pages/Community";
 import News from "./pages/News";
+import UserFilms from "./pages/UserFilms";
+import MainFooter from "./components/MainFooter";
+import Profile from "./pages/Profile";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -40,7 +43,10 @@ export default function App() {
         ></Route>
         <Route path="/community" element={<Community />}></Route>
         <Route path="/news" element={<News></News>}></Route>
+        <Route path="/user-films" element={<UserFilms />}></Route>
+        <Route path="/user-profile" element={<Profile />}></Route>
       </Routes>
+      <MainFooter></MainFooter>
     </Router>
   );
 }

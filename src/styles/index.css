@@ -376,18 +376,28 @@ EMPTY STAR
   flex-direction: row;
   place-items: center;
   gap: 0.65rem;
+  max-width: 100%;
+}
+.flex-row > li {
+  list-style: none;
+}
+.flex-row > li > a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  font-size: 1.7rem;
+  margin: 0rem 0.5rem;
 }
 .div-picture-nikname {
   height: auto;
   max-width: 20rem;
   width: auto;
   row-gap: 1rem;
-  margin: 1rem 1rem;
+  /* margin: 1rem 1rem; */
 }
 
 .nickname {
   font-weight: 700;
-  font-size: 1.5rem;
 }
 .rotate-center {
   -webkit-animation: rotate-center 0.6s ease-in-out both;
