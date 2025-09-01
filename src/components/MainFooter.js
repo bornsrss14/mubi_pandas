@@ -50,7 +50,11 @@ export const MainFooter = () => {
         </nav>
 
         <div class="social-icons">
-          <a href="#">
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://www.instagram.com/bornsrss/"
+          >
             <IconBrandInstagram />
           </a>
           <a
@@ -67,16 +71,20 @@ export const MainFooter = () => {
           <a href="#">
             <IconBrandMeta />
           </a>
-          <a href="#">
+          <a href="mailto:contacto@rosfuentes.dev?subject=Hello&body=This%20is%20my%20message">
             <IconMail />
           </a>
-          <a href="#">
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://www.youtube.com/@bornsrss-dev"
+          >
             <IconBrandYoutube />
           </a>
         </div>
         <p>
-          © mubi: pandasneezing. Made by a fan in Veracruz. Film data from{" "}
-          <a href="#">TMDb</a>.<a href="#">Mobile site</a>.
+          © mubi: pandasneezing. Made by a fan in Córdoba, Veracruz. Film data
+          from <a href="#">TMDb</a>.<a href="#">Mobile site</a>.
         </p>
       </footer>
     </>

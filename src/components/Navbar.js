@@ -1,7 +1,7 @@
 import React from "react";
 import LogoScalable from "./LogoScalable";
 import ProfilePicUsername from "../core/ProfilePicUsername";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   return (
@@ -11,7 +11,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
         <div className="container-menu-profile">
           <ProfilePicUsername
             imgProfile={
-              "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/cards-tatoki%2Fshiba-perrito.jpg?alt=media&token=4b3718b8-823d-4368-b83c-3a68086c0cd4"
+              "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
             }
             withIcon={true}
           />

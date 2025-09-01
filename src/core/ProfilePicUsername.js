@@ -1,8 +1,9 @@
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
 export const ProfilePicUsername = ({
   userName = "bornsrss",
   measure = "35px",
   withIcon = false,
+  fontSi,
   imgProfile,
 }) => {
   const profilePicture = {
@@ -18,7 +19,9 @@ export const ProfilePicUsername = ({
         <div style={profilePicture}>
           <img className="img-full-cover" alt="profile-pic" src={imgProfile} />
         </div>
-        <p className="nickname">{userName}</p>
+        <p style={{ fontSize: fontSi }} className="nickname">
+          {userName}
+        </p>
         {withIcon ? (
           <IconChevronDown size={"18px"} stroke={"2px"}></IconChevronDown>
         ) : (

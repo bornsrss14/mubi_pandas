@@ -1,15 +1,10 @@
 import { useState } from "react";
-import {
-  IconHeartFilled,
-  IconEyeFilled,
-  IconDots,
-  IconThumbUp,
-} from "@tabler/icons-react";
+import { IconEyeFilled, IconDots, IconThumbUp } from "@tabler/icons-react";
 import Rating from "./Rating";
 
 export const OverlyActions = ({ setShowModal, showModal }) => {
-  const [liked, setLiked] = useState(false);
-  const [seen, setSeen] = useState(false);
+  const [setLiked] = useState(false);
+  const [setSeen] = useState(false);
   const handleAddFavorites = () => {
     console.log("Esto lo agrega a favoritos");
     setLiked((prev) => !prev);
@@ -35,15 +30,15 @@ export const OverlyActions = ({ setShowModal, showModal }) => {
         </div>
         <div onClick={showModalOptions} className="icon-action">
           <IconDots className="icon-action-h" />
-        </div>
-        <div className={`overly-options ${showModal ? "overly-true" : ""} `}>
-          <div>
-            {" "}
-            <Rating></Rating>
+          <div className={`overly-options ${showModal ? "overly-true" : ""} `}>
+            <div>
+              {" "}
+              <Rating toRate={true}></Rating>
+            </div>
+            <div>Show your activity</div>
+            <div>Add to lists...</div>
+            <div>Where to watch</div>
           </div>
-          <div>Show your activity</div>
-          <div>Add to lists...</div>
-          <div>Where to watch</div>
         </div>
       </div>
     </>

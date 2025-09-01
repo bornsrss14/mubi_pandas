@@ -3,8 +3,17 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import PosterMovie from "../core/PosterMovie";
 import Rating from "../core/Rating";
+import TotalChat from "../core/TotalChat";
 
-export const ReviewPreview = ({ reviewTotalLikes = 12890 }) => {
+export const ReviewPreview = ({
+  children,
+  noStars,
+  reviewTotalLikes = 12890,
+  imgProfile,
+  userName,
+  mubiPoster,
+  movieTitle = "The Fantastic Four: First Steps",
+}) => {
   const plural = reviewTotalLikes > 1 ? "s" : "";
 
   return (
@@ -14,33 +23,26 @@ export const ReviewPreview = ({ reviewTotalLikes = 12890 }) => {
           <div className="firstPartReviewPreview">
             <div>
               {" "}
-              <PosterMovie
-                height="10rem"
-                width="7rem"
-                posterUrl={
-                  "https://m.media-amazon.com/images/I/61Emapd1JJL.jpg"
-                }
-              ></PosterMovie>
+              <PosterMovie width={7} posterUrl={mubiPoster}></PosterMovie>
             </div>
             <div>
               <ProfilePicUsername
-                userName="pandas"
-                imgProfile={
-                  "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/cards-tatoki%2Fshiba-perrito.jpg?alt=media&token=4b3718b8-823d-4368-b83c-3a68086c0cd4"
-                }
+                userName={userName}
+                imgProfile={imgProfile}
                 withIcon={false}
                 measure={"28px"}
               ></ProfilePicUsername>
-              <h1> The Fantastic Four: First Steps</h1>
-              <h1>2025</h1>
-              <Rating></Rating>
+              <h1> {movieTitle}</h1>
+              <p>2025</p>
+
+              <div style={{ display: "flex", gap: "1rem" }}>
+                <Rating noStars={noStars}></Rating>
+                <TotalChat></TotalChat>
+              </div>
             </div>
           </div>
-          <div
-            style={{ border: "2px solid pink", margin: "1rem" }}
-            className="secondPartReviewPreview"
-          >
-            <div> Not Bad, Or you could just watch The Incredibles again.</div>
+          <div className="secondPartReviewPreview">
+            {children}
             <div className="likesCount">
               <FontAwesomeIcon icon={faHeart} />
               <div>

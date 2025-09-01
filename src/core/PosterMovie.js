@@ -2,16 +2,21 @@ import { useState } from "react";
 import OverlyActions from "./OverlyActions";
 
 export const PosterMovie = ({
-  height = "24rem",
-  width = "15rem",
+  width,
   posterUrl,
   children,
   comentDate = "4 Aug",
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const customHeight = (width * 3) / 2;
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div style={{ height: height, width: width }} id="img-full-cover">
+    <div
+      style={{ display: "flex", flexDirection: "column", width: `${width}rem` }}
+    >
+      <div
+        style={{ height: `${customHeight}rem`, width: `${width}rem` }}
+        id="img-full-cover"
+      >
         <img className="img-full-cover" alt="img-poster" src={posterUrl} />
         <div onMouseLeave={() => setShowModal(false)}>
           <OverlyActions
@@ -20,7 +25,7 @@ export const PosterMovie = ({
           ></OverlyActions>
         </div>
       </div>
-      {children}
+      <div style={{ width: "100%" }}>{children}</div>
     </div>
   );
 };
