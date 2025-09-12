@@ -16,7 +16,10 @@ import Rating from "../core/Rating";
 import { IconDots } from "@tabler/icons-react";
 
 import { useEffect, useState } from "react";
+import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
+import ProfilePicProfileView from "../core/ProfilePicProfileView";
 export const Profile = ({
+  noDaysRated = 8,
   recentActivity = true,
   recentReviews = true,
   spoilers = true,
@@ -96,39 +99,12 @@ export const Profile = ({
         <div className="grid-banner-profile">
           <div className="profile-edit-btns">
             <div>
-              <ProfilePicUsername
-                fontSi="2rem"
-                measure="90px"
-                userName="vannebuga"
-                imgProfile={
-                  "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
-                }
-              ></ProfilePicUsername>
-            </div>
-            <div className="flex-style">
-              <button className="simple-button">Edit profile</button>
-              <div className="optionsShareProfileBtn">
-                <IconDots size={"17px"} stroke={"3"}></IconDots>
-              </div>
+              <ProfilePicProfileView measure="70px"></ProfilePicProfileView>
             </div>
           </div>
           <div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4,1fr)",
-                placeItems: "center",
-                gap: "1rem",
-                maxWidth: "30rem",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  placeItems: "center",
-                }}
-              >
+            <div className="wrapp-stats-numbers">
+              <div className="eachStatNumber">
                 <p className="text-bold-large">2</p>
                 <p className="text-light-gray">FILMS</p>
               </div>
@@ -166,34 +142,40 @@ export const Profile = ({
           </div>
         </div>
       </div>
-      <section className="section-persentage">
+      <section className="section-persentage pice-hidden">
         <SubNabvar></SubNabvar>
       </section>
       <section className="section-fav-diary section-persentage">
         <div className="item-sec-fav">
           <div>
-            <p>FAVORITE FILMS</p>
-            <div
-              style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}
-            >
+            <div className="subtitle-section">
+              <p>FAVORITE FILMS</p>
+            </div>
+            <div className="favorite-films-grid">
               <PosterMovie
                 posterUrl={
                   "https://a.ltrbxd.com/resized/film-poster/4/4/5/9/4/44594-ponyo-0-460-0-690-crop.jpg?v=6e5faa20db"
                 }
-                width={14}
+                width={8}
               ></PosterMovie>
 
               <PosterMovie
-                width={14}
+                width={8}
                 posterUrl={
                   "https://a.ltrbxd.com/resized/film-poster/1/3/9/7/9/5/139795-birdman-0-460-0-690-crop.jpg?v=345680513e"
                 }
               ></PosterMovie>
 
               <PosterMovie
-                width={14}
+                width={8}
                 posterUrl={
                   "https://a.ltrbxd.com/resized/sm/upload/3t/vq/0u/m6/1tX9ZlgVvWjAQhMs1vAfsYpi7VK-0-460-0-690-crop.jpg?v=30bbb824e1"
+                }
+              ></PosterMovie>
+              <PosterMovie
+                width={8}
+                posterUrl={
+                  "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Perfectblueposter.png/250px-Perfectblueposter.png"
                 }
               ></PosterMovie>
             </div>
@@ -201,16 +183,18 @@ export const Profile = ({
 
           {recentActivity && (
             <div style={{ margin: "3.5rem 0rem" }}>
-              <p>RECENT ACTIVITY</p>
+              <div className="subtitle-section">
+                <p>RECENT ACTIVITY</p>
+              </div>
               <div>
                 <PosterMovie
-                  width={15}
+                  width={11}
                   posterUrl={
                     "https://a.ltrbxd.com/resized/sm/upload/90/gn/c7/9k/qAwFbszz0kRyTuXmMeKQZCX3Q2O-0-300-0-450-crop.jpg?v=192bde15c6"
                   }
                 >
                   <div className="ratingAndDate">
-                    <Rating widthContainer="50%"></Rating>
+                    <Rating starSize={10} widthContainer="50%"></Rating>
                     <p>4 Agu</p>
                   </div>
                 </PosterMovie>
@@ -220,7 +204,9 @@ export const Profile = ({
 
           {recentReviews && (
             <div>
-              <p>RECENT REVIEWS</p>
+              <div className="subtitle-section">
+                <p>RECENT REVIEWS</p>
+              </div>
               <div
                 style={{
                   display: "grid",
@@ -250,7 +236,7 @@ export const Profile = ({
                     Casablanca: 1978
                   </p>
                   <div className="ratingAndDate">
-                    <Rating widthContainer="40%"></Rating>
+                    <Rating starSize={14} widthContainer="40%"></Rating>
                     <p>4 Agu</p>
                   </div>
                   <p style={{ fontSize: "15px" }}>
@@ -274,7 +260,9 @@ export const Profile = ({
         </div>
         <div className="item-sec-fav">
           <div>
-            <p>RATINGS</p>
+            <div className="subtitle-section">
+              <p>RATINGS</p>
+            </div>
             <div
               style={{
                 width: "100%",
@@ -292,22 +280,36 @@ export const Profile = ({
             </div>
           </div>
           <div>
-            <p>ACTIVITY</p>
+            <div className="subtitle-section">
+              <p>DIARY</p>
+            </div>
             <div>
               <div>
                 {arrayRanking.slice(1, 4).map((item) => (
-                  <>
-                    <p>You rated {item.mubiTitle} with: </p>
-                    <Rating noStars={item.ranking} toRate={false}></Rating>
-                  </>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      margin: ".5rem 0rem",
+                    }}
+                  >
+                    <p className="txt-rated">
+                      You rated{" "}
+                      <span className="title-rated-movie">
+                        {item.mubiTitle}
+                      </span>{" "}
+                      with:{" "}
+                    </p>
+                    <Rating
+                      starSize={7}
+                      noStars={item.ranking}
+                      toRate={false}
+                    ></Rating>
+                    <p>
+                      <span>{noDaysRated}</span>d
+                    </p>
+                  </div>
                 ))}
-              </div>
-              <div>
-                <p>You rated {movieTitled} </p>
-                <span>
-                  <Rating noStars={3} widthContainer="5rem"></Rating>
-                </span>{" "}
-                on Sunday Aug 24, 2025 5d ago
               </div>
             </div>
           </div>

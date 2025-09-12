@@ -26,16 +26,35 @@ export const Navbar = ({ movies, query, setQuery }) => {
               <li>
                 <Link to={"/user-films"}>Films</Link>
               </li>
-              <li>Diary</li>
-              <li>Reviews</li>
-              <li>Watchlist</li>
-              <li>Lists</li>
-              <li>Likes</li>
-              <li>Tags</li>
-              <li>Network</li>
-              <li>Settings</li>
-              <li>Subscriptions</li>
-              <li>Sign Out</li>
+              <li>
+                <Link to={"/diary-user"}> Diary</Link>
+              </li>
+              <li>
+                <Link to={"/reviews-user"}>Reviews</Link>
+              </li>
+              <li>
+                <Link to={"/watchlist"}>Watchlist</Link>
+              </li>
+              <li>
+                <Link to={"/listsNavbar"}>Lists</Link>
+              </li>
+              <li>
+                <Link to={"likes-user"}>Likes</Link>
+              </li>
+              <li>
+                <Link to={"/network"}>Network</Link>
+              </li>
+              <li>
+                <Link to={"settings-user"}>Settings</Link>
+              </li>
+
+              <li
+                onClick={() =>
+                  console.log("Esto hace que cierre sesión el usuario")
+                }
+              >
+                Sign Out
+              </li>
             </ul>
           </div>
         </div>

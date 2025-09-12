@@ -82,10 +82,14 @@ export const MainFooter = () => {
             <IconBrandYoutube />
           </a>
         </div>
-        <p>
-          © mubi: pandasneezing. Made by a fan in Córdoba, Veracruz. Film data
-          from <a href="#">TMDb</a>.<a href="#">Mobile site</a>.
-        </p>
+        <div>
+          <p className="txt-footer-c">
+            © mubi: pandasneezing. Made by a fan in Córdoba, Veracruz.
+          </p>
+          <p className="txt-footer-c">
+            Film data from <a href="#">TMDb</a>.<a href="#">Mobile site</a>.
+          </p>
+        </div>
       </footer>
     </>
   );

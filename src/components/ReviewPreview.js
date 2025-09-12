@@ -6,6 +6,7 @@ import Rating from "../core/Rating";
 import TotalChat from "../core/TotalChat";
 
 export const ReviewPreview = ({
+  starSize,
   children,
   noStars,
   reviewTotalLikes = 12890,
@@ -36,7 +37,7 @@ export const ReviewPreview = ({
               <p>2025</p>
 
               <div style={{ display: "flex", gap: "1rem" }}>
-                <Rating noStars={noStars}></Rating>
+                <Rating starSize={starSize} noStars={noStars}></Rating>
                 <TotalChat></TotalChat>
               </div>
             </div>

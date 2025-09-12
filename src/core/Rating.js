@@ -1,9 +1,10 @@
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { useState } from "react";
 export const Rating = ({
+  starSize,
   toRate = false,
   noStars = 5,
-  widthContainer = "5rem",
+  widthContainer,
 }) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -66,7 +67,7 @@ export const Rating = ({
               (_, i) => (
                 <span>
                   {noStars >= i + 1 ? (
-                    <IconStarFilled size={15} fill="#fff" />
+                    <IconStarFilled size={starSize} fill="#fff" />
                   ) : (
                     <p>oops! error</p>
                   )}
