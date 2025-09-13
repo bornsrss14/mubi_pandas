@@ -2,26 +2,31 @@ import { IconDots } from "@tabler/icons-react";
 
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
-import ContainerFilms from "../components/ContainerFilms";
-import ItemCast from "../core/ItemCast";
-import ReviewPreview from "../components/ReviewPreview";
-import ContainerCast from "../components/ContainerCast";
-import ContainerCrew from "../components/ContainerCrew";
-import ContainerGenresFilm from "../components/ContainerGenresFilm";
-import ContainerRelease from "../components/ContainerRelease";
 import { arrayTabsMubiPage, DataProjects } from "../storage/kindOfTabs";
 import { useState } from "react";
+import RatingTools from "../core/RatingTools";
 
 export const Mubi = () => {
-  const showRatingTools = () => {
-    console.log("Esto aparece cuando haces click sobre el elemento de tools");
-  };
   const [activeTab, setActiveTab] = useState(1001);
+  const [showTools, setShowTools] = useState(false);
   const activeTabItem = DataProjects.find((item) => item.id === activeTab);
-  const ComponenteSelected = activeTabItem?.componente;
+  const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
+
+  const showRatingTools = () => {
+    //esto ayuda a mostrar y esconder el componente de tools para cada película
+    setShowTools((prev) => !prev);
+  };
   return (
     <>
       <article className="mubi-card">
+        <div
+          className={showTools ? "overly-mubi-true" : "overly-mubi-false"}
+        ></div>
+        <div
+          className={showTools ? "rating-tools-show" : "rating-tools-hidden"}
+        >
+          <RatingTools showRatingTools={showRatingTools}></RatingTools>
+        </div>
         <div className="mubi-hero">
           <button className="dots" onClick={showRatingTools}>
             <IconDots size={"19px"} stroke={"3"}></IconDots>

@@ -1122,3 +1122,87 @@ only desktop
   border-left: rgba(255, 255, 255, 0.24) solid 0.7px;
   border-bottom: none;
 }
+
+/* rating tools: Aparecen al hacer click sobre los 3 puntos, en cada película Mubi Component */
+#container-tools-rating {
+  position: fixed;
+  left: 5%;
+  width: clamp(16rem, 90%, 40rem);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 301;
+  bottom: 5%;
+
+  /* 
+    - Nunca será más pequeño de 16rem (valor mínimo).
+    - Intentará ser 50% del ancho del contenedor (valor "ideal").
+    - Nunca será más grande de 40rem (valor máximo).
+  */
+  /* Ajusta el padding fluidamente con la pantalla */
+  margin: 0 auto; /* Para centrar si es necesario */
+  background-color: #515151;
+  height: auto;
+  padding: 1.5rem 0;
+  border-radius: 15px;
+}
+
+.close-btn-float {
+  width: 3rem;
+  border: none;
+  height: 3rem;
+  position: absolute;
+  background-color: rgb(56, 54, 54);
+  color: white;
+  top: 0;
+  border-radius: 50%;
+  text-align: center;
+  right: 0;
+  transform: translate(50%, -50%);
+  cursor: pointer;
+}
+.tool-rating {
+  width: 100%;
+  height: fit-content;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  border: 0.7px solid rgba(128, 128, 128, 0.185);
+}
+.tool-txt {
+  padding: 2rem 2rem;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.tools-icons-rating {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+}
+
+.rating-tools-hidden {
+  display: none;
+}
+.rating-tools-show {
+  display: block;
+}
+
+#centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.overly-mubi-true {
+  position: absolute;
+  background-color: #000000c7;
+  z-index: 300;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.overly-mubi-false {
+  display: none;
+}
