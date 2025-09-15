@@ -1,13 +1,13 @@
 import ContainerFilms from "../components/ContainerFilms";
 import SubNabvar from "../components/SubNabvar";
 import InlineNav from "../core/InlineNav";
+import { arrayTabsSubNavbar } from "../storage/kindOfTabs";
 
 export const Activity = () => {
   return (
     <>
-      <SubNabvar></SubNabvar>
-      <div>
-        <InlineNav></InlineNav>
+      <div style={{ marginTop: "2rem" }}>
+        <InlineNav arrayTabs={arrayTabsSubNavbar}></InlineNav>
         <ContainerFilms>
           <p>no films yet</p>
         </ContainerFilms>

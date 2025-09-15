@@ -46,7 +46,7 @@ export const arrayTabsSubNavbar = [
   { idTab: 1003, targetTab: "Diary", linkTo: "diary-user", className: "green" },
   {
     idTab: 1004,
-    targetTab: "Deviews",
+    targetTab: "Reviews",
     linkTo: "reviews-user",
     className: "green",
   },

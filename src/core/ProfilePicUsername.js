@@ -1,5 +1,6 @@
 import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
 export const ProfilePicUsername = ({
+  withNickname = true,
   userName = "bornsrss",
   measure = "35px",
   withIcon = false,
@@ -12,6 +13,7 @@ export const ProfilePicUsername = ({
     borderRadius: "50%", // circulo perfecto
     overflow: "hidden",
     objectFit: "cover", // aseguro que la imagen se ajuste sin deformarse
+    backgroundColor: "white",
   };
   return (
     <>
@@ -19,9 +21,12 @@ export const ProfilePicUsername = ({
         <div style={profilePicture}>
           <img className="img-full-cover" alt="profile-pic" src={imgProfile} />
         </div>
-        <p style={{ fontSize: fontSi }} className="nickname">
-          {userName}
-        </p>
+        {withNickname && (
+          <p style={{ fontSize: fontSi }} className="nickname">
+            {userName}
+          </p>
+        )}
+
         {withIcon ? (
           <IconChevronDown size={"18px"} stroke={"2px"}></IconChevronDown>
         ) : (

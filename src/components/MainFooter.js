@@ -49,7 +49,7 @@ export const MainFooter = () => {
           </ul>
         </nav>
 
-        <div class="social-icons">
+        <div className="social-icons">
           <a
             rel="noreferrer"
             target="_blank"
@@ -58,7 +58,6 @@ export const MainFooter = () => {
             <IconBrandInstagram />
           </a>
           <a
-            without
             rel="noreferrer"
             target="_blank"
             href="https://github.com/bornsrss14"

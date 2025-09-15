@@ -5,6 +5,8 @@ import InlineNav from "../core/InlineNav";
 import { arrayTabsMubiPage, DataProjects } from "../storage/kindOfTabs";
 import { useState } from "react";
 import RatingTools from "../core/RatingTools";
+import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
+import MainFooter from "../components/MainFooter";
 
 export const Mubi = () => {
   const [activeTab, setActiveTab] = useState(1001);
@@ -16,6 +18,10 @@ export const Mubi = () => {
     //esto ayuda a mostrar y esconder el componente de tools para cada película
     setShowTools((prev) => !prev);
   };
+
+  function SaveRate() {
+    console.log("Esta función guarda el rate");
+  }
   return (
     <>
       <article className="mubi-card">
@@ -46,14 +52,14 @@ export const Mubi = () => {
             </h2>
             <p className="mubi-subtitle">「シン・エヴァンゲリオン劇場版:||」</p>
 
-            <p className="mubi-meta">
-              <div>
+            <div className="mubi-meta">
+              <p>
                 <span>2021</span> · DIRECTED BY{" "}
-              </div>
+              </p>
               <strong style={{ fontSize: "1.2rem" }}>
                 Katsuichi Nakayama, Kazuya Tsurumaki
               </strong>
-            </p>
+            </div>
           </div>
           <div className="mubi-poster-m">
             <img
@@ -106,8 +112,17 @@ export const Mubi = () => {
           <div className="subtitle-section">
             <p>POPULAR REVIEWS</p>
           </div>
+          <div>
+            <ReviewPreviewSecond
+              nickname={"muz129"}
+              imgProfile={
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3PxU_RqoB6hZj2TBoFiz_nWYOTjQCCPrCvw&s"
+              }
+            ></ReviewPreviewSecond>
+          </div>
         </section>
       </article>
+      <MainFooter></MainFooter>
     </>
   );
 };
