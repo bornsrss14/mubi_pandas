@@ -88,3 +88,111 @@ export const DataProjects = [
     componente: ContainerRelease,
   },
 ];
+
+export const FiltersArrayItems = [
+  {
+    idTab: 1001,
+    targetTab: "Sort by RELEASE DATE",
+    className: "green",
+  },
+  {
+    idTab: 1002,
+    targetTab: "Service",
+  },
+  {
+    idTab: 1003,
+    targetTab: "Genre",
+  },
+
+  {
+    idTab: 1004,
+    targetTab: "Decade",
+  },
+  {
+    idTab: 1005,
+    targetTab: "Rating",
+  },
+];
+
+export const FilterReview = [
+  {
+    idTab: 1001,
+    targetTab: "Sort by WHEN REVIEWED",
+  },
+  {
+    idTab: 1002,
+    targetTab: "DIARY YEAR",
+  },
+  {
+    idTab: 1003,
+    targetTab: "RATING",
+  },
+];
+
+export const FilterList = [
+  {
+    idTab: 1001,
+    targetTab: "Sort by WHEN UPDATED",
+  },
+  {
+    idTab: 1002,
+    targetTab: "ALL",
+  },
+];
+
+export const FilterFolowed = [
+  {
+    idTab: 1001,
+    targetTab: "This week",
+  },
+  {
+    idTab: 1002,
+    targetTab: "This month",
+  },
+  {
+    idTab: 1003,
+    targetTab: "This Year",
+  },
+  {
+    idTab: 1004,
+    targetTab: "Past years",
+  },
+];
+
+export const FilterDiary = [
+  {
+    idTab: 1001,
+    targetTab: "Service",
+  },
+  {
+    idTab: 1002,
+    targetTab: "Genre",
+  },
+  {
+    idTab: 1003,
+    targetTab: "Decade",
+  },
+  {
+    idTab: 1004,
+    targetTab: "Diary year",
+  },
+  {
+    idTab: 1005,
+    targetTab: "Rating",
+  },
+];
+
+export const FilterWatchList = [
+  {
+    idTab: 1005,
+    targetTab: "Service",
+  },
+  {
+    idTab: 1005,
+    targetTab: "Genre",
+  },
+  {
+    idTab: 1005,
+    targetTab: "Year",
+  },
+];

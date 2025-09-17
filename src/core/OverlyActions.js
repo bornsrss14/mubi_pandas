@@ -33,7 +33,7 @@ export const OverlyActions = ({ setShowModal, showModal }) => {
           <div className={`overly-options ${showModal ? "overly-true" : ""} `}>
             <div>
               {" "}
-              <Rating toRate={true}></Rating>
+              <Rating starSize={18} noStars={5} toRate={true}></Rating>
             </div>
             <div>Show your activity</div>
             <div>Add to lists...</div>

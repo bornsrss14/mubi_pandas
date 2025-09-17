@@ -7,136 +7,226 @@ import {
   IconPlus,
   IconStereoGlasses,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ReviewOverly from "./ReviewOverly";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
+  const [searchIsOpen, setSearchIsOpen] = useState(false);
+  const [addReview, setAddReview] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); //contiene el texto de la película a buscar
+
+  useEffect(() => {
+    console.log("Nuevo valor:", searchTerm);
+  }, [searchTerm]);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  function searchFilm() {
+    console.log(`Esta función busca el valor de ${searchTerm}`);
+    setSearchTerm("");
+    setSearchIsOpen(false);
+  }
+
+  function makeReview() {
+    setBurgerIsOpen(false);
+    setSearchIsOpen(false);
+    console.log(
+      "Esto abre un modal overly sobre toda la pantalla para agregar una nueva reseña de una pelíucla que buscas, en esste mismo modal"
+    );
+    setAddReview((prev) => !prev);
+  }
   const toggleBurger = () => {
-    setBurgerIsOpen((prev) => !prev);
+    setBurgerIsOpen((prev) => {
+      if (!prev) setSearchIsOpen(false);
+      return !prev;
+    });
+  };
+
+  const toggleSearch = () => {
+    setSearchIsOpen((prev) => {
+      if (!prev) setBurgerIsOpen(false);
+      return !prev;
+    });
   };
 
   return (
-    <nav className="container-nav-bar">
-      <header id="header-nav">
-        <LogoScalable customHeight={"38px"} customWidth={"140px"} />
-        <div className="basic-flex-row">
-          <button className="burger-button ">
-            <IconPlus size={"22px"} color="white"></IconPlus>
-          </button>
-          <button
-            className="burger-button"
-            onClick={toggleBurger}
-            aria-label="Abrir menu"
-            aria-expanded={burgerIsOpen}
-            aria-controls="main-menu"
-          >
-            <span className="burger-line"></span>
-            <span className="burger-line"></span>
-            <span className="burger-line"></span>
-          </button>
-          <button className="burger-button">
-            <IconSearch size={"22px"} color="white"></IconSearch>
-          </button>
-        </div>
-      </header>
-
-      <div
-        onClick={(e) => {
-          if (e.target.tagName === "A") {
-            setBurgerIsOpen(false);
-          }
-        }}
-        id="main-menu"
-        aria-hidden={!burgerIsOpen}
-        className={`menu-content${burgerIsOpen ? "show" : ""}`}
-      >
-        <div className=" menu-desplegable-mobil">
-          <ul className="flex-first-submenu">
-            <li className="">
-              <ProfilePicUsername
-                imgProfile={
-                  "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
-                }
-                withIcon={true}
-              />
-            </li>
-          </ul>
-
-          <ul className="grid-first-submenu">
-            <li>
-              <Link to={"/"}>Home</Link>
-            </li>
-            <li>
-              <Link to={"user-profile"}>Profile</Link>
-            </li>
-            <li>
-              <Link to={"/user-films"}>Films</Link>
-            </li>
-            <li>
-              <Link to={"/diary-user"}> Diary</Link>
-            </li>
-            <li>
-              <Link to={"/reviews-user"}>Reviews</Link>
-            </li>
-            <li>
-              <Link to={"/watchlist"}>Watchlist</Link>
-            </li>
-            <li>
-              <Link to={"/listsNavbar"}>Lists</Link>
-            </li>
-            <li>
-              <Link to={"likes-user"}>Likes</Link>
-            </li>
-            <li>
-              <Link to={"/network"}>Network</Link>
-            </li>
-            <li>
-              <Link to={"settings-user"}>Settings</Link>
-            </li>
-
-            <li
-              onClick={() =>
-                console.log("Esto hace que cierre sesión el usuario")
+    <div>
+      <nav className="container-nav-bar">
+        <header id="header-nav">
+          <Link to="/">
+            <ProfilePicUsername
+              withNickname={false}
+              measure="26px"
+              imgProfile={
+                "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
               }
             >
-              Sign Out
-            </li>
-          </ul>
-          <ul className="flex-first-submenu gap-submenu">
-            <li>
-              <Link className="basic-flex-row" to="/films">
-                <span>
-                  <IconStereoGlasses size={"16px"}></IconStereoGlasses>
-                </span>
-                Films
-              </Link>
-            </li>
-            <li>
-              <Link className="basic-flex-row" to="/community">
-                <span>
-                  <ProfilePicUsername
-                    withNickname={false}
-                    measure="16px"
-                    imgProfile={
-                      "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
-                    }
-                  ></ProfilePicUsername>
-                </span>
-                Community
-              </Link>
-            </li>
-            <li className="">
-              <Link className="basic-flex-row" to="/news">
-                <span>
-                  <IconNews size={"16px"}></IconNews>
-                </span>
-                News
-              </Link>
-            </li>
-          </ul>
+              {" "}
+              {
+                <p style={{ fontSize: "1.45rem", fontWeight: "800" }}>
+                  pandasneezing
+                </p>
+              }
+            </ProfilePicUsername>
+          </Link>
+          <div className="basic-flex-row">
+            <button
+              className="burger-button"
+              aria-label="Abrir modal"
+              onClick={makeReview}
+              aria-expanded={addReview}
+            >
+              <IconPlus size={"22px"} color="white"></IconPlus>
+            </button>
+
+            <button
+              className="burger-button"
+              onClick={toggleBurger}
+              aria-label="Abrir menu"
+              aria-expanded={burgerIsOpen}
+              aria-controls="main-menu"
+            >
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
+            </button>
+            <button
+              onClick={toggleSearch}
+              aria-label="open search"
+              aria-expanded={searchIsOpen}
+              aria-controls="main-menu"
+              className="burger-button"
+            >
+              <IconSearch color={"white"} size={"22px"}></IconSearch>
+            </button>
+          </div>
+        </header>
+
+        <div className={`menu-search-wrap-uno${searchIsOpen ? "show" : ""}`}>
+          <div className={"search-wrap-uno "}>
+            <input
+              value={searchTerm}
+              onChange={handleChange}
+              className="input-search-wrap"
+              type="search"
+              placeholder="Search..."
+              aria-label="Buscar"
+            ></input>
+            <button
+              onClick={searchFilm}
+              className="input-search-btn"
+              aria-label="Buscar"
+            >
+              <IconSearch color="gray" size={"17px"}></IconSearch>
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+
+        <div
+          onClick={(e) => {
+            if (e.target.tagName === "A") {
+              setBurgerIsOpen(false);
+            }
+          }}
+          id="main-menu"
+          aria-hidden={!burgerIsOpen}
+          className={`menu-content${burgerIsOpen ? "show" : ""}`}
+        >
+          <div className=" menu-desplegable-mobil ">
+            <ul className="flex-first-submenu">
+              <li className="">
+                <ProfilePicUsername
+                  imgProfile={
+                    "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
+                  }
+                  withIcon={true}
+                />
+              </li>
+            </ul>
+
+            <ul className="grid-first-submenu">
+              <li>
+                <Link to={"/"}>Home</Link>
+              </li>
+              <li>
+                <Link to={"user-profile"}>Profile</Link>
+              </li>
+              <li>
+                <Link to={"/user-films"}>Films</Link>
+              </li>
+              <li>
+                <Link to={"/diary-user"}> Diary</Link>
+              </li>
+              <li>
+                <Link to={"/reviews-user"}>Reviews</Link>
+              </li>
+              <li>
+                <Link to={"/watchlist"}>Watchlist</Link>
+              </li>
+              <li>
+                <Link to={"/listsNavbar"}>Lists</Link>
+              </li>
+              <li>
+                <Link to={"likes-user"}>Likes</Link>
+              </li>
+              <li>
+                <Link to={"/network"}>Network</Link>
+              </li>
+              <li>
+                <Link to={"settings-user"}>Settings</Link>
+              </li>
+
+              <li
+                onClick={() =>
+                  console.log("Esto hace que cierre sesión el usuario")
+                }
+              >
+                Sign Out
+              </li>
+            </ul>
+            <ul className="flex-first-submenu gap-submenu">
+              <li>
+                <Link className="basic-flex-row" to="/films">
+                  <span>
+                    <IconStereoGlasses size={"16px"}></IconStereoGlasses>
+                  </span>
+                  Films
+                </Link>
+              </li>
+              <li>
+                <Link className="basic-flex-row" to="/community">
+                  <span>
+                    <ProfilePicUsername
+                      withNickname={false}
+                      measure="16px"
+                      imgProfile={
+                        "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
+                      }
+                    ></ProfilePicUsername>
+                  </span>
+                  Community
+                </Link>
+              </li>
+              <li className="">
+                <Link className="basic-flex-row" to="/news">
+                  <span>
+                    <IconNews size={"16px"}></IconNews>
+                  </span>
+                  News
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <ReviewOverly
+        makeReview={makeReview}
+        toggleIsOpen={addReview}
+      ></ReviewOverly>
+    </div>
   );
 };
 

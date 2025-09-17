@@ -1,4 +1,4 @@
-import { IconUser, IconMinus, IconPlus } from "@tabler/icons-react";
+import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
 import MovieInfoItem from "../components/MovieInfoItem";
 import { ReviewsSummary } from "../components/ReviewsSummary";

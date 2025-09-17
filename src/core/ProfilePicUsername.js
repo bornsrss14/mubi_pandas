@@ -1,6 +1,7 @@
 import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
 export const ProfilePicUsername = ({
   withNickname = true,
+  children,
   userName = "bornsrss",
   measure = "35px",
   withIcon = false,
@@ -32,6 +33,7 @@ export const ProfilePicUsername = ({
         ) : (
           ""
         )}
+        {children}
       </div>
     </>
   );

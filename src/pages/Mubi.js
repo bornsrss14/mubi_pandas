@@ -1,5 +1,4 @@
 import { IconDots } from "@tabler/icons-react";
-
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsMubiPage, DataProjects } from "../storage/kindOfTabs";

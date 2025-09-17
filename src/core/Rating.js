@@ -1,4 +1,5 @@
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconX } from "@tabler/icons-react";
+
 import { useState } from "react";
 export const Rating = ({
   stroke,
@@ -6,6 +7,7 @@ export const Rating = ({
   toRate = false,
   noStars = 5,
   widthContainer,
+  customColor = "fff",
 }) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -23,7 +25,7 @@ export const Rating = ({
   const textStyle = {
     IconLineHeight: ".8rem",
     margin: "0",
-    color: "gray",
+    color: "white",
     fontSize: "1rem",
   };
 
@@ -34,16 +36,18 @@ export const Rating = ({
     setHoverRating(i);
   }
 
+  function resetRatingValues() {
+    console.log("Esto resetea el estado de las estrellas");
+    setRating(0);
+  }
+
   return (
     <>
       <div style={styleContainer}>
         <div style={starContainerStyle}>
-          {toRate &&
-            Array.from(
-              {
-                length: noStars,
-              },
-              (_, i) => (
+          {toRate && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {Array.from({ length: noStars }, (_, i) => (
                 <span
                   onClick={() => handleRating(i + 1)}
                   onMouseEnter={() => settingHoverRating(i + 1)}
@@ -65,8 +69,21 @@ export const Rating = ({
                     />
                   )}
                 </span>
-              )
-            )}
+              ))}
+
+              {rating >= 1 ? (
+                <button
+                  onClick={resetRatingValues}
+                  style={{ margin: "0 0 0 1rem" }}
+                  className="burger-button"
+                >
+                  <IconX stroke={2} size={"15px"} color="white" />
+                </button>
+              ) : (
+                <span></span>
+              )}
+            </div>
+          )}
 
           {!toRate && //aquí ya está calificado
             Array.from(
@@ -79,7 +96,7 @@ export const Rating = ({
                     <IconStarFilled
                       stroke={stroke}
                       size={`${starSize}px`}
-                      fill="#fff"
+                      fill={customColor}
                     />
                   ) : (
                     <p>oops! error</p>
