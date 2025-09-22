@@ -215,7 +215,12 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={5} widthContainer="1rem"></Rating>
+              <Rating
+                customColor="white"
+                starSize={8}
+                noStars={5}
+                widthContainer="1rem"
+              ></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>
@@ -235,7 +240,12 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={3} widthContainer="40%"></Rating>
+              <Rating
+                customColor="white"
+                starSize={8}
+                noStars={3}
+                widthContainer="40%"
+              ></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>
@@ -259,7 +269,12 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={3} widthContainer="40%"></Rating>
+              <Rating
+                customColor="white"
+                starSize={8}
+                noStars={3}
+                widthContainer="40%"
+              ></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>
@@ -283,7 +298,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={1}></Rating>
+              <Rating customColor="white" starSize={8} noStars={1}></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>
@@ -306,7 +321,12 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={4} widthContainer="40%"></Rating>
+              <Rating
+                customColor="white"
+                starSize={8}
+                noStars={4}
+                widthContainer="40%"
+              ></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>
@@ -329,7 +349,12 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
             <div className="ratingAndDate">
               {" "}
-              <Rating starSize={8} noStars={4} widthContainer="40%"></Rating>
+              <Rating
+                customColor="white"
+                starSize={8}
+                noStars={4}
+                widthContainer="40%"
+              ></Rating>
               <p>4 Agu</p>
             </div>
           </PosterMovie>

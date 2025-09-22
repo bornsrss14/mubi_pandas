@@ -206,3 +206,17 @@ export const FourMubis = [
   "https://upload.wikimedia.org/wikipedia/en/d/d5/Hotel_Rwanda_movie.jpg",
   ,
 ];
+
+export const following = [
+  "https://media.licdn.com/dms/image/v2/D5603AQGpTl6JKHXebA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1713467554316?e=2147483647&v=beta&t=coXEFaSP9J3dz1B-os5gh3G31PkEcUZWYsG32O8aTEY",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq2LmZp_6bl-ZtAPvjiTBC0f99okAJvGWr_pR8vzHjFMcMNLwwLe9hWz4FFrTM8mycV9M&usqp=CAU",
+  "https://media.licdn.com/dms/image/v2/D5603AQHzD4JSTWJrjw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1727902754352?e=2147483647&v=beta&t=MJNLF1UyW0g20pIbZIoHOpAs4lD4S9ZauLLnvk-XCUs",
+  "https://media.licdn.com/dms/image/v2/C4E03AQG9fdqENNDEhw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1594674124785?e=2147483647&v=beta&t=ET8dADHcVa8ChLABHgctsaiyWbHsjAG58WEMFNYF8OA",
+  "https://media.licdn.com/dms/image/v2/C4E03AQHpgksgZsPEhQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1586876456174?e=2147483647&v=beta&t=IVK-dFO-rUuHV5gNMAPsh5S21lkvuM6u7UAsLBYgGOY",
+  "https://media.licdn.com/dms/image/v2/D4E03AQFnaaPcQ9NxJQ/profile-displayphoto-shrink_200_200/B4EZdRJllDHcAc-/0/1749413161211?e=2147483647&v=beta&t=LElnllXDZZv3a7p00pU6Jv0jxiRnT2pM0f5LKpP3bxc",
+  "https://i.pinimg.com/280x280_RS/c8/d2/86/c8d286b87a487f2d0d60971cd2e70f20.jpg",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7h61PSH-P509FjEAUtFE527Fh_wG3-ptjpQ&s",
+  "https://media.licdn.com/dms/image/v2/C4D03AQFSS0XNrehT-A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1612459426768?e=2147483647&v=beta&t=Zw7hQWV5npYlZDRwEVHBJlJb43YX6YEXZQr7-ixnBTE",
+  "https://media.licdn.com/dms/image/v2/D4D03AQGsqNOqaFNCaw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1722711852887?e=2147483647&v=beta&t=PIhbHX6Tass7i3gSNJUth_kUBEC4AcHialq6b63wUEU",
+  "https://www.photostudio308.com/wp-content/uploads/2022/01/IMG_2164-683x1024.jpg",
+];

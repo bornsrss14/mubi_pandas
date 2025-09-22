@@ -189,7 +189,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
             </ul>
             <ul className="flex-first-submenu gap-submenu">
               <li>
-                <Link className="basic-flex-row" to="/films">
+                <Link className="basic-flex-row" to="/main-films">
                   <span>
                     <IconStereoGlasses size={"16px"}></IconStereoGlasses>
                   </span>

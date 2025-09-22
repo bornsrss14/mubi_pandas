@@ -20,6 +20,8 @@ import Likes from "./pages/Likes";
 import Network from "./pages/Network";
 import Settings from "./pages/Settings";
 import Mubi from "./pages/Mubi";
+import MainFilms from "./pages/MainFilms";
+import ProfileExternal from "./pages/ProfileExternal";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -64,6 +66,7 @@ export default function App() {
             />
           }
         ></Route>
+        <Route path="/main-films" element={<MainFilms></MainFilms>}></Route>
         <Route path="/community" element={<Community />}></Route>
         <Route path="/news" element={<News></News>}></Route>
         <Route path="/user-films" element={<UserFilms />}></Route>
@@ -71,6 +74,17 @@ export default function App() {
           path="/user-profile"
           element={<Profile formData={formData} setFormData={setFormData} />}
         ></Route>
+        <Route
+          path="/external-profile"
+          element={
+            <ProfileExternal
+              formData={formData}
+              setFormData={setFormData}
+            ></ProfileExternal>
+          }
+        >
+          {" "}
+        </Route>
         <Route path="/activity-user" element={<Activity></Activity>}></Route>
         <Route path="/diary-user" element={<Diary></Diary>}></Route>
         <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>

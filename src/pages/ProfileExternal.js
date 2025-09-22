@@ -6,21 +6,19 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconPointerFilled, IconBrandInstagram } from "@tabler/icons-react";
 import { arrayRanking } from "../storage/mubiRanking";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import SubNabvar from "../components/SubNabvar";
 import PosterMovie from "../core/PosterMovie";
-import ProfilePicUsername from "../core/ProfilePicUsername";
 import Rating from "../core/Rating";
-import { IconDots } from "@tabler/icons-react";
 
 import { useEffect, useState } from "react";
-import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
-export const Profile = ({
+import ProfilePicUsername from "../core/ProfilePicUsername";
+import { following } from "../storage/kindOfTabs";
+export const ProfileExternal = ({
   formData,
   setFormData,
   noDaysRated = 8,
@@ -109,6 +107,16 @@ export const Profile = ({
               ></ProfilePicProfileView>
             </div>
           </div>
+          <div className="basic-flex-row">
+            <div className="basic-flex-row">
+              <IconPointerFilled stroke={1} size={14}></IconPointerFilled>
+              <p>portafolio.rosfuentes.dev</p>
+            </div>
+            <div className="basic-flex-row">
+              <IconBrandInstagram stroke={2} size={14}></IconBrandInstagram>
+              <p>otherexistingthings</p>
+            </div>
+          </div>
           <div>
             <div className="wrapp-stats-numbers">
               <div className="eachStatNumber">
@@ -149,6 +157,18 @@ export const Profile = ({
           </div>
         </div>
       </div>
+      <section className="section-persentage">
+        <div className="subtitle-section">
+          <p>BIO</p>
+        </div>
+        <div>
+          <p>
+            i am the creator and curator of black film archived and incoming
+            president og milestone iglsm, mus. pandasneezing is for fun. Just
+            get into.
+          </p>
+        </div>
+      </section>
       <section className="section-persentage pice-hidden">
         <SubNabvar></SubNabvar>
       </section>
@@ -185,7 +205,6 @@ export const Profile = ({
               </div>
             </div>
           )}
-
           {recentReviews && (
             <div>
               <div className="subtitle-section">
@@ -194,6 +213,18 @@ export const Profile = ({
               <BasicReview spoilers={false}></BasicReview>
             </div>
           )}
+          <div className="subtitle-section">
+            <p>FOLLOWING</p>
+          </div>
+          <div className="basic-flex-row list-of-following">
+            {following.map((follow) => (
+              <ProfilePicUsername
+                measure="50px"
+                imgProfile={follow}
+                withNickname={false}
+              ></ProfilePicUsername>
+            ))}
+          </div>
         </div>
         <div className="item-sec-fav">
           <div>
@@ -256,4 +287,4 @@ export const Profile = ({
     </>
   );
 };
-export default Profile;
+export default ProfileExternal;
