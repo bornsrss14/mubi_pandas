@@ -14,7 +14,7 @@ export const BasicReview = ({
         style={{
           display: "grid",
           gridTemplateColumns: "auto 1fr",
-          width: "37rem",
+          width: "33rem",
           gap: "1rem",
           overflow: "hidden",
         }}
@@ -28,7 +28,7 @@ export const BasicReview = ({
         </div>
         <div
           style={{
-            width: "100%",
+            maxWidth: "100%",
             justifyItems: "start",
             display: "flex",
             flexDirection: "column",
@@ -49,7 +49,7 @@ export const BasicReview = ({
           <p style={{ fontSize: "15px" }}>
             {spoilers ? "This review may contain spoilers" : "Read more"}
           </p>
-          <p className="txt-review" style={{ fontSize: "15px" }}>
+          <p className="txt-review-truncate" style={{ fontSize: "15px" }}>
             Una de mis películas favoritas hasta el momento, simbolizando mucho
             la oportunidad de la vida y que es un acto tan delicado y eimero
           </p>

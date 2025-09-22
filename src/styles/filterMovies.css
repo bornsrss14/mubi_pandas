@@ -1853,3 +1853,9 @@ select {
   gap: 1.4rem;
   flex-direction: row;
 }
+.txt-review-truncate {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to display before truncation */
+  -webkit-box-orient: vertical;
+}

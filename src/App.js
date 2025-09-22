@@ -34,10 +34,10 @@ export default function App() {
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
   const [formData, setFormData] = useState({
-    userName: "",
+    userName: "vaneebuga",
     givenName: "",
     familyName: "",
-    email: "rosario.fuega@gmail.com",
+    email: "",
     location: "",
     website: "",
     bioDescription: "",

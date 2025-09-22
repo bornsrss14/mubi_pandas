@@ -1,6 +1,7 @@
 import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
 import EditBtnDotsBtn from "./EditBtnDotsBtn";
 export const ProfilePicProfileView = ({
+  formData,
   measure,
   userName = "pandasneezing",
   fontSi,
@@ -25,7 +26,10 @@ export const ProfilePicProfileView = ({
           />
         </div>
         <div className="nickname-avatar">
-          <p className="nickname">{userName}</p>
+          <p className="nickname">{formData.userName}</p>{" "}
+          <p style={{ margin: "0px", color: "white", fontSize: ".89rem" }}>
+            {formData.pronoun}
+          </p>
         </div>
         <div className="dots-avatar">
           <EditBtnDotsBtn></EditBtnDotsBtn>

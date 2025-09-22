@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
+import ActivityItem from "../core/ActivityItem";
 export const Profile = ({
   formData,
   setFormData,
@@ -102,7 +103,10 @@ export const Profile = ({
         <div className="grid-banner-profile">
           <div className="profile-edit-btns">
             <div>
-              <ProfilePicProfileView measure="70px"></ProfilePicProfileView>
+              <ProfilePicProfileView
+                formData={formData}
+                measure="70px"
+              ></ProfilePicProfileView>
             </div>
           </div>
           <div>
@@ -176,18 +180,8 @@ export const Profile = ({
               <div className="subtitle-section">
                 <p>RECENT ACTIVITY</p>
               </div>
-              <div>
-                <PosterMovie
-                  width={11}
-                  posterUrl={
-                    "https://a.ltrbxd.com/resized/sm/upload/90/gn/c7/9k/qAwFbszz0kRyTuXmMeKQZCX3Q2O-0-300-0-450-crop.jpg?v=192bde15c6"
-                  }
-                >
-                  <div className="ratingAndDate">
-                    <Rating starSize={10} widthContainer="50%"></Rating>
-                    <p>4 Agu</p>
-                  </div>
-                </PosterMovie>
+              <div className="basic-flex-row">
+                <ActivityItem></ActivityItem>
               </div>
             </div>
           )}
