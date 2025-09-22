@@ -305,13 +305,26 @@ a {
 }
 
 .simple-button {
+  background-color: #4caf50;
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.simple-button-any {
+  color: white;
+  background-color: transparent;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border: 0.8px solid rgba(255, 255, 255, 0.249);
   cursor: pointer;
   align-self: flex-start;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -590,6 +603,12 @@ body {
   transform: scaleY(1);
   width: 500px;
   max-height: 300px;
+}
+.isBarOpen {
+  display: none;
+}
+.isBarOpen.true {
+  display: flex;
 }
 
 .main {
@@ -1075,7 +1094,7 @@ only desktop
 }
 .favorite-films-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(9rem, 1fr));
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
   width: 100%;
 }
 .subtitle-section {
@@ -1309,6 +1328,27 @@ only desktop
   transform: translate(50%, -50%);
   cursor: pointer;
 }
+
+.close-btn-float-favorite,
+.add-btn-float-favorite {
+  width: 1.4rem;
+  border: none;
+  height: 1 4rem;
+  position: absolute;
+  background-color: rgb(56, 54, 54);
+  color: white;
+  top: 0;
+  border-radius: 50%;
+  text-align: center;
+  right: 0;
+  transform: translate(50%, -50%);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
 .tool-rating {
   width: 100%;
   height: fit-content;
@@ -1793,4 +1833,23 @@ select {
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
   padding-right: 42px;
+}
+.emptyPoster {
+  width: 7rem;
+  height: auto;
+  position: relative;
+  height: 10.4rem;
+  border: dotted 2px rgba(105, 97, 97, 0.493);
+}
+
+.delete-fav-mubi-wrapper {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.four-mubis-container {
+  display: flex;
+  gap: 1.4rem;
+  flex-direction: row;
 }

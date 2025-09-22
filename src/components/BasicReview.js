@@ -5,7 +5,7 @@ import PosterMovie from "../core/PosterMovie";
 
 export const BasicReview = ({
   spoilers = true,
-  posterReview,
+  posterReview = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT3mTHkOCUusc1scC_nuSANs6VcFC4cpPkjO8SHKbwAM3tIdqbq38orWFaDj7I7oRvTJYx8rfCx8WiBkQVT6RetSU1rN-FbjXfurNEIp_qo",
   titleMubiRevied,
 }) => {
   return (
@@ -49,8 +49,9 @@ export const BasicReview = ({
           <p style={{ fontSize: "15px" }}>
             {spoilers ? "This review may contain spoilers" : "Read more"}
           </p>
-          <p style={{ fontSize: "15px" }}>
-            Esto es algo que considero muy bueno
+          <p className="txt-review" style={{ fontSize: "15px" }}>
+            Una de mis películas favoritas hasta el momento, simbolizando mucho
+            la oportunidad de la vida y que es un acto tan delicado y eimero
           </p>
           <div className="likesCount">
             <div>

@@ -33,6 +33,20 @@ export default function App() {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
+  const [formData, setFormData] = useState({
+    userName: "",
+    givenName: "",
+    familyName: "",
+    email: "rosario.fuega@gmail.com",
+    location: "",
+    website: "",
+    bioDescription: "",
+    pronoun: "",
+    favoriteFourMubis: [],
+  });
+
+  const [draftForm, setDraftForm] = useState(formData);
+
   return (
     <Router>
       <Navbar movies={movies} query={query} setQuery={setQuery} />
@@ -53,7 +67,10 @@ export default function App() {
         <Route path="/community" element={<Community />}></Route>
         <Route path="/news" element={<News></News>}></Route>
         <Route path="/user-films" element={<UserFilms />}></Route>
-        <Route path="/user-profile" element={<Profile />}></Route>
+        <Route
+          path="/user-profile"
+          element={<Profile formData={formData} setFormData={setFormData} />}
+        ></Route>
         <Route path="/activity-user" element={<Activity></Activity>}></Route>
         <Route path="/diary-user" element={<Diary></Diary>}></Route>
         <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>
@@ -64,7 +81,17 @@ export default function App() {
         ></Route>
         <Route path="/likes-user" element={<Likes></Likes>}></Route>
         <Route path="/network" element={<Network></Network>}></Route>
-        <Route path="/settings-user" element={<Settings></Settings>}></Route>
+        <Route
+          path="/settings-user"
+          element={
+            <Settings
+              formData={formData}
+              setFormData={setFormData}
+              draftForm={draftForm}
+              setDraftForm={setDraftForm}
+            ></Settings>
+          }
+        ></Route>
         <Route path="/mubi" element={<Mubi></Mubi>}></Route>
       </Routes>
     </Router>

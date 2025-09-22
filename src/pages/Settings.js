@@ -1,17 +1,51 @@
 import { useState } from "react";
 import PosterMovie from "../core/PosterMovie";
+import { FourMubis } from "../storage/kindOfTabs";
+import SearchBar from "../core/SearchBar";
+import { Link } from "react-router-dom";
 
-export const Settings = () => {
-  const [formData, setFormData] = useState({
-    userName: "",
-    given: "",
-    family: "",
-    email: "rosario.fuega@gmail.com",
-    location: "",
-    website: "",
-    bio: "",
-    pronoun: "",
-  });
+export const Settings = ({
+  formData,
+  setFormData,
+  draftForm,
+  setDraftForm,
+}) => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [query, setQuery] = useState("");
+
+  /*FUNTION 1. Agrega un url <String> de poster de películas a el array, para poder mostrarlo */
+  const addFavoriteMubi = (mubiUrl) => {
+    setDraftForm((prev) => ({
+      ...prev,
+      favoriteFourMubis: [...prev.favoriteFourMubis, mubiUrl],
+    }));
+  };
+  /*FUNTION: 2. Crea un nuevo array con los que cumplen la condicional, los que son diferentes al url pasada */
+  function RemoveFavorite(mubiUrl) {
+    setDraftForm((prev) => ({
+      ...prev,
+      favoriteFourMubis: prev.favoriteFourMubis.filter(
+        (url) => url !== mubiUrl
+      ),
+    }));
+  }
+  /*FUNTION: 3. Controlled inputs pensado para mi formulario  */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDraftForm((prev) => ({ ...prev, [name]: value }));
+  };
+  /*FUNCTION: 4.- Save final changes  */
+  const handleSave = (e) => {
+    e.preventDefault();
+    setFormData(draftForm);
+    console.log(formData);
+  };
+  /*FUNCTION: 5.- Discard all changes previously made */
+  const cancelTemporaryChanges = () => {
+    setDraftForm(formData);
+  };
+
   return (
     <div>
       <main className="card-settings" role="main" aria-labelledby="form-title">
@@ -23,9 +57,9 @@ export const Settings = () => {
             <label htmlFor="username">Username</label>
             <input
               id="username"
-              name="username"
+              name="userName"
               type="text"
-              value={formData.username}
+              value={draftForm.userName} /* se almacena en el draft */
               readOnly
             />
             <button
@@ -44,10 +78,10 @@ export const Settings = () => {
               <label htmlFor="given">Given name</label>
               <input
                 id="given"
-                name="given"
+                name="givenName"
                 type="text"
-                value={formData.given}
-                onChange={"handleChange"}
+                value={draftForm.givenName}
+                onChange={handleChange}
                 placeholder="Rosario"
               />
             </div>
@@ -56,10 +90,10 @@ export const Settings = () => {
               <label htmlFor="family">Family name</label>
               <input
                 id="family"
-                name="family"
+                name="familyName"
                 type="text"
-                value={formData.family}
-                onChange={"handleChange"}
+                value={draftForm.familyName}
+                onChange={handleChange}
                 placeholder="Fuentes García"
               />
             </div>
@@ -72,8 +106,8 @@ export const Settings = () => {
               id="email"
               name="email"
               type="email"
-              value={formData.email}
-              onChange={"handleChange"}
+              value={draftForm.email}
+              onChange={handleChange}
             />
           </div>
 
@@ -85,8 +119,8 @@ export const Settings = () => {
                 id="location"
                 name="location"
                 type="text"
-                value={formData.location}
-                onChange={"handleChange"}
+                value={draftForm.location}
+                onChange={handleChange}
                 placeholder="Ciudad, País"
               />
             </div>
@@ -96,8 +130,8 @@ export const Settings = () => {
                 id="website"
                 name="website"
                 type="text"
-                value={formData.website}
-                onChange={"handleChange"}
+                value={draftForm.website}
+                onChange={handleChange}
                 placeholder="https://"
               />
             </div>
@@ -109,9 +143,9 @@ export const Settings = () => {
             <textarea
               className="txt-area-settings"
               id="bio"
-              name="bio"
-              value={formData.bio}
-              onChange={"handleChange"}
+              name="bioDescription"
+              value={draftForm.bioDescription}
+              onChange={handleChange}
               placeholder="Escribe algo breve sobre ti..."
             />
           </div>
@@ -122,8 +156,8 @@ export const Settings = () => {
             <select
               id="pronoun"
               name="pronoun"
-              value={formData.pronoun}
-              onChange={"handleChange"}
+              value={draftForm.pronoun}
+              onChange={handleChange}
             >
               <option>They / their</option>
               <option>She / her</option>
@@ -131,21 +165,91 @@ export const Settings = () => {
               <option>Prefer not to say</option>
             </select>
             <div className="helper">
-              Example use: <strong>{formData.username}</strong> added{" "}
+              Example use: <strong>{draftForm.username}</strong> added{" "}
               <em>Pride</em> to their watchlist
             </div>
           </div>
-
           <div className="favorite-mubis-container">
             <label htmlFor="pronoun">Favorite Films</label>
           </div>
+          <div className="four-mubis-container">
+            <div className="four-mubis-container">
+              {draftForm.favoriteFourMubis.map((favItemMubi) => (
+                <div
+                  onClick={(e) => {
+                    e.preventDefault();
+                    RemoveFavorite(favItemMubi);
+                  }}
+                  className="delete-fav-mubi-wrapper"
+                >
+                  <div className="close-btn-float-favorite">x</div>
 
+                  <PosterMovie
+                    key={favItemMubi}
+                    posterUrl={favItemMubi}
+                    width={7}
+                  ></PosterMovie>
+                </div>
+              ))}
+
+              {Array.from({
+                length: 4 - draftForm.favoriteFourMubis.length,
+              }).map((_, index) => (
+                <div key={index} className="emptyPoster">
+                  <div
+                    onClick={() => {
+                      setIsSearchOpen(true);
+                    }}
+                    style={{ background: "green" }}
+                    className="add-btn-float-favorite"
+                  >
+                    +
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
+            <SearchBar query={query} setQuery={setQuery}></SearchBar>
+
+            <button
+              className="simple-button-any"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsSearchOpen(false);
+                setQuery("");
+              }}
+            >
+              Close
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addFavoriteMubi(query);
+                setIsSearchOpen(false);
+                setQuery("");
+              }}
+              className="simple-button"
+            >
+              Add
+            </button>
+          </div>
+          {/* <h3>Data persistido:</h3>
+          <pre>{JSON.stringify(draftForm, null, 2)}</pre>*/}
           {/* Actions */}
           <div className="actions">
-            <button type="button" className="btn btn-ghost">
-              Cancelar
+            <button
+              onClick={cancelTemporaryChanges}
+              type="button"
+              className="btn btn-ghost"
+            >
+              <Link to={"/user-profile"}>Cancelar</Link>
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button
+              onClick={handleSave}
+              type="submit"
+              className="btn btn-primary"
+            >
               Guardar
             </button>
           </div>

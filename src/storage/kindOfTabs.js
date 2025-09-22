@@ -196,3 +196,13 @@ export const FilterWatchList = [
     targetTab: "Year",
   },
 ];
+
+{
+  /* EL siguiente array contiene las cuatro pelóculas favoritas seleccionadas */
+}
+export const FourMubis = [
+  "https://upload.wikimedia.org/wikipedia/en/2/23/IsleOfDogsFirstLook.jpg",
+  "https://upload.wikimedia.org/wikipedia/en/1/1c/The_Grand_Budapest_Hotel.png",
+  "https://upload.wikimedia.org/wikipedia/en/d/d5/Hotel_Rwanda_movie.jpg",
+  ,
+];

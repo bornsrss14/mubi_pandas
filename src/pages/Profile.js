@@ -20,6 +20,8 @@ import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
 export const Profile = ({
+  formData,
+  setFormData,
   noDaysRated = 8,
   recentActivity = true,
   recentReviews = true,
@@ -153,32 +155,19 @@ export const Profile = ({
               <p>FAVORITE FILMS</p>
             </div>
             <div className="favorite-films-grid">
-              <PosterMovie
-                posterUrl={
-                  "https://a.ltrbxd.com/resized/film-poster/4/4/5/9/4/44594-ponyo-0-460-0-690-crop.jpg?v=6e5faa20db"
-                }
-                width={8}
-              ></PosterMovie>
+              {formData.favoriteFourMubis.map((favItemMubi) => (
+                <PosterMovie
+                  key={favItemMubi}
+                  posterUrl={favItemMubi}
+                  width={7}
+                ></PosterMovie>
+              ))}
 
-              <PosterMovie
-                width={8}
-                posterUrl={
-                  "https://a.ltrbxd.com/resized/film-poster/1/3/9/7/9/5/139795-birdman-0-460-0-690-crop.jpg?v=345680513e"
-                }
-              ></PosterMovie>
-
-              <PosterMovie
-                width={8}
-                posterUrl={
-                  "https://a.ltrbxd.com/resized/sm/upload/3t/vq/0u/m6/1tX9ZlgVvWjAQhMs1vAfsYpi7VK-0-460-0-690-crop.jpg?v=30bbb824e1"
-                }
-              ></PosterMovie>
-              <PosterMovie
-                width={8}
-                posterUrl={
-                  "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Perfectblueposter.png/250px-Perfectblueposter.png"
-                }
-              ></PosterMovie>
+              {Array.from({
+                length: 4 - formData.favoriteFourMubis.length,
+              }).map((_, index) => (
+                <div key={index} className="emptyPoster"></div>
+              ))}
             </div>
           </div>
 
