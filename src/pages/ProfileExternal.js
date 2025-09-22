@@ -218,11 +218,13 @@ export const ProfileExternal = ({
           </div>
           <div className="basic-flex-row list-of-following">
             {following.map((follow) => (
-              <ProfilePicUsername
-                measure="50px"
-                imgProfile={follow}
-                withNickname={false}
-              ></ProfilePicUsername>
+              <div style={{ cursor: "pointer" }}>
+                <ProfilePicUsername
+                  measure="50px"
+                  imgProfile={follow}
+                  withNickname={false}
+                ></ProfilePicUsername>
+              </div>
             ))}
           </div>
         </div>

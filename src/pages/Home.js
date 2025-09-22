@@ -171,7 +171,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
       }
     }, []);
     return (
-      <div>
+      <div className="section-persentage">
         <section className="welcome-msg">
           <p className="username-txt">
             Welcome back{" "}
