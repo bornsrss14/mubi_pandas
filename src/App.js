@@ -28,6 +28,7 @@ import {
 } from "./storage/kindOfTabs";
 import NewListBoilerplate from "./pages/NewListBoilerplate";
 import MovieListView from "./pages/MovieListView";
+import ListWithNotes from "./pages/ListWithNotes";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -117,6 +118,10 @@ export default function App() {
         <Route
           path="/movielistview/:id"
           element={<MovieListView></MovieListView>}
+        ></Route>
+        <Route
+          path="/listWithNotes/:id"
+          element={<ListWithNotes></ListWithNotes>}
         ></Route>
         <Route path="/likes-user" element={<Likes></Likes>}></Route>
         <Route

@@ -1,8 +1,6 @@
 import {
   IconMenu3,
-  IconEyeFilled,
   IconLayoutGrid,
-  IconChevronDown,
   IconColumns1Filled,
   IconLayoutGridFilled,
   IconAdjustmentsHorizontal,
@@ -21,8 +19,7 @@ export const FilterMovies = ({
   subtitle = "watched",
 }) => {
   const [filtersIsOpen, setFiltersIsOpen] = useState(false);
-  const [filterGrid, setFilterGrid] = useState("");
-  const [filterList, setFilterList] = useState("");
+
   const toggleFilters = () => {
     setFiltersIsOpen((prev) => !prev);
     console.log("esto cambia falso a verdadero and viseversa");

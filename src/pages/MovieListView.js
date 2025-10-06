@@ -5,15 +5,8 @@ import { useParams } from "react-router-dom";
 import { DataMyLists, DataNotesRelatedLists } from "../storage/tempMovieData";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ContainerFilms from "../components/ContainerFilms";
+import { formatDate } from "../utils/dateUtils";
 const MovieListView = () => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("es-MX", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
   const { id } = useParams();
   const itemLista = DataMyLists.find((item) => item._id === Number(id));
   const matchingNotes = DataNotesRelatedLists.filter(
@@ -72,11 +65,15 @@ const MovieListView = () => {
           ))}
         </div>
       </ContainerFilms>
-
-      {/*  O para renderizar las notas */}
-      {/*  {matchingNotes.map((note) => (
-        <div key={note.id}>{note.note}</div>
-      ))} */}
+      <section>
+        <div>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+      </section>
     </div>
   );
 };

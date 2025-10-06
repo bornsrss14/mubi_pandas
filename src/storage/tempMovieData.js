@@ -306,7 +306,7 @@ export const DataNotesRelatedLists = [
     list: 10002,
     id_mubi: "tt1851428",
     id_item: 1,
-    note: "No hay nada de malo en querer amor. Es una necesidad humana básica: todos queremos sentir que alguien nos elige, nos ve y nos valora.El punto donde se vuelve riesgoso es cuando ese deseo se vuelve inconsciente y dirige tus decisiones, haciéndote quedarte en relaciones que te dan migajas solo porque “algo bueno debe haber en ellos",
+    note: "No hay nada de malo en querer amor. Es una necesidad humana básica: todos queremos sentir que alguien nos elige, nos ve y nos valora.El punto donde se vuelve riesgoso es cuando ese deseo se vuelve inconsciente y dirige tus decisiones, haciéndote quedarte en relaciones que te dan migajas solo porque “algo bueno debe haber en ellos, esta pertenece al 2",
   },
   {
     list: 10002,
@@ -330,15 +330,9 @@ export const DataNotesRelatedLists = [
     list: 10001,
     id_mubi: "tt0118694",
     id_item: 5,
-    note: "creo que me hará llorar",
+    note: "creo que me hará llorar, aún no tengo una idea de lo que se trata la película",
   },
 
-  {
-    list: 10002,
-    id_mubi: "tt1851428",
-    id_item: 6,
-    note: "esta pertenece al 2",
-  },
   {
     list: 10001,
     id_mubi: "tt1851428",
