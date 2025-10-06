@@ -27,6 +27,8 @@ export const Watchlist = ({ watch }) => {
                 "https://isopixel.net/wp-content/uploads/2010/08/rocky.jpg"
               }
             ></PosterMovie>
+
+            <></>
             <PosterMovie
               width={8}
               posterUrl={

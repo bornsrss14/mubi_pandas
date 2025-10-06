@@ -6,10 +6,11 @@ export const InlineNav = ({ arrayTabs, setActiveTab, activeTab }) => {
       <div className="wrapp-main">
         <div
           style={{
-            width: "auto",
+            width: "95%",
             height: "2rem",
             display: "flex",
             flexDirection: "row",
+            margin: "0 auto",
           }}
         >
           {arrayTabs.map((tab, key) => (

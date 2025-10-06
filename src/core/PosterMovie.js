@@ -1,5 +1,6 @@
 import { useState } from "react";
 import OverlyActions from "./OverlyActions";
+import LazyImg from "../services/LazyImg";
 
 export const PosterMovie = ({
   width,
@@ -14,10 +15,20 @@ export const PosterMovie = ({
       style={{ display: "flex", flexDirection: "column", width: `${width}rem` }}
     >
       <div
-        style={{ height: `${customHeight}rem`, width: `${width}rem` }}
+        style={{
+          height: `${customHeight}rem`,
+          width: `${width}rem`,
+        }}
         id="img-full-cover"
       >
-        <img className="img-full-cover" alt="img-poster" src={posterUrl} />
+        {/* <img className="img-full-cover" alt="img-poster" src={posterUrl} /> */}
+        <LazyImg
+          placeholder={
+            "https://placehold.co/100x150/14132c/FFF/?text=Loading..."
+          }
+          alt={"img-poster"}
+          src={posterUrl}
+        ></LazyImg>
         <div onMouseLeave={() => setShowModal(false)}>
           <OverlyActions
             setShowModal={setShowModal}

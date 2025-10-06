@@ -20,28 +20,26 @@ export const OverlyActions = ({ setShowModal, showModal }) => {
   };
 
   return (
-    <>
-      <div className="overly-actions">
-        <div onClick={handleAddFavorites} className="icon-action">
-          <IconThumbUp className="icon-action-h" />
-        </div>
-        <div onClick={handleAddToWatched} className="icon-action">
-          <IconEyeFilled className="icon-action-h" />
-        </div>
-        <div onClick={showModalOptions} className="icon-action">
-          <IconDots className="icon-action-h" />
-          <div className={`overly-options ${showModal ? "overly-true" : ""} `}>
-            <div>
-              {" "}
-              <Rating starSize={18} noStars={5} toRate={true}></Rating>
-            </div>
-            <div>Show your activity</div>
-            <div>Add to lists...</div>
-            <div>Where to watch</div>
+    <div className="overly-actions">
+      <div onClick={handleAddFavorites} className="icon-action">
+        <IconThumbUp className="icon-action-h" />
+      </div>
+      <div onClick={handleAddToWatched} className="icon-action">
+        <IconEyeFilled className="icon-action-h" />
+      </div>
+      <div onClick={showModalOptions} className="icon-action">
+        <IconDots className="icon-action-h" />
+        <div className={`overly-options ${showModal ? "overly-true" : ""} `}>
+          <div>
+            {" "}
+            <Rating starSize={18} noStars={5} toRate={true}></Rating>
           </div>
+          <div>Show your activity</div>
+          <div>Add to lists...</div>
+          <div>Where to watch</div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

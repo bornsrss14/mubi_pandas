@@ -20,6 +20,9 @@ import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
+import TagElement from "../core/TagElement";
+import { Link } from "react-router-dom";
+import LinkPoster from "../core/LinkPoster";
 export const Profile = ({
   formData,
   setFormData,
@@ -111,40 +114,30 @@ export const Profile = ({
           </div>
           <div>
             <div className="wrapp-stats-numbers">
-              <div className="eachStatNumber">
-                <p className="text-bold-large">2</p>
-                <p className="text-light-gray">FILMS</p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  placeItems: "center",
-                }}
-              >
-                <p className="text-bold-large">1</p>
-                <p className="text-light-gray">THIS YEAR</p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  placeItems: "center",
-                }}
-              >
-                <p className="text-bold-large">3</p>
-                <p className="text-light-gray">FOLLOWING</p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  placeItems: "center",
-                }}
-              >
-                <p className="text-bold-large">0</p>
-                <p className="text-light-gray">FOLLOWERS</p>
-              </div>
+              <button className="eachStatNumber">
+                <Link to={"/likes-user"}>
+                  <p className="text-bold-large">2</p>
+                  <p className="text-light-gray">FILMS</p>
+                </Link>
+              </button>
+              <button className="eachStatNumber">
+                <Link to={"/diary-user"}>
+                  <p className="text-bold-large">1</p>
+                  <p className="text-light-gray">THIS YEAR</p>
+                </Link>
+              </button>
+              <button className="eachStatNumber">
+                <Link to={"/network"}>
+                  <p className="text-bold-large">3</p>
+                  <p className="text-light-gray">FOLLOWING</p>
+                </Link>
+              </button>
+              <button className="eachStatNumber">
+                <Link to={"/network"}>
+                  <p className="text-bold-large">0</p>
+                  <p className="text-light-gray">FOLLOWERS</p>
+                </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -155,16 +148,14 @@ export const Profile = ({
       <section className="section-fav-diary section-persentage">
         <div className="item-sec-fav">
           <div>
-            <div className="subtitle-section">
-              <p>FAVORITE FILMS</p>
-            </div>
+            <TagElement txt={"favorite movies"}></TagElement>
             <div className="favorite-films-grid">
               {formData.favoriteFourMubis.map((favItemMubi) => (
-                <PosterMovie
+                <LinkPoster
                   key={favItemMubi}
                   posterUrl={favItemMubi}
                   width={7}
-                ></PosterMovie>
+                ></LinkPoster>
               ))}
 
               {Array.from({
@@ -177,9 +168,13 @@ export const Profile = ({
 
           {recentActivity && (
             <div style={{ margin: "3.5rem 0rem" }}>
-              <div className="subtitle-section">
-                <p>RECENT ACTIVITY</p>
-              </div>
+              <TagElement txt={"recent likes"}>
+                {
+                  <div>
+                    <FontAwesomeIcon icon={faHeart} /> ALL{" "}
+                  </div>
+                }
+              </TagElement>
               <div className="basic-flex-row">
                 <ActivityItem></ActivityItem>
               </div>
@@ -188,18 +183,16 @@ export const Profile = ({
 
           {recentReviews && (
             <div>
-              <div className="subtitle-section">
-                <p>RECENT REVIEWS</p>
-              </div>
+              <TagElement txt={"Recent Reviews"}>{<p>MORE</p>}</TagElement>
               <BasicReview spoilers={false}></BasicReview>
             </div>
           )}
         </div>
         <div className="item-sec-fav">
           <div>
-            <div className="subtitle-section">
-              <p>RATINGS</p>
-            </div>
+            <TagElement txt={"ratings"}>
+              {<p>{arrayRanking.length}</p>}
+            </TagElement>
             <div
               style={{
                 width: "100%",
@@ -217,9 +210,7 @@ export const Profile = ({
             </div>
           </div>
           <div>
-            <div className="subtitle-section">
-              <p>DIARY</p>
-            </div>
+            <TagElement txt={"DIARY"}></TagElement>
             <div>
               <div>
                 {arrayRanking.slice(1, 4).map((item) => (

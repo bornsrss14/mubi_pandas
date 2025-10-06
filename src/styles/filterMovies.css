@@ -117,31 +117,7 @@ a {
   text-align: center;
   padding: 0.6rem 1.3rem;
 }
-.icon-action-h {
-  position: relative;
-  color: white;
-  size: 1rem;
-}
-.icon-action-h:hover {
-  color: rgb(209, 251, 237);
-}
-.overly-actions {
-  display: none;
-  flex-direction: row;
-  gap: 0.4rem;
-  z-index: 5;
-  margin: 0.5rem 0.4rem;
-  position: absolute;
-  top: 80%;
-  border-radius: 5px;
-  padding: 0.3rem 1rem;
-  right: 15%;
-  background-color: rgba(0, 0, 0, 0.653);
-}
 
-#img-full-cover:hover .overly-actions {
-  display: flex;
-}
 #img-full-cover {
   position: relative;
 }
@@ -204,6 +180,7 @@ a {
   height: 21rem;
   min-height: fit-content;
   overflow: hidden;
+  margin: 2.5rem 0rem;
 }
 .poster-list-container {
   display: grid;
@@ -211,6 +188,8 @@ a {
   grid-template-columns: repeat(5, 5.8rem);
   overflow: hidden;
   height: auto;
+  border: 0.4px solid rgba(128, 128, 128, 0.582);
+  margin: 1rem 0rem;
 }
 .txt-subtitle-list-preview {
   font-weight: 700;
@@ -232,7 +211,7 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   margin: 1rem 0;
-  justify-items: center;
+
   padding: 1rem 0;
 }
 
@@ -296,8 +275,8 @@ a {
 .optionsShareProfileBtn {
   border-radius: 50%;
   background: gray;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0.3rem;
   display: flex;
   justify-content: center;
@@ -464,7 +443,7 @@ body {
 }
 .second-header {
   background: var(--color-primary);
-  padding: 14px 2rem;
+  padding: 9px 1.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -939,6 +918,28 @@ EMPTY STAR
   height: 100%;
   object-fit: cover;
 }
+.img-full-cover-0 {
+  opacity: 0;
+}
+.img-full-cover-100 {
+  opacity: 1;
+}
+.transition {
+  transition: opacity 0.5s ease; /* transition-opacity duration-500 */
+}
+.image-abs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.container-rela {
+  position: relative; /* relative */
+  overflow: hidden; /* overflow-hidden */
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -1092,6 +1093,10 @@ only desktop
   flex-direction: column;
   justify-content: center; /* eje principal */
   align-items: center; /* eje secundario */
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 .favorite-films-grid {
   display: grid;
@@ -1102,7 +1107,16 @@ only desktop
   margin: 1rem auto;
   padding: 0.8rem 0;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 0.4px solid rgba(237, 237, 241, 0.265);
+}
+.child-second-tag {
+  max-width: 6%;
+  width: 10rem;
+  height: auto;
 }
 .subtitle-section p {
   font-size: 1.4rem;
@@ -1122,11 +1136,12 @@ only desktop
 .mubi-card {
   position: relative;
   color: white;
-  max-width: 400px;
+  max-width: 100%;
   margin: auto;
   border-radius: 1rem;
   overflow: hidden;
   background: #000000;
+  padding: 0 1.8rem;
 }
 
 .mubi-hero {
@@ -1466,9 +1481,12 @@ only desktop
   gap: 1rem;
   align-items: center;
 }
+.overly-actions {
+  display: none;
+}
 
 /*ONLY FOR DESKTOP DEVICES */
-@media (min-width: 1000px) {
+@media (min-width: 1023px) {
   .menu-flot {
     position: absolute;
     display: none;
@@ -1492,6 +1510,31 @@ only desktop
   }
   .visualize-grid-filters {
     display: block;
+  }
+  .overly-actions {
+    display: none;
+    flex-direction: row;
+    gap: 0.4rem;
+    z-index: 5;
+    margin: 0.5rem 0.4rem;
+    position: absolute;
+    top: 80%;
+    border-radius: 5px;
+    padding: 0.3rem 1rem;
+    right: 15%;
+    background-color: rgba(0, 0, 0, 0.653);
+  }
+
+  #img-full-cover:hover .overly-actions {
+    display: flex;
+  }
+  .icon-action-h {
+    position: relative;
+    color: white;
+    size: 1rem;
+  }
+  .icon-action-h:hover {
+    color: rgb(209, 251, 237);
   }
 }
 .visualize-grid-filters {
@@ -1679,6 +1722,13 @@ only desktop
   grid-template-columns: repeat(3, auto);
   grid-template-rows: auto;
   row-gap: 1rem;
+}
+.container-films-listed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: flex-start;
+  justify-items: flex-start;
 }
 
 #diary-item-grid {
@@ -1896,7 +1946,20 @@ select {
   font-size: 18px;
   cursor: pointer;
 }
-.follow-btn.true {
+.follow-btn-rel {
+  bottom: 0;
+  right: 0;
+  background: #333;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  width: 58px;
+  height: 28px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.follow-btn.true,
+.follow-btn-rel.true {
   background: rgb(2, 185, 2);
 }
 
@@ -1926,4 +1989,80 @@ select {
 
 .list-of-following {
   flex-wrap: wrap;
+}
+
+.inline-follower {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 95%;
+  width: 32rem;
+  min-width: 35rem;
+  height: auto;
+  margin: 1rem auto;
+  flex-direction: row;
+}
+
+.wrapper-container {
+  width: 95%;
+
+  margin: 1.5rem auto;
+}
+.btn-add-list {
+  color: #f0f0f9;
+  background: #4d47a0;
+  font-size: 1.4rem;
+  display: inline-block;
+  min-width: 500px;
+  margin: 1rem auto;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.15s ease;
+}
+
+/* Hover */
+.btn-add-list:hover {
+  background: #3a3180;
+}
+
+/* Active (cuando das click) */
+.btn-add-list:active {
+  transform: scale(0.95); /* efecto de “click” */
+  background: #1d1a4d;
+}
+
+.btn-notes {
+  background-color: rgba(255, 166, 0, 0.407);
+  color: rgb(255, 136, 0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.85rem;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+  min-width: 80px; /* tamaño mínimo */
+  padding: 0.4rem 1.1rem 0.4rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.title-list {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.desc-list {
+  font-size: 1.3rem;
+  color: rgb(182, 180, 180);
+}
+.sub-header-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }

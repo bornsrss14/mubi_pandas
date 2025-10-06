@@ -9,7 +9,6 @@ import { Films } from "./pages/Films";
 import { Community } from "./pages/Community";
 import News from "./pages/News";
 import UserFilms from "./pages/UserFilms";
-import MainFooter from "./components/MainFooter";
 import Profile from "./pages/Profile";
 import { Activity } from "./pages/Activity";
 import Diary from "./pages/Diary";
@@ -22,6 +21,13 @@ import Settings from "./pages/Settings";
 import Mubi from "./pages/Mubi";
 import MainFilms from "./pages/MainFilms";
 import ProfileExternal from "./pages/ProfileExternal";
+import {
+  DataProjectNetwork,
+  DataProjects,
+  DataProjectsList,
+} from "./storage/kindOfTabs";
+import NewListBoilerplate from "./pages/NewListBoilerplate";
+import MovieListView from "./pages/MovieListView";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -35,6 +41,8 @@ export default function App() {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
+  const [activeTab, setActiveTab] = useState(1001);
+
   const [formData, setFormData] = useState({
     userName: "vaneebuga",
     givenName: "",
@@ -44,7 +52,10 @@ export default function App() {
     website: "",
     bioDescription: "",
     pronoun: "",
-    favoriteFourMubis: [],
+    favoriteFourMubis: [
+      "https://i.pinimg.com/736x/4e/3d/80/4e3d805bb3c46870f79e6b9e4a345b5b.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKT0sAK715hJLaIkBfoi6LTbNDv18JCqWKgg&s",
+    ],
   });
 
   const [draftForm, setDraftForm] = useState(formData);
@@ -91,10 +102,33 @@ export default function App() {
         <Route path="/watchlist" element={<Watchlist></Watchlist>}></Route>
         <Route
           path="/listsNavbar"
-          element={<ListsNavbar></ListsNavbar>}
+          element={
+            <ListsNavbar
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              templateContainer={DataProjectsList}
+            ></ListsNavbar>
+          }
+        ></Route>
+        <Route
+          path="/listboilerplate"
+          element={<NewListBoilerplate></NewListBoilerplate>}
+        ></Route>
+        <Route
+          path="/movielistview/:id"
+          element={<MovieListView></MovieListView>}
         ></Route>
         <Route path="/likes-user" element={<Likes></Likes>}></Route>
-        <Route path="/network" element={<Network></Network>}></Route>
+        <Route
+          path="/network"
+          element={
+            <Network
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              templateContainer={DataProjectNetwork}
+            ></Network>
+          }
+        ></Route>
         <Route
           path="/settings-user"
           element={
@@ -106,7 +140,16 @@ export default function App() {
             ></Settings>
           }
         ></Route>
-        <Route path="/mubi" element={<Mubi></Mubi>}></Route>
+        <Route
+          path="/mubi"
+          element={
+            <Mubi
+              activeTab={activeTab}
+              setActiveTab={setActiveTab} /*esto lo debo aplicar a Activity  */
+              templateContainer={DataProjects}
+            ></Mubi>
+          }
+        ></Route>
       </Routes>
     </Router>
   );

@@ -14,6 +14,8 @@ import {
   arraySecondList,
   arrayThirdList,
 } from "../storage/posterGridList";
+import TagElement from "../core/TagElement";
+import FooterListPreview from "../components/FooterListPreview";
 
 export const Home = ({ userNikname = "bornsrss" }) => {
   const miLista = arrayFirstList;
@@ -193,9 +195,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
           </p>
         </section>
 
-        <div className="subtitle-section">
-          <p>NEW ON MUBI</p>
-        </div>
+        <TagElement txt={"NEW ON MUBI"}></TagElement>
         <section className="div-new-on-mubi section-persentage">
           <PosterMovie
             posterUrl={
@@ -361,50 +361,59 @@ export const Home = ({ userNikname = "bornsrss" }) => {
         </section>
         {/* Aquí comienza el poster solo, sin la sección de children */}
 
-        <div className="subtitle-section">
-          <p>POPULAR ON MUBI</p>
-        </div>
+        <TagElement txt={"POPULAR ON MUBI"}></TagElement>
         <section className="div-new-on-mubi section-persentage">
-          <PosterMovie
-            posterUrl={
-              "https://images.mubicdn.net/images/artworks/451427/cache-451427-1645806327/images-original.png"
-            }
-            width={10}
-          />
-          <PosterMovie
-            posterUrl={
-              " https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRb4s0szOVKmJPZDnQgb7TyhMlWFW2_qeoq1CVVXR9MZGkNyD-OGxyOnYDOJOMGGNB6_lJT"
-            }
-            width={10}
-          />
-          <PosterMovie
-            posterUrl={
-              "https://upload.wikimedia.org/wikipedia/en/3/32/Superman_%282025_film%29_poster.jpg"
-            }
-            width={10}
-          />
-          <PosterMovie
-            posterUrl={
-              "https://a.ltrbxd.com/resized/film-poster/1/6/4/4/7/9/164479-dumb-patrol-0-460-0-690-crop.jpg?v=ab595ae390"
-            }
-            width={10}
-          />
-          <PosterMovie
-            posterUrl={
-              "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR9uGf6hrJrdacDNQjKQNa1hU2EBAnDgWcvafdM7mnNNN3mPM3rfODurZlx7qDKEgvRQkKf"
-            }
-            width={10}
-          />
-          <PosterMovie
-            posterUrl={
-              " https://upload.wikimedia.org/wikipedia/en/6/63/Birdman_poster.png"
-            }
-            width={10}
-          />
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                "https://images.mubicdn.net/images/artworks/451427/cache-451427-1645806327/images-original.png"
+              }
+              width={10}
+            />
+          </Link>
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                " https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRb4s0szOVKmJPZDnQgb7TyhMlWFW2_qeoq1CVVXR9MZGkNyD-OGxyOnYDOJOMGGNB6_lJT"
+              }
+              width={10}
+            />
+          </Link>
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                "https://upload.wikimedia.org/wikipedia/en/3/32/Superman_%282025_film%29_poster.jpg"
+              }
+              width={10}
+            />
+          </Link>
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                "https://a.ltrbxd.com/resized/film-poster/1/6/4/4/7/9/164479-dumb-patrol-0-460-0-690-crop.jpg?v=ab595ae390"
+              }
+              width={10}
+            />
+          </Link>
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR9uGf6hrJrdacDNQjKQNa1hU2EBAnDgWcvafdM7mnNNN3mPM3rfODurZlx7qDKEgvRQkKf"
+              }
+              width={10}
+            />
+          </Link>
+          <Link to={"/mubi"}>
+            <PosterMovie
+              posterUrl={
+                " https://upload.wikimedia.org/wikipedia/en/6/63/Birdman_poster.png"
+              }
+              width={10}
+            />
+          </Link>
         </section>
-        <div className="subtitle-section">
-          <p>POPULAR REVIEWS THIS WEEK</p>
-        </div>
+
+        <TagElement txt={"popular reviews this week"}></TagElement>
         <section className="grid-container-reviews section-persentage">
           <ReviewPreview
             reviewTotalLikes={123}
@@ -503,20 +512,27 @@ export const Home = ({ userNikname = "bornsrss" }) => {
           </ReviewPreview>
         </section>
         <section className="section-persentage">
-          <div className="subtitle-section">
-            <p>POPULAR LISTS</p>
-          </div>
+          <TagElement txt={"popular lists"}></TagElement>
 
           <div className="container-lists-home">
-            <ListPreview arrayListPoster={arrayFirstList}></ListPreview>
-            <ListPreview arrayListPoster={arraySecondList}></ListPreview>
-            <ListPreview arrayListPoster={arrayThirdList}></ListPreview>
+            <ListPreview arrayListPoster={arrayFirstList}>
+              <FooterListPreview></FooterListPreview>
+              {/* children */}
+            </ListPreview>
+
+            <ListPreview arrayListPoster={arraySecondList}>
+              <FooterListPreview></FooterListPreview>
+              {/* children */}
+            </ListPreview>
+
+            <ListPreview arrayListPoster={arrayThirdList}>
+              <FooterListPreview></FooterListPreview>
+              {/* children */}
+            </ListPreview>
           </div>
         </section>
         <section className="section-persentage">
-          <div className="subtitle-section">
-            <p>RECENT STORIES</p>
-          </div>
+          <TagElement txt={"Recent stories"}></TagElement>
 
           <div>
             <div ref={usrRef} className="masonry-grid">

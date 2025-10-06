@@ -18,6 +18,7 @@ import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { following } from "../storage/kindOfTabs";
+import TagElement from "../core/TagElement";
 export const ProfileExternal = ({
   formData,
   setFormData,
@@ -158,9 +159,7 @@ export const ProfileExternal = ({
         </div>
       </div>
       <section className="section-persentage">
-        <div className="subtitle-section">
-          <p>BIO</p>
-        </div>
+        <TagElement txt={"bio"}></TagElement>
         <div>
           <p>
             i am the creator and curator of black film archived and incoming
@@ -175,9 +174,7 @@ export const ProfileExternal = ({
       <section className="section-fav-diary section-persentage">
         <div className="item-sec-fav">
           <div>
-            <div className="subtitle-section">
-              <p>FAVORITE FILMS</p>
-            </div>
+            <TagElement txt={"FAVORITE FILMS"}></TagElement>
             <div className="favorite-films-grid">
               {formData.favoriteFourMubis.map((favItemMubi) => (
                 <PosterMovie
@@ -197,9 +194,7 @@ export const ProfileExternal = ({
 
           {recentActivity && (
             <div style={{ margin: "3.5rem 0rem" }}>
-              <div className="subtitle-section">
-                <p>RECENT ACTIVITY</p>
-              </div>
+              <TagElement txt={"RECENT ACTIVITY"}></TagElement>
               <div className="basic-flex-row">
                 <ActivityItem></ActivityItem>
               </div>
@@ -207,15 +202,12 @@ export const ProfileExternal = ({
           )}
           {recentReviews && (
             <div>
-              <div className="subtitle-section">
-                <p>RECENT REVIEWS</p>
-              </div>
+              <TagElement txt={"RECENT REVIEWS"}></TagElement>
               <BasicReview spoilers={false}></BasicReview>
             </div>
           )}
-          <div className="subtitle-section">
-            <p>FOLLOWING</p>
-          </div>
+
+          <TagElement txt={"FOLLOWING"}></TagElement>
           <div className="basic-flex-row list-of-following">
             {following.map((follow) => (
               <div style={{ cursor: "pointer" }}>
@@ -230,9 +222,7 @@ export const ProfileExternal = ({
         </div>
         <div className="item-sec-fav">
           <div>
-            <div className="subtitle-section">
-              <p>RATINGS</p>
-            </div>
+            <TagElement txt={"RATINGS"}></TagElement>
             <div
               style={{
                 width: "100%",
@@ -250,9 +240,7 @@ export const ProfileExternal = ({
             </div>
           </div>
           <div>
-            <div className="subtitle-section">
-              <p>DIARY</p>
-            </div>
+            <TagElement txt={"DIARY"}></TagElement>
             <div>
               <div>
                 {arrayRanking.slice(1, 4).map((item) => (

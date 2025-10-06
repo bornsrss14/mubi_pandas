@@ -1,16 +1,18 @@
 import { IconDots } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
-import { arrayTabsMubiPage, DataProjects } from "../storage/kindOfTabs";
+import { arrayTabsMubiPage } from "../storage/kindOfTabs"; /*  */
 import { useState } from "react";
 import RatingTools from "../core/RatingTools";
 import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
+import TagElement from "../core/TagElement";
+import LazyImg from "../services/LazyImg";
 
-export const Mubi = () => {
-  const [activeTab, setActiveTab] = useState(1001);
+export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
   const [showTools, setShowTools] = useState(false);
-  const activeTabItem = DataProjects.find((item) => item.id === activeTab);
+
+  const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
 
   const showRatingTools = () => {
@@ -61,10 +63,16 @@ export const Mubi = () => {
             </div>
           </div>
           <div className="mubi-poster-m">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw1jilRFQUOeUIW1lsJLyTD9gyZE2G7X8N89-vIAxbE42NvBjZYNp_ANRssH_JRtwOql-0y0FGbC2fYp3JNmt6h2CyOs3VxKjhtmNp0lpKRg"
-              alt="Poster Evangelion"
-            />
+            <LazyImg
+              placeholder={
+                "https://placehold.co/200x350/14132c/FFF/?text=Loading..."
+              }
+              alt={"img-generica"}
+              src={
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw1jilRFQUOeUIW1lsJLyTD9gyZE2G7X8N89-vIAxbE42NvBjZYNp_ANRssH_JRtwOql-0y0FGbC2fYp3JNmt6h2CyOs3VxKjhtmNp0lpKRg"
+              }
+            ></LazyImg>
+            <img src="" alt="Poster Evangelion" />
           </div>
         </div>
         <section className="mubi-description">
@@ -78,10 +86,9 @@ export const Mubi = () => {
             <a href="#sd">more</a>
           </p>
         </section>
-        <section className="subtitle-section">
-          <p className="txt-mubi-subtitle">RATINGS</p>
-        </section>
-        <section className="section-persentage">
+
+        <TagElement txt={"RATINGS"}></TagElement>
+        <section className="">
           <div>
             <p>WHERE TO WATCH</p>
             <ItemSreamingApp plataform={"Amazon MX"}></ItemSreamingApp>
@@ -97,7 +104,7 @@ export const Mubi = () => {
             ></ItemSreamingApp>
           </div>
         </section>
-        <section className="section-persentage">
+        <section style={{ marginTop: "2rem" }}>
           <InlineNav
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -108,9 +115,7 @@ export const Mubi = () => {
           </div>
         </section>
         <section>
-          <div className="subtitle-section">
-            <p>POPULAR REVIEWS</p>
-          </div>
+          <TagElement txt={"POPULAR REVIEWS"}></TagElement>
           <div>
             <ReviewPreviewSecond
               nickname={"muz129"}

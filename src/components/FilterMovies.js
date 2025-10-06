@@ -1,5 +1,7 @@
 import {
+  IconMenu3,
   IconEyeFilled,
+  IconLayoutGrid,
   IconChevronDown,
   IconColumns1Filled,
   IconLayoutGridFilled,
@@ -8,8 +10,19 @@ import {
 import FilterItem from "../core/FilterItem";
 import { useState } from "react";
 
-export const FilterMovies = ({ arrayFilters }) => {
+export const FilterMovies = ({
+  extraFilters,
+  children,
+  /* esta propiedad es solo default */
+  arrayFilters = [
+    { idTab: 1, targetTab: "Service" },
+    { idTab: 2, targetTab: "Genre" },
+  ],
+  subtitle = "watched",
+}) => {
   const [filtersIsOpen, setFiltersIsOpen] = useState(false);
+  const [filterGrid, setFilterGrid] = useState("");
+  const [filterList, setFilterList] = useState("");
   const toggleFilters = () => {
     setFiltersIsOpen((prev) => !prev);
     console.log("esto cambia falso a verdadero and viseversa");
@@ -18,22 +31,37 @@ export const FilterMovies = ({ arrayFilters }) => {
     <div className="container-filters">
       <header className="second-header">
         <div>
-          <p style={{ fontSize: "1.2rem", textTransform: "uppercase" }}>
-            watched
-          </p>
+          <p style={{ fontSize: "1.2rem" }}>{subtitle}</p>
         </div>
-        <button
-          aria-label="Abrir filtros"
-          aria-expanded={filtersIsOpen}
-          onClick={toggleFilters}
-          className="burger-button"
-        >
-          <IconAdjustmentsHorizontal
-            color="white"
-            size={"24px"}
-            stroke={1}
-          ></IconAdjustmentsHorizontal>
-        </button>
+        <div className="basic-flex-row">
+          <button
+            aria-label="Abrir filtros"
+            aria-expanded={filtersIsOpen}
+            onClick={toggleFilters}
+            className="burger-button"
+          >
+            <IconAdjustmentsHorizontal
+              color="white"
+              size={"19px"}
+              stroke={1}
+            ></IconAdjustmentsHorizontal>
+          </button>
+
+          {extraFilters && (
+            <>
+              <button className="burger-button">
+                <IconLayoutGrid
+                  color="white"
+                  size={"19px"}
+                  stroke={1}
+                ></IconLayoutGrid>
+              </button>
+              <button className="burger-button">
+                <IconMenu3 color="white" size={"19px"} stroke={1}></IconMenu3>
+              </button>
+            </>
+          )}
+        </div>
       </header>
 
       <div className={`overly-filters-menu${filtersIsOpen ? "show" : ""}`}>

@@ -1,8 +1,13 @@
+import ContainerBlocked from "../components/ContainerBlocked";
 import ContainerCast from "../components/ContainerCast";
 import ContainerCrew from "../components/ContainerCrew";
 import ContainerDetails from "../components/ContainerDetails";
+import ContainerFollowers from "../components/ContainerFollowers";
+import ContainerFollowing from "../components/ContainerFollowing";
 import ContainerGenresFilm from "../components/ContainerGenresFilm";
+import ContainerMyLists from "../components/ContainerMyLists";
 import ContainerRelease from "../components/ContainerRelease";
+import ContainerSharedLists from "../components/ContainerSharedLists";
 
 export const arrayTabsMubiPage = [
   {
@@ -30,6 +35,40 @@ export const arrayTabsMubiPage = [
 {
   /* ------------------------------------------------------------------------------------------------------------------------ */
 }
+export const arrayTabsNetwork = [
+  {
+    idTab: 1001,
+    targetTab: "following",
+    className: "green",
+  },
+  {
+    idTab: 1002,
+    targetTab: "followers",
+    className: "green",
+  },
+  {
+    idTab: 1003,
+    targetTab: "blocked",
+    className: "green",
+  },
+];
+
+export const arrayTabsList = [
+  {
+    idTab: 1001,
+    targetTab: "your lists",
+    className: "green",
+  },
+  {
+    idTab: 1002,
+    targetTab: "Shared with you",
+    className: "green",
+  },
+];
+{
+  /* ---------------------------------------------- */
+}
+
 export const arrayTabsActivity = [
   { idTab: 1001, targetTab: "friends", className: "green" },
   { id: 1002, targetTab: "you", className: "green" },
@@ -42,7 +81,7 @@ export const arrayTabsSubNavbar = [
     linkTo: "activity-user",
     className: "green",
   },
-  { idTab: 1002, targetTab: "Dilms", linkTo: "user-films", className: "green" },
+  { idTab: 1002, targetTab: "Films", linkTo: "user-films", className: "green" },
   { idTab: 1003, targetTab: "Diary", linkTo: "diary-user", className: "green" },
   {
     idTab: 1004,
@@ -87,6 +126,17 @@ export const DataProjects = [
     id: 1005,
     componente: ContainerRelease,
   },
+];
+
+export const DataProjectNetwork = [
+  { id: 1001, componente: ContainerFollowers },
+  { id: 1002, componente: ContainerFollowing },
+  { id: 1003, componente: ContainerBlocked },
+];
+
+export const DataProjectsList = [
+  { id: 1001, componente: ContainerMyLists },
+  { id: 1002, componente: ContainerSharedLists },
 ];
 
 export const FiltersArrayItems = [

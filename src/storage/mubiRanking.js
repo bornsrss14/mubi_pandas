@@ -40,11 +40,43 @@ export const arrayRanking = [
     ranking: 5,
   },
   {
-    mubiTitle: "When the devil lurks",
+    mubiTitle: "Oracular espectacular",
+    ranking: 5,
+  },
+  {
+    mubiTitle: "A monster calls",
     ranking: 1,
   },
   {
-    mubiTitle: "When the devil lurks",
+    mubiTitle: "Islan of dogs",
+    ranking: 4,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
+    ranking: 1,
+  },
+  {
+    mubiTitle: "A rainy day in paris",
     ranking: 1,
   },
 ];

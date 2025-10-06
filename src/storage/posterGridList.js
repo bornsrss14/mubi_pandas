@@ -18,7 +18,7 @@ export const arrayFirstList = [
   },
   {
     id: 5,
-    url: "https://m.media-amazon.com/images/M/MV5BNzMxYWI2NWUtNTQzOC00YTk0LTg2YmUtNmU2NzZkZmJjZWU2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgszNIDDvF46u3g2cStNEDlgNqrhbCGPXfww&s",
   },
 ];
 

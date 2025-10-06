@@ -1,5 +1,6 @@
 import React from "react";
 import MemberItem from "../components/MemberItem";
+import TagElement from "../core/TagElement";
 
 export const Community = () => {
   return (
@@ -10,9 +11,8 @@ export const Community = () => {
             Film lovers, critics and friends — find popular members.{" "}
           </h3>
         </div>
-        <div className="subtitle-section">
-          <p>FEATURED MEMBERS</p>
-        </div>
+
+        <TagElement txt={"FEATURED MEMBERS"}></TagElement>
         <div className="members-grid">
           <MemberItem
             name={"Paola Buganza"}
