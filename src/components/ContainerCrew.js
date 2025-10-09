@@ -2,7 +2,7 @@ import React from "react";
 import ContainerFilms from "./ContainerFilms";
 import ItemCast from "../core/ItemCast";
 
-export const ContainerCrew = () => {
+export const ContainerCrew = ({ itemMubi }) => {
   return (
     <>
       <ContainerFilms>
@@ -10,8 +10,7 @@ export const ContainerCrew = () => {
           <div>
             <p>DIRECTOR</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"M. Night Shyamalan"} />
-              <ItemCast nameProp={"Danny Boyle"} />
+              <ItemCast nameProp={itemMubi.director} />
             </div>
           </div>
           <div>

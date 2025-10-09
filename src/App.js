@@ -146,7 +146,7 @@ export default function App() {
           }
         ></Route>
         <Route
-          path="/mubi"
+          path="/mubi/:id"
           element={
             <Mubi
               activeTab={activeTab}

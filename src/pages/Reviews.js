@@ -1,37 +1,44 @@
 import BasicReview from "../components/BasicReview";
 import ContainerFilms from "../components/ContainerFilms";
 import FilterMovies from "../components/FilterMovies";
-import SubNabvar from "../components/SubNabvar";
 import { FilterReview } from "../storage/kindOfTabs";
+import { DataBaseReviews, temDataMubisTotal } from "../storage/tempMovieData";
 
-export const Reviews = () => {
+export const Reviews = ({ idUsr = "usr_001" }) => {
+  /* Busco en los datos de Las reviews que se vinculan con el idUsr, es decir, las que le pertenecen a este usuario*/
+  const firstFilter = DataBaseReviews.filter(
+    (item) => item.idUserList === idUsr
+  );
+  /* Busco las coincidencias Dentro de los datos de todas las películas (temDataMubisTotal) para hacer un nuevo array resultado de las coincidencias 
+  de del array de reviews (firsFilter) encuentre que coincida con el id pasado*/
+  const match = temDataMubisTotal.filter((obj2) =>
+    firstFilter.some((obj1) => obj1.idMubiLis === obj2.id)
+  );
+  console.log("Esto corresponde a la de reviews", firstFilter);
+  console.log("Esto es de los objeto películas:", match);
+
+  /*Se crea un objeto combinado de estos dos filtros, tengo la reseña y el objeto de película al que hace referencia esa reseña */
+  const mixed = firstFilter.map((review) => {
+    const pelicula = match.find((p) => p.id === review.idMubiLis);
+    return {
+      ...review,
+      ...pelicula,
+    };
+  });
+  console.log("Resultado de combinar:", mixed);
   return (
     <>
       <FilterMovies arrayFilters={FilterReview}></FilterMovies>
 
       <ContainerFilms>
-        <p>
-          Aquí se renderizan solo las review hechas, los filtros serán de fechas
-        </p>
         <div>
-          <BasicReview
-            titleMubiRevied={"Nacho Libre"}
-            posterReview={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkX3mCE7PXKFsdJwWG4ZXubvnQ3wbWan7uqg&s"
-            }
-          ></BasicReview>
-          <BasicReview
-            titleMubiRevied={"Avatar: El Camino del Agua"}
-            posterReview={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdOPfGFXxSxuyiq4rYpdWZPWlzN1mRq_tdgg&s"
-            }
-          ></BasicReview>
-          <BasicReview
-            titleMubiRevied={"The Shape of Wather"}
-            posterReview={
-              "https://m.media-amazon.com/images/M/MV5BOGFlMTM2MTgtZDdlMy00ZDZlLWFjOTUtZDMzMGEwNmNiMWY0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-            }
-          ></BasicReview>
+          {mixed.map((item) => (
+            <BasicReview
+              objeto={item}
+              key={item.id}
+              titleMubiRevied={item.idMubiLis}
+            ></BasicReview>
+          ))}
         </div>
       </ContainerFilms>
     </>

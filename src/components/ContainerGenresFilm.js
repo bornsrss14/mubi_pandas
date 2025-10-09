@@ -2,7 +2,7 @@ import React from "react";
 import ContainerFilms from "./ContainerFilms";
 import ItemCast from "../core/ItemCast";
 
-export const ContainerGenresFilm = () => {
+export const ContainerGenresFilm = ({ itemMubi }) => {
   return (
     <>
       <ContainerFilms>
@@ -10,8 +10,9 @@ export const ContainerGenresFilm = () => {
           <div>
             <p>GENRES</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Horror"} />
-              <ItemCast nameProp={"Thriller"} />
+              {itemMubi.genre.map((item) => (
+                <ItemCast nameProp={item} />
+              ))}
             </div>
             <div>
               <p>Themes</p>

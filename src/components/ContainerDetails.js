@@ -2,7 +2,7 @@ import React from "react";
 import ContainerFilms from "./ContainerFilms";
 import ItemCast from "../core/ItemCast";
 
-export const ContainerDetails = () => {
+export const ContainerDetails = ({ itemMubi }) => {
   return (
     <div>
       <>
@@ -18,10 +18,7 @@ export const ContainerDetails = () => {
             <div>
               <p>LENGUAGE</p>
               <div className="div-flex-cast">
-                <ItemCast nameProp={"Jason Blum"} />
-                <ItemCast nameProp={"Marc Bienstock"} />
-                <ItemCast nameProp={"Dom Catanzarite"} />
-                <ItemCast nameProp={"Dan"} />
+                <ItemCast nameProp={itemMubi.language} />
               </div>
             </div>
 

@@ -16,9 +16,9 @@ import {
 } from "../storage/posterGridList";
 import TagElement from "../core/TagElement";
 import FooterListPreview from "../components/FooterListPreview";
+import { temDataMubisTotal } from "../storage/tempMovieData";
 
 export const Home = ({ userNikname = "bornsrss" }) => {
-  const miLista = arrayFirstList;
   const usrRef = useRef(null);
   {
     const galleryImages = [
@@ -363,54 +363,11 @@ export const Home = ({ userNikname = "bornsrss" }) => {
 
         <TagElement txt={"POPULAR ON MUBI"}></TagElement>
         <section className="div-new-on-mubi section-persentage">
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                "https://images.mubicdn.net/images/artworks/451427/cache-451427-1645806327/images-original.png"
-              }
-              width={10}
-            />
-          </Link>
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                " https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRb4s0szOVKmJPZDnQgb7TyhMlWFW2_qeoq1CVVXR9MZGkNyD-OGxyOnYDOJOMGGNB6_lJT"
-              }
-              width={10}
-            />
-          </Link>
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                "https://upload.wikimedia.org/wikipedia/en/3/32/Superman_%282025_film%29_poster.jpg"
-              }
-              width={10}
-            />
-          </Link>
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                "https://a.ltrbxd.com/resized/film-poster/1/6/4/4/7/9/164479-dumb-patrol-0-460-0-690-crop.jpg?v=ab595ae390"
-              }
-              width={10}
-            />
-          </Link>
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR9uGf6hrJrdacDNQjKQNa1hU2EBAnDgWcvafdM7mnNNN3mPM3rfODurZlx7qDKEgvRQkKf"
-              }
-              width={10}
-            />
-          </Link>
-          <Link to={"/mubi"}>
-            <PosterMovie
-              posterUrl={
-                " https://upload.wikimedia.org/wikipedia/en/6/63/Birdman_poster.png"
-              }
-              width={10}
-            />
-          </Link>
+          {temDataMubisTotal.slice(0, 9).map((item) => (
+            <Link to={`/mubi/${item.id}`}>
+              <PosterMovie posterUrl={item.posterUrl} width={10} />
+            </Link>
+          ))}
         </section>
 
         <TagElement txt={"popular reviews this week"}></TagElement>

@@ -8,8 +8,12 @@ import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
 import TagElement from "../core/TagElement";
 import LazyImg from "../services/LazyImg";
+import { useParams } from "react-router-dom";
+import { temDataMubisTotal } from "../storage/tempMovieData";
 
 export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
+  const { id } = useParams();
+  const itemMubisList = temDataMubisTotal.find((item) => item.id === id);
   const [showTools, setShowTools] = useState(false);
 
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
@@ -22,6 +26,10 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
 
   function SaveRate() {
     console.log("Esta función guarda el rate");
+  }
+
+  if (!itemMubisList) {
+    return <p> Esta película no se encuentra disponible</p>;
   }
   return (
     <>
@@ -49,16 +57,18 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
         <div className="mubi-content">
           <div className="wrapper-title-meta">
             <h2 className="mubi-title">
-              Evangelion: 3.0+1.0 Thrice Upon a Time
+              {itemMubisList.title || "Evangelion: 3.0+1.0 Thrice Upon a Time"}
             </h2>
-            <p className="mubi-subtitle">「シン・エヴァンゲリオン劇場版:||」</p>
+            {itemMubisList.originalTitle && (
+              <p className="mubi-subtitle"> {itemMubisList.originalTitle}</p>
+            )}
 
             <div className="mubi-meta">
               <p>
-                <span>2021</span> · DIRECTED BY{" "}
+                <span>{itemMubisList.year}</span> · DIRECTED BY{" "}
               </p>
               <strong style={{ fontSize: "1.2rem" }}>
-                Katsuichi Nakayama, Kazuya Tsurumaki
+                {itemMubisList.director}
               </strong>
             </div>
           </div>
@@ -68,22 +78,17 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
                 "https://placehold.co/200x350/14132c/FFF/?text=Loading..."
               }
               alt={"img-generica"}
-              src={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw1jilRFQUOeUIW1lsJLyTD9gyZE2G7X8N89-vIAxbE42NvBjZYNp_ANRssH_JRtwOql-0y0FGbC2fYp3JNmt6h2CyOs3VxKjhtmNp0lpKRg"
-              }
+              src={itemMubisList.posterUrl}
             ></LazyImg>
-            <img src="" alt="Poster Evangelion" />
           </div>
         </div>
         <section className="mubi-description">
           <button className="trailer-btn">🎬 Trailer</button>
-          <span className="duration">155 mins</span>
+          <span className="duration">{itemMubisList.durationMinutes} mins</span>
 
           <p className="mubi-description">
-            In the aftermath of the Fourth Impact, stranded without their
-            Evangelions, Shinji, Asuka and Rei find shelter inn one of the rare
-            pockets of humanity ...
-            <a href="#sd">more</a>
+            {itemMubisList.plot}
+            <a href="#sd"> more</a>
           </p>
         </section>
 
@@ -111,7 +116,9 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
             arrayTabs={arrayTabsMubiPage}
           ></InlineNav>
           <div className="content">
-            {ComponenteSelected && <ComponenteSelected></ComponenteSelected>}
+            {ComponenteSelected && (
+              <ComponenteSelected itemMubi={itemMubisList}></ComponenteSelected>
+            )}
           </div>
         </section>
         <section>

@@ -3,11 +3,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Rating from "../core/Rating";
 import PosterMovie from "../core/PosterMovie";
 
-export const BasicReview = ({
-  spoilers = true,
-  posterReview = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT3mTHkOCUusc1scC_nuSANs6VcFC4cpPkjO8SHKbwAM3tIdqbq38orWFaDj7I7oRvTJYx8rfCx8WiBkQVT6RetSU1rN-FbjXfurNEIp_qo",
-  titleMubiRevied,
-}) => {
+export const BasicReview = ({ objeto }) => {
   return (
     <div>
       <div
@@ -22,7 +18,7 @@ export const BasicReview = ({
         <div>
           <PosterMovie
             width={8}
-            posterUrl={posterReview}
+            posterUrl={objeto.posterUrl}
             comentDate="15 sep"
           ></PosterMovie>
         </div>
@@ -35,23 +31,21 @@ export const BasicReview = ({
             gap: "7px",
           }}
         >
-          <p style={{ fontSize: "22px", fontWeight: "700" }}>
-            {titleMubiRevied}
-          </p>
+          <p style={{ fontSize: "22px", fontWeight: "700" }}>{objeto.title}</p>
           <div className="ratingAndDate">
             <Rating
+              noStars={objeto.starRanking}
               customColor={" rgb(3, 186, 3)"}
               starSize={14}
               widthContainer="40%"
             ></Rating>
-            <p>4 Agu</p>
+            <p>{objeto.date}</p>
           </div>
-          <p style={{ fontSize: "15px" }}>
-            {spoilers ? "This review may contain spoilers" : "Read more"}
+          <p style={{ fontSize: "9px", fontWeight: "700", color: "orange" }}>
+            {objeto.spoilers ? "MAY CONTAIN SPOILERS" : "Read more"}
           </p>
           <p className="txt-review-truncate" style={{ fontSize: "15px" }}>
-            Una de mis películas favoritas hasta el momento, simbolizando mucho
-            la oportunidad de la vida y que es un acto tan delicado y eimero
+            {objeto.txtReview}
           </p>
           <div className="likesCount">
             <div>
