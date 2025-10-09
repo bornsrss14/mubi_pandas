@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Rating from "../core/Rating";
 import PosterMovie from "../core/PosterMovie";
+import { Link } from "react-router-dom";
 
 export const BasicReview = ({ objeto }) => {
   return (
@@ -10,17 +11,17 @@ export const BasicReview = ({ objeto }) => {
         style={{
           display: "grid",
           gridTemplateColumns: "auto 1fr",
-          width: "33rem",
+          width: "100%",
           gap: "1rem",
           overflow: "hidden",
+          margin: "2.6rem .4rem",
         }}
       >
         <div>
-          <PosterMovie
-            width={8}
-            posterUrl={objeto.posterUrl}
-            comentDate="15 sep"
-          ></PosterMovie>
+          {/* idUserList, se busca por esta referencia*/}
+          <Link to={`/mubi/${objeto.idMubiLis}`}>
+            <PosterMovie width={8} posterUrl={objeto.posterUrl}></PosterMovie>
+          </Link>
         </div>
         <div
           style={{
@@ -51,7 +52,7 @@ export const BasicReview = ({ objeto }) => {
             <div>
               <FontAwesomeIcon icon={faHeart} />{" "}
             </div>
-            <p style={{ fontSize: "13px" }}>2 like</p>
+            <p style={{ fontSize: "13px" }}>{objeto.likes}</p>
           </div>
         </div>
       </div>

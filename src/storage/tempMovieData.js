@@ -1270,7 +1270,7 @@ export const DataBaseReviews = [
     starRanking: 5,
     txtReview:
       " how do you think the teachers at abbott elementary would have handled this?",
-    likes: 0,
+    likes: 14,
     date: "4 Agosto",
     spoilers: true,
   },
@@ -1281,7 +1281,7 @@ export const DataBaseReviews = [
     starRanking: 1,
     txtReview:
       " Can imagine another six, ten films about the same thing, there`s nothing groundbreacking about avatar movies, the first was a good one, but, Spilber need to stop this. I gave it 1 star cause i cannot rank with less",
-    likes: 0,
+    likes: 4,
     date: "14 Septiembre",
     spoilers: false,
   },
@@ -1302,7 +1302,7 @@ export const DataBaseReviews = [
     starRanking: 4,
     txtReview:
       "Pick a horror clasic film, a good director and the best of Tom York in the soundtrack. Obvious a masterpiece",
-    likes: 0,
+    likes: 17,
     date: "29 de Junio",
     spoilers: false,
   },

@@ -25,23 +25,19 @@ export const Reviews = ({ idUsr = "usr_001" }) => {
       ...pelicula,
     };
   });
-  console.log("Resultado de combinar:", mixed);
+
   return (
-    <>
+    <div className="section-persentage">
       <FilterMovies arrayFilters={FilterReview}></FilterMovies>
 
       <ContainerFilms>
         <div>
           {mixed.map((item) => (
-            <BasicReview
-              objeto={item}
-              key={item.id}
-              titleMubiRevied={item.idMubiLis}
-            ></BasicReview>
+            <BasicReview objeto={item} key={item.id}></BasicReview>
           ))}
         </div>
       </ContainerFilms>
-    </>
+    </div>
   );
 };
 
