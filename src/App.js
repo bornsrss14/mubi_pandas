@@ -29,6 +29,7 @@ import {
 import NewListBoilerplate from "./pages/NewListBoilerplate";
 import MovieListView from "./pages/MovieListView";
 import ListWithNotes from "./pages/ListWithNotes";
+import { getUserLists } from "./utils/dateUtils";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -60,6 +61,8 @@ export default function App() {
   });
 
   const [draftForm, setDraftForm] = useState(formData);
+  const [userId, setUserId] = useState("usr_002");
+  const [listsPerUser, setListsPerUser] = useState(getUserLists(userId));
 
   return (
     <Router>
@@ -105,6 +108,7 @@ export default function App() {
           path="/listsNavbar"
           element={
             <ListsNavbar
+              listsPerUser={listsPerUser}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
               templateContainer={DataProjectsList}
@@ -117,7 +121,7 @@ export default function App() {
         ></Route>
         <Route
           path="/movielistview/:id"
-          element={<MovieListView></MovieListView>}
+          element={<MovieListView listsPerUser={listsPerUser}></MovieListView>}
         ></Route>
         <Route
           path="/listWithNotes/:id"

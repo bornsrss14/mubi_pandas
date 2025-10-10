@@ -4,9 +4,9 @@ const FooterListDescription = ({ numFilms = 4, itemLista }) => {
     <div>
       <div className="basic-flex-row">
         {" "}
-        <p>{itemLista.titile}</p>
+        <p>{itemLista.title}</p>
         <div className="optionsShareProfileBtn">
-          <IconUserStar size={"20px"} color="white" stroke={2}></IconUserStar>
+          <IconUserStar size={"13px"} color="white" stroke={2}></IconUserStar>
         </div>
       </div>
       <div className="basic-flex-row">

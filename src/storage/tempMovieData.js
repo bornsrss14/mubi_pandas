@@ -1307,3 +1307,55 @@ export const DataBaseReviews = [
     spoilers: false,
   },
 ];
+
+export const ownerList = [
+  {
+    _id: 10001,
+    idUser: "usr_001",
+    title: "Selfless love",
+    audience: "public",
+    createdAt: "2025-10-05T19:00:00Z",
+
+    mubis: [
+      "tt0111771",
+      "tt0047478",
+      "tt0245429",
+      "tt0317248",
+      "tt6751695",
+      "tt0078793",
+    ],
+
+    description:
+      "Esta lista la hice de las películas que veía cuando te perdí, aunque en realidad nunca te tuve, me he sentado a reflexionar cuando extraño algo que nunca se dio, no paro de llorar en mis sueños, despiero en medio de las lagrimas de aquel sueño que parece sacado de una realidad alterna, al que me desisto a creer, pero al final de la noche despierto sabiendo que nada es real, que la unica verdad absoluta es que pedí a la vida algo que me dolía, que realmente nunca debí irme, nunca debimos irnos, ahora solo queda en irnos",
+  },
+  {
+    _id: 10002,
+    idUser: "usr_001",
+    title: "Moments of Courage",
+    audience: "friends",
+    createdAt: "2024-08-01T19:00:00Z",
+    mubis: ["tt0482571", "tt0457591", "tt0120737", "tt0137523"],
+
+    description:
+      "Esta lista la armé pensando en el valor de ser valiente: son historias que me han inspirado a seguir adelante en momentos de duda.",
+  },
+  {
+    _id: 10003,
+    idUser: "usr_001",
+    title: "Perro Valiente : 2",
+    audience: "friends",
+    createdAt: "2024-08-01T19:00:00Z",
+    mubis: ["tt1630092", "tt0110413", "tt0206694", "tt0167260"],
+
+    description:
+      "Esta es una réplica de momentos de corage, pero con menos valores",
+  },
+  {
+    _id: 10004,
+    idUser: "usr_002",
+    title: "One Battle After Another",
+    audience: "friends",
+    createdAt: "2024-08-01T19:00:00Z",
+    mubis: ["tt0080684", "tt0076759"],
+  },
+];

@@ -3,7 +3,12 @@ import FilterMovies from "../components/FilterMovies";
 import SubNabvar from "../components/SubNabvar";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsList, FilterList } from "../storage/kindOfTabs";
-export const ListsNavbar = ({ templateContainer, setActiveTab, activeTab }) => {
+export const ListsNavbar = ({
+  listsPerUser,
+  templateContainer,
+  setActiveTab,
+  activeTab,
+}) => {
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del comp
   return (
@@ -17,7 +22,11 @@ export const ListsNavbar = ({ templateContainer, setActiveTab, activeTab }) => {
         ></InlineNav>
 
         <div className="container-persentage component-wrapper">
-          {ComponenteSelected && <ComponenteSelected></ComponenteSelected>}
+          {ComponenteSelected && (
+            <ComponenteSelected
+              listsPerUser={listsPerUser}
+            ></ComponenteSelected>
+          )}
         </div>
       </div>
     </>
