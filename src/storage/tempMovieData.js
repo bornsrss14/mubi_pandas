@@ -406,6 +406,7 @@ export const users = [
       "tt0118694",
       "tt0876563",
     ],
+    watchLater: ["tt0073486"],
   },
 
   {
@@ -448,6 +449,8 @@ export const users = [
     /* Usuarios seguidos/ seguidores */
     following: [],
     followers: [],
+    favorites: [],
+    watchLater: [],
   },
   {
     idUser: "usr_003",
@@ -489,6 +492,8 @@ export const users = [
     /* Usuarios seguidos/ seguidores */
     following: ["usr_001"] /*Solo me sigue a mi */,
     followers: [],
+    favorites: [],
+    watchLater: [],
   },
 ];
 

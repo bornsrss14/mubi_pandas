@@ -238,7 +238,7 @@ export const FilterWatchList = [
     targetTab: "Service",
   },
   {
-    idTab: 1001,
+    idTab: 1002,
     targetTab: "Genre",
   },
   {

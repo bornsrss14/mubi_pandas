@@ -3,8 +3,16 @@ import FilterMovies from "../components/FilterMovies";
 import { IconPlaylistAdd } from "@tabler/icons-react";
 import { FilterWatchList } from "../storage/kindOfTabs";
 import PosterMovie from "../core/PosterMovie";
+import { useContext } from "react";
+import { UserContext } from "../App";
+import { getMubisByIds } from "../utils/dateUtils";
+import LinkPoster from "../core/LinkPoster";
 
 export const Watchlist = ({ watch }) => {
+  const { formData } = useContext(UserContext);
+  console.log(formData, "mis datos");
+  const fullList = getMubisByIds(formData[0].watchLater);
+  console.log(fullList, "full");
   return (
     <>
       <div>
@@ -21,38 +29,14 @@ export const Watchlist = ({ watch }) => {
             </span>
           </p>
           <div>
-            <PosterMovie
-              width={8}
-              posterUrl={
-                "https://isopixel.net/wp-content/uploads/2010/08/rocky.jpg"
-              }
-            ></PosterMovie>
-
-            <></>
-            <PosterMovie
-              width={8}
-              posterUrl={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmcObgdfn1LFEO2ar7ALnpGJI74_dITv4EGw&s"
-              }
-            ></PosterMovie>
-            <PosterMovie
-              width={8}
-              posterUrl={
-                "https://static.posters.cz/image/350/posters/back-to-the-future-i152504.jpg"
-              }
-            ></PosterMovie>
-            <PosterMovie
-              width={8}
-              posterUrl={
-                "https://isopixel.net/wp-content/uploads/2010/08/Robocop.jpg"
-              }
-            ></PosterMovie>
-            <PosterMovie
-              width={8}
-              posterUrl={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpNqXPa6xz5GFJexK1hr5LY_Rqn660_c2yXQ&s"
-              }
-            ></PosterMovie>
+            {fullList.map((mubi, i) => (
+              <LinkPoster
+                key={i}
+                width={8}
+                mubi={mubi}
+                posterUrl={mubi.posterUrl}
+              ></LinkPoster>
+            ))}
           </div>
         </ContainerFilms>
       </div>
