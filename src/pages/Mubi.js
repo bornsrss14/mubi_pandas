@@ -10,7 +10,7 @@ import TagElement from "../core/TagElement";
 import LazyImg from "../services/LazyImg";
 import { useParams } from "react-router-dom";
 import { temDataMubisTotal } from "../storage/tempMovieData";
-
+/*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
   const { id } = useParams();
   const itemMubisList = temDataMubisTotal.find((item) => item.id === id);
@@ -47,7 +47,10 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
             <IconDots size={"19px"} stroke={"3"}></IconDots>
           </button>
           <img
-            src="https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2020/10/neon-genesis-evangelion-y-la-revolucion-del-genero-mecha.jpg"
+            src={itemMubisList.posterUrl}
+            /*
+          src="https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2020/10/neon-genesis-evangelion-y-la-revolucion-del-genero-mecha.jpg"
+           */
             alt="Fondo de Evangelion"
             className="mubi-hero-img"
           />

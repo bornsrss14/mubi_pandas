@@ -23,7 +23,11 @@ export const Likes = ({ usrId = "usr_001" }) => {
           {/* <p>Aquí van las películas que les he dado like o corazon</p> */}
           <div className="basic-flex-row">
             {match.map((item) => (
-              <LinkPoster width={5} posterUrl={item.posterUrl}></LinkPoster>
+              <LinkPoster
+                mubi={item}
+                width={5}
+                posterUrl={item.posterUrl}
+              ></LinkPoster>
             ))}
           </div>
         </ContainerFilms>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Links } from "react-router-dom";
 import {
   DataMyLists,
   ownerList,
@@ -19,28 +19,22 @@ const ContainerMyLists = ({ listsPerUser }) => {
     id: obj._id,
     mubis: obj.mubis,
   }));
-  /*Si yo itero en resultados, lo que tengo que considerar es que cada lista es única, tiene un id, y un ARRAY de mubis, el cuál necesito consultar
-  qué películas son esas a las que se hace referencia  */
-  console.log("checa esto", resultados);
-
+  /*Estas son las películas de las listas de cada usuario  */
   const listsWithMubis = listsPerUser.map((list) => ({
     ...list,
     moviesData: getMubisByIds(list.mubis),
   }));
-  console.log(
-    "Estas son las películas relacionadas con el usuario",
-    listsWithMubis
-  );
+
   return (
     <>
       <div>
-        {listsWithMubis.map((list) => (
-          <>
+        {listsWithMubis.map((list, i) => (
+          <Link to={`/movielistview/${list._id}`} key={i}>
             {" "}
             <ListPreview arrayListPoster={list.moviesData}>
               <FooterListDescription itemLista={list}></FooterListDescription>
             </ListPreview>
-          </>
+          </Link>
         ))}
       </div>
 

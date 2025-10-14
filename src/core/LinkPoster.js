@@ -4,6 +4,7 @@ import LazyImg from "../services/LazyImg";
 import { Link } from "react-router-dom";
 
 export const LinkPoster = ({
+  mubi,
   width,
   posterUrl,
   children,
@@ -12,7 +13,9 @@ export const LinkPoster = ({
   const [showModal, setShowModal] = useState(false);
   const customHeight = (width * 3) / 2;
   return (
-    <Link to={"/mubi"}>
+    /* Abajo le paso un id tt0111771, este es el tipo que recibe,
+    pero por si las dudas llegara a perderse el id de el item de mubi, no rompa la ap  */
+    <Link to={`/mubi/${mubi?.id}` || "tt0111771"}>
       <div
         style={{
           display: "flex",

@@ -5,6 +5,8 @@ import PosterMovie from "../core/PosterMovie";
 import { Link } from "react-router-dom";
 
 export const BasicReview = ({ objeto }) => {
+  console.log(objeto, "Esto es lo que le paso a ReviewBasic");
+
   return (
     <div>
       <div
@@ -19,8 +21,15 @@ export const BasicReview = ({ objeto }) => {
       >
         <div>
           {/* idUserList, se busca por esta referencia*/}
-          <Link to={`/mubi/${objeto.idMubiLis}`}>
-            <PosterMovie width={8} posterUrl={objeto.posterUrl}></PosterMovie>
+          <Link to={`/mubi/${objeto?.id_mubi?.[0]}`}>
+            <PosterMovie
+              width={8}
+              posterUrl={
+                objeto?.posterUrl ||
+                objeto?.movieReviewed?.[0]?.posterUrl ||
+                "yth"
+              }
+            ></PosterMovie>
           </Link>
         </div>
         <div
@@ -32,27 +41,37 @@ export const BasicReview = ({ objeto }) => {
             gap: "7px",
           }}
         >
-          <p style={{ fontSize: "22px", fontWeight: "700" }}>{objeto.title}</p>
+          <Link to={""}>
+            <p style={{ fontSize: "22px", fontWeight: "700" }}>
+              {objeto?.title ||
+                objeto?.movieReviewed?.[0]?.title ||
+                "Here The title"}
+            </p>
+          </Link>
           <div className="ratingAndDate">
             <Rating
-              noStars={objeto.starRanking}
-              customColor={" rgb(3, 186, 3)"}
+              noStars={objeto?.starRanking || objeto?.star_ranking || 0}
+              customColor={"rgb(3, 186, 3)"}
               starSize={14}
               widthContainer="40%"
             ></Rating>
-            <p>{objeto.date}</p>
+            <p>{objeto?.date || objeto?.watched || "Here the date"}</p>
           </div>
           <p style={{ fontSize: "9px", fontWeight: "700", color: "orange" }}>
-            {objeto.spoilers ? "MAY CONTAIN SPOILERS" : "Read more"}
+            {objeto?.spoilers ? "MAY CONTAIN SPOILERS" : "Read more"}
           </p>
           <p className="txt-review-truncate" style={{ fontSize: "15px" }}>
-            {objeto.txtReview}
+            {objeto?.txtReview ||
+              objeto?.txt_review ||
+              "Aquí va el contenido de la reseña que el usuario ha hecho"}
           </p>
           <div className="likesCount">
             <div>
               <FontAwesomeIcon icon={faHeart} />{" "}
             </div>
-            <p style={{ fontSize: "13px" }}>{objeto.likes}</p>
+            <p style={{ fontSize: "13px" }}>
+              {objeto?.likes || objeto.total_likes} likes
+            </p>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ export const SubNabvar = ({ children }) => {
         {children}
         <ul className="navbar-user">
           {arrayTabsSubNavbar.map((itemArr) => (
-            <li key={itemArr.id}>
+            <li key={itemArr.idTab}>
               <Link to={`/${itemArr.linkTo}`}>{itemArr.targetTab}</Link>
             </li>
           ))}

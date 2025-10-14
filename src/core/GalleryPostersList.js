@@ -3,13 +3,11 @@ const GalleryPostersList = ({ arrayListPoster }) => {
   return (
     <div className="poster-list-container">
       {arrayListPoster.slice(0, 5).map((poster, index) => (
-        <>
-          <PosterMovie
-            key={index}
-            width={8.5}
-            posterUrl={poster.posterUrl || poster.url}
-          />
-        </>
+        <PosterMovie
+          key={index}
+          width={8.5}
+          posterUrl={poster.posterUrl || poster.url}
+        />
       ))}
     </div>
   );

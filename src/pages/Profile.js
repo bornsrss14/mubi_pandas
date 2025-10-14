@@ -15,7 +15,7 @@ import ProfilePicUsername from "../core/ProfilePicUsername";
 import Rating from "../core/Rating";
 import { IconDots } from "@tabler/icons-react";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
@@ -23,6 +23,8 @@ import ActivityItem from "../core/ActivityItem";
 import TagElement from "../core/TagElement";
 import { Link } from "react-router-dom";
 import LinkPoster from "../core/LinkPoster";
+import { UserContext } from "../App";
+import { getMubisByIds } from "../utils/dateUtils";
 export const Profile = ({
   formData,
   setFormData,
@@ -100,6 +102,17 @@ export const Profile = ({
   function getHighest(arrayEnumerar) {
     return Math.max(...Object.values(arrayEnumerar));
   }
+
+  const { reviewsUser, setReviewsUser } = useContext(UserContext);
+
+  const reviewsWithMubis = reviewsUser.map((obj) => ({
+    ...obj,
+    movieReviewed: getMubisByIds(obj.id_mubi),
+  }));
+
+  const fourMovies = getMubisByIds(formData?.[0].favoriteFourMubis);
+  console.log("Estas son mis favoritas", fourMovies);
+
   return (
     <>
       <div className="profile-banner">
@@ -150,16 +163,17 @@ export const Profile = ({
           <div>
             <TagElement txt={"favorite movies"}></TagElement>
             <div className="favorite-films-grid">
-              {formData.favoriteFourMubis.map((favItemMubi) => (
+              {fourMovies?.map((favItemMubi) => (
                 <LinkPoster
+                  mubi={favItemMubi}
                   key={favItemMubi}
-                  posterUrl={favItemMubi}
+                  posterUrl={favItemMubi.posterUrl}
                   width={7}
                 ></LinkPoster>
               ))}
 
               {Array.from({
-                length: 4 - formData.favoriteFourMubis.length,
+                length: 4 - formData?.favoriteFourMubis?.length,
               }).map((_, index) => (
                 <div key={index} className="emptyPoster"></div>
               ))}
@@ -184,7 +198,13 @@ export const Profile = ({
           {recentReviews && (
             <div>
               <TagElement txt={"Recent Reviews"}>{<p>MORE</p>}</TagElement>
-              <BasicReview spoilers={false}></BasicReview>
+              {reviewsWithMubis.slice(0, 3).map((review) => (
+                <BasicReview
+                  key={review.id}
+                  objeto={review}
+                  spoilers={false}
+                ></BasicReview>
+              ))}
             </div>
           )}
         </div>
@@ -213,8 +233,9 @@ export const Profile = ({
             <TagElement txt={"DIARY"}></TagElement>
             <div>
               <div>
-                {arrayRanking.slice(1, 4).map((item) => (
+                {arrayRanking.slice(1, 4).map((item, index) => (
                   <div
+                    key={item.id || index}
                     style={{
                       display: "flex",
                       flexDirection: "row",

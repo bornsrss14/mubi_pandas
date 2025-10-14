@@ -1,82 +1,25 @@
 export const arrayRanking = [
-  {
-    mubiTitle: "Devil wears prada",
-    ranking: 5,
-  },
-  {
-    mubiTitle: "Devil wears prada",
-    ranking: 3,
-  },
+  { id: 90001, mubiTitle: "Devil wears prada", ranking: 5 },
+  { id: 90002, mubiTitle: "Devil wears prada", ranking: 3 },
   {
     mubiTitle: "Anabell",
     ranking: 2,
   },
-  {
-    mubiTitle: "When the devil lurks",
-    ranking: 5,
-  },
-  {
-    mubiTitle: "When the devil lurks",
-    ranking: 2,
-  },
-  {
-    mubiTitle: "When the devil lurks",
-    ranking: 4,
-  },
-  {
-    mubiTitle: "Devil wears prada",
-    ranking: 4,
-  },
-  {
-    mubiTitle: "Devil wears prada",
-    ranking: 3,
-  },
-  {
-    mubiTitle: "Anabell",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "When the devil lurks",
-    ranking: 5,
-  },
-  {
-    mubiTitle: "Oracular espectacular",
-    ranking: 5,
-  },
-  {
-    mubiTitle: "A monster calls",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "Islan of dogs",
-    ranking: 4,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
-  {
-    mubiTitle: "A rainy day in paris",
-    ranking: 1,
-  },
+  { id: 90003, mubiTitle: "When the devil lurks", ranking: 5 },
+  { id: 90004, mubiTitle: "When the devil lurks", ranking: 2 },
+  { id: 90005, mubiTitle: "When the devil lurks", ranking: 4 },
+  { id: 90006, mubiTitle: "Devil wears prada", ranking: 4 },
+  { id: 90007, mubiTitle: "Devil wears prada", ranking: 3 },
+  { id: 90008, mubiTitle: "Anabell", ranking: 1 },
+  { id: 90010, mubiTitle: "When the devil lurks", ranking: 5 },
+  { id: 90011, mubiTitle: "Oracular espectacular", ranking: 5 },
+  { id: 90012, mubiTitle: "A monster calls", ranking: 1 },
+  { id: 90013, mubiTitle: "Islan of dogs", ranking: 4 },
+  { id: 90014, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90015, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90016, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90017, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90018, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90019, mubiTitle: "A rainy day in paris", ranking: 1 },
+  { id: 90020, mubiTitle: "A rainy day in paris", ranking: 1 },
 ];

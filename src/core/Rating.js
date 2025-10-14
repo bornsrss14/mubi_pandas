@@ -91,7 +91,7 @@ export const Rating = ({
                 length: noStars,
               },
               (_, i) => (
-                <span>
+                <span key={i}>
                   {noStars >= i + 1 ? (
                     <IconStarFilled
                       stroke={stroke}

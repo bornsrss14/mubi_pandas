@@ -5,18 +5,40 @@ import { useParams } from "react-router-dom";
 import { DataMyLists, DataNotesRelatedLists } from "../storage/tempMovieData";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ContainerFilms from "../components/ContainerFilms";
-import { formatDate } from "../utils/dateUtils";
-const MovieListView = () => {
+import { formatDate, getMubisByIds } from "../utils/dateUtils";
+const MovieListView = ({ listsPerUser }) => {
   const { id } = useParams();
-  const itemLista = DataMyLists.find((item) => item._id === Number(id));
+
+  const listWithMubis = listsPerUser.map((obj) => ({
+    ...obj,
+    moviesData: getMubisByIds(obj.mubis),
+  }));
+  console.log("🍿", listWithMubis);
+
+  const itemLista = listWithMubis.find((item) => item._id === Number(id));
   const matchingNotes = DataNotesRelatedLists.filter(
     (itemNote) =>
-      itemNote.list === Number(id) &&
-      itemLista.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi)
+      itemNote?.list === Number(id) &&
+      itemLista?.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi)
   );
   if (!itemLista) {
-    return <div>Lista no encontrada</div>;
+    return (
+      <div>
+        <section className="section-persentage basic-flex-row">
+          <div></div>
+          <div>
+            <h1>404</h1>
+            <p>Something's missing.</p>
+            <p>This page is missing or you assembled the link incorrectly.</p>
+            <button>
+              Go to homepage <span></span>
+            </button>
+          </div>
+        </section>
+      </div>
+    );
   }
+  console.log("itemLista", itemLista);
   const showNotes = () => {
     console.log("esto cambia a la vista de notas");
   };
@@ -60,18 +82,22 @@ const MovieListView = () => {
       </section>
       <ContainerFilms>
         <div className="container-films-listed">
-          {itemLista?.mubis.map((itemMubi) => (
-            <LinkPoster posterUrl={itemMubi.posterUrl} width={"9"}></LinkPoster>
+          {itemLista?.moviesData.map((itemMubi, index) => (
+            <LinkPoster
+              mubi={itemMubi}
+              key={index}
+              posterUrl={itemMubi.posterUrl}
+              width={"9"}
+            ></LinkPoster>
           ))}
         </div>
       </ContainerFilms>
       <section>
         <div>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
-          <button></button>
+          <button> Show your activity</button>
+          <button>Add this film to list</button>
+          <button>Go to film</button>
+          <button>Share this review</button>
         </div>
       </section>
     </div>

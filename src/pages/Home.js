@@ -4,7 +4,7 @@ import Rating from "../core/Rating";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ReviewPreview from "../components/ReviewPreview";
 import ListPreview from "../components/ListPreview";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 import MasonryArticleItem from "../components/MasonryArticleItem";
@@ -17,8 +17,10 @@ import {
 import TagElement from "../core/TagElement";
 import FooterListPreview from "../components/FooterListPreview";
 import { temDataMubisTotal } from "../storage/tempMovieData";
+import { UserContext } from "../App";
 
 export const Home = ({ userNikname = "bornsrss" }) => {
+  const { formData } = useContext(UserContext);
   const usrRef = useRef(null);
   {
     const galleryImages = [
@@ -183,7 +185,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
                 paddingBottom: ".5px",
               }}
             >
-              <Link to={"/user-profile"}> {userNikname}</Link>
+              <Link to={"/user-profile"}> {formData?.[0].username}</Link>
             </span>
             <span className="username-txt-second">
               . Here's what we've been watching...

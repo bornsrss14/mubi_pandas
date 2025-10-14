@@ -20,13 +20,11 @@ export const ProfilePicProfileView = ({
           <img
             className="img-full-cover"
             alt="profile-pic"
-            src={
-              "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
-            }
+            src={formData?.[0].profilePicUrl || "not found"}
           />
         </div>
         <div className="nickname-avatar">
-          <p className="nickname">{formData.userName}</p>{" "}
+          <p className="nickname">{formData?.[0].username || "not found"}</p>{" "}
           <p style={{ margin: "0px", color: "white", fontSize: ".89rem" }}>
             {formData.pronoun}
           </p>

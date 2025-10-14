@@ -234,21 +234,21 @@ export const FilterDiary = [
 
 export const FilterWatchList = [
   {
-    idTab: 1005,
+    idTab: 1001,
     targetTab: "Service",
   },
   {
-    idTab: 1005,
+    idTab: 1001,
     targetTab: "Genre",
   },
   {
-    idTab: 1005,
+    idTab: 1003,
     targetTab: "Year",
   },
 ];
 
 {
-  /* EL siguiente array contiene las cuatro pelóculas favoritas seleccionadas */
+  /* EL siguiente array contiene las cuatro películas favoritas seleccionadas */
 }
 export const FourMubis = [
   "https://upload.wikimedia.org/wikipedia/en/2/23/IsleOfDogsFirstLook.jpg",
