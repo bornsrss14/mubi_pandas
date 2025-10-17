@@ -185,7 +185,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
                 paddingBottom: ".5px",
               }}
             >
-              <Link to={"/user-profile"}> {formData?.[0].username}</Link>
+              <Link to={"/user-profile"}> {formData?.username}</Link>
             </span>
             <span className="username-txt-second">
               . Here's what we've been watching...

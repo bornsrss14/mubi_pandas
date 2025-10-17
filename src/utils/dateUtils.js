@@ -44,5 +44,14 @@ export const madeReviews = (idUser) => {
 
 /*Obtener el objeto completo de un X */
 export const getUserById = (id) => {
-  return users.filter((user) => user.idUser === id);
+  return users.find((user) => user.idUser === id);
 };
+
+/*Obtener listado de X elementos de un X array de codigos (ids) */
+
+/*El id que recibe en .map(id) es de tipo => usr_004 , esto solo aplica para usuarios*/
+export function getUsersByIds(array, datos) {
+  return array
+    .map((id) => datos.find((item) => item.idUser === id))
+    .filter((item) => item !== undefined);
+}

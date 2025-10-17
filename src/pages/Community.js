@@ -1,8 +1,14 @@
-import React from "react";
+import { useContext } from "react";
 import MemberItem from "../components/MemberItem";
 import TagElement from "../core/TagElement";
+import { users } from "../storage/tempMovieData";
+import { getMubisByIds } from "../utils/dateUtils";
+import { UserContext } from "../App";
 
 export const Community = () => {
+  /*Obtiene las 4 películas favoritas de el actual usuario */
+  const { formData } = useContext(UserContext);
+  const allUsers = users.filter((user) => user.idUser !== formData.idUser);
   return (
     <>
       <section className="section-persentage">
@@ -14,34 +20,14 @@ export const Community = () => {
 
         <TagElement txt={"FEATURED MEMBERS"}></TagElement>
         <div className="members-grid">
-          <MemberItem
-            name={"Paola Buganza"}
-            stats={"1.2k films • 304 reviews"}
-            picture={
-              "https://lh3.ggpht.com/-HhvKzwlzKZQ/UYeuWCrDhCI/AAAAAAAAgOo/x4h2Z0aGSUY/s1600/1367707835-picsay.jpg"
-            }
-          ></MemberItem>
-          <MemberItem
-            name={"Anna Herron"}
-            stats={"1.2k films • 304 reviews"}
-            picture={
-              "https://tse1.mm.bing.net/th/id/OIP.ciMAWpWor1MeagmUt9jBPwHaHa?pid=Api&P=0&h=180"
-            }
-          ></MemberItem>
-          <MemberItem
-            name={"Kioy Ohh"}
-            stats={"1.2k films • 304 reviews"}
-            picture={
-              "https://i-d.co/wp-content/uploads/2024/05/untitled-article-1465358355-body-image-1465358568.jpg?quality=90&w=750"
-            }
-          ></MemberItem>
-          <MemberItem
-            name={"Ivana Bueno"}
-            stats={"1.2k films • 304 reviews"}
-            picture={
-              "https://danseclassique.info/wp-content/uploads/2019/01/ivana-bueno-garces-2018-08.jpg"
-            }
-          ></MemberItem>
+          {allUsers.map((user) => (
+            <MemberItem
+              name={user.givenName}
+              stats={"1.2k films • 304 reviews"}
+              picture={user.profilePicUrl}
+              arrayPosters={getMubisByIds(user.favoriteFourMubis)}
+            ></MemberItem>
+          ))}
         </div>
       </section>
       <section className="section-persentage">

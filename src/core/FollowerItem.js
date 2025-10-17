@@ -1,14 +1,18 @@
 import { IconPlus, IconCheck } from "@tabler/icons-react";
 import ProfilePicUsername from "./ProfilePicUsername";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../App";
 
 const FollowerItem = ({
+  follower,
   withBtn,
   imgProfile,
   followers = 2099,
   following = 14,
 }) => {
   const [isFollowing, setISFollowing] = useState(false);
+  const { formData } = useContext(UserContext);
   const toggleFollow = () => {
     setISFollowing((prev) => !prev);
     console.log(
@@ -17,37 +21,43 @@ const FollowerItem = ({
   };
   return (
     <div className="inline-follower">
-      <div className="basic-flex-row">
-        <div>
-          <ProfilePicUsername
-            withIcon={false}
-            withNickname={false}
-            measure={"35px"}
-            imgProfile={imgProfile}
-          ></ProfilePicUsername>
-        </div>
-        <div className="">
-          <p>
-            <strong> Maya Cade</strong>
-          </p>
-          <div className="basic-flex-row">
-            <p>{followers} followers</p>
-            <p>{following} following</p>
+      <Link to={`/external-profile/${follower.idUser}`}>
+        <div className="basic-flex-row">
+          <div>
+            <ProfilePicUsername
+              withIcon={false}
+              withNickname={false}
+              measure={"35px"}
+              imgProfile={follower?.profilePicUrl || imgProfile}
+            ></ProfilePicUsername>
+          </div>
+          <div className="">
+            <p>
+              <strong>
+                {follower.givenName} {follower.familyName}
+              </strong>
+            </p>
+            <div className="basic-flex-row">
+              <p>{follower.followers.length || followers} followers</p>
+              <p>{follower.following.length} following</p>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
       {withBtn && (
         <div>
-          <button
-            onClick={toggleFollow}
-            className={`follow-btn-rel ${isFollowing ? "true" : ""}`}
-          >
-            {isFollowing ? (
-              <IconCheck color="white" size={14} stroke={3}></IconCheck>
-            ) : (
-              <IconPlus size={14} stroke={3}></IconPlus>
-            )}
-          </button>
+          {follower.idUser !== formData.idUser && (
+            <button
+              onClick={toggleFollow}
+              className={`follow-btn-rel ${isFollowing ? "true" : ""}`}
+            >
+              {isFollowing ? (
+                <IconCheck color="white" size={14} stroke={3}></IconCheck>
+              ) : (
+                <IconPlus size={14} stroke={3}></IconPlus>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>

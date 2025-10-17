@@ -94,10 +94,10 @@ const MovieListView = ({ listsPerUser }) => {
       </ContainerFilms>
       <section>
         <div>
-          <button> Show your activity</button>
-          <button>Add this film to list</button>
-          <button>Go to film</button>
-          <button>Share this review</button>
+          <button className="tool-rating"> Show your activity</button>
+          <button className="tool-rating">Add this film to list</button>
+          <button className="tool-rating">Go to film</button>
+          <button className="tool-rating">Share this review</button>
         </div>
       </section>
     </div>

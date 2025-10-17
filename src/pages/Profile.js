@@ -21,10 +21,10 @@ import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
 import TagElement from "../core/TagElement";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LinkPoster from "../core/LinkPoster";
 import { UserContext } from "../App";
-import { getMubisByIds } from "../utils/dateUtils";
+import { getMubisByIds, getUserById } from "../utils/dateUtils";
 export const Profile = ({
   formData,
   setFormData,
@@ -110,7 +110,11 @@ export const Profile = ({
     movieReviewed: getMubisByIds(obj.id_mubi),
   }));
 
-  const fourMovies = getMubisByIds(formData?.[0].favoriteFourMubis);
+  const fourMovies = getMubisByIds(formData?.favoriteFourMubis);
+
+  const { id } = useParams();
+  const userData = getUserById(id);
+
   console.log("Estas son mis favoritas", fourMovies);
 
   return (
@@ -120,7 +124,7 @@ export const Profile = ({
           <div className="profile-edit-btns">
             <div>
               <ProfilePicProfileView
-                formData={formData}
+                userData={formData}
                 measure="70px"
               ></ProfilePicProfileView>
             </div>
@@ -140,7 +144,7 @@ export const Profile = ({
                 </Link>
               </button>
               <button className="eachStatNumber">
-                <Link to={"/network"}>
+                <Link to={`/network/${formData.idUser}`}>
                   <p className="text-bold-large">3</p>
                   <p className="text-light-gray">FOLLOWING</p>
                 </Link>

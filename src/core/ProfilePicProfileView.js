@@ -1,7 +1,10 @@
 import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
 import EditBtnDotsBtn from "./EditBtnDotsBtn";
+import ToFollowBtnDots from "./ToFollowBtnDots";
+import { useContext } from "react";
+import { UserContext } from "../App";
 export const ProfilePicProfileView = ({
-  formData,
+  userData,
   measure,
   userName = "pandasneezing",
   fontSi,
@@ -13,6 +16,8 @@ export const ProfilePicProfileView = ({
     overflow: "hidden",
     objectFit: "cover", // aseguro que la imagen se ajuste sin deformarse
   };
+  const { formData } = useContext(UserContext);
+  const toFollow = userData.idUser !== formData.idUser;
   return (
     <>
       <div className="grid-profile-hero">
@@ -20,17 +25,18 @@ export const ProfilePicProfileView = ({
           <img
             className="img-full-cover"
             alt="profile-pic"
-            src={formData?.[0].profilePicUrl || "not found"}
+            src={userData?.profilePicUrl || "not found"}
           />
         </div>
         <div className="nickname-avatar">
-          <p className="nickname">{formData?.[0].username || "not found"}</p>{" "}
+          <p className="nickname">{userData?.username || "not found"}</p>{" "}
           <p style={{ margin: "0px", color: "white", fontSize: ".89rem" }}>
-            {formData.pronoun}
+            {userData.pronoun}
           </p>
         </div>
         <div className="dots-avatar">
-          <EditBtnDotsBtn></EditBtnDotsBtn>
+          <ToFollowBtnDots toFollow={toFollow}></ToFollowBtnDots>
+          <></>
         </div>
       </div>
     </>

@@ -358,13 +358,14 @@ export const users = [
     idUser: "usr_001",
     password: "poderLun4r14$$",
     username: "bornsrss",
-    givenName: "Rosario ",
-    secondName: "Fuentes García",
+    givenName: "Rosario",
+    familyName: "Fuentes García",
     email: "contacto@rosfuentes.dev",
     bioDescription: "",
     location: "Córdoba, Ver",
     website: "portafolio.rosfuentes.dev",
-    biography: "",
+    biography:
+      "Front-End developer with a background in Software Engineering and a user-centered mindset. I build clean, responsive, and functional web solutions using modern technologies like JavaScript, React, and Taildwind CSS, I work with precision, purpose and character — ready to bring real value to any development team.",
     pronoun: "her",
     profilePicUrl:
       "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg",
@@ -381,7 +382,11 @@ export const users = [
       following: 0,
     },
     /* Aditional social media */
-    socialLinks: { twitter: "", instagram: "", pinterest: "" },
+    socialLinks: {
+      twitter: undefined,
+      instagram: "bornsrss",
+      pinterest: "bornsrss14",
+    },
     /* Películas Favoritas ♥. aquí la idea es tener un array de ID, referencias a las películas reales  */
     favoriteFourMubis: [
       "tt0118694",
@@ -393,8 +398,9 @@ export const users = [
     /*Listas seguidas  */
     followingLists: [],
     /* Usuarios seguidos/ seguidores */
-    following: [],
-    followers: [],
+    following: ["usr_005"],
+    followers: ["usr_003", "usr_002", "usr_004"],
+    blocked: [],
 
     favorites: [
       "tt2401878",
@@ -414,12 +420,13 @@ export const users = [
     password: "pandasAr3Cut3",
     username: "vaneebuga",
     givenName: "Vanessa",
-    secondName: "Buganza García",
+    familyName: "Buganza García",
     email: "vannebuga@gmail.com",
     bioDescription: "",
     location: "Zapopan, Jalisco",
     website: "contacto@desenlacestudio.com/",
-    biography: "",
+    biography:
+      "Industrial Engineer ITESM (Instituto Tecnológico y de Estudios Superiores de Monterrey)",
     pronoun: "her",
     profilePicUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3PxU_RqoB6hZj2TBoFiz_nWYOTjQCCPrCvw&s",
@@ -439,7 +446,7 @@ export const users = [
     socialLinks: {
       twitter: "vaneebuga",
       instagram: "vaneebuga",
-      pinterest: "",
+      pinterest: null,
     },
     /* Películas Favoritas ♥. aquí la idea es tener un array de ID, referencias a las películas reales  */
     favoriteFourMubis: ["tt0167261", "tt0137523"],
@@ -448,7 +455,8 @@ export const users = [
     followingLists: [],
     /* Usuarios seguidos/ seguidores */
     following: [],
-    followers: [],
+    followers: ["usr_001"],
+    blocked: [],
     favorites: [],
     watchLater: [],
   },
@@ -462,7 +470,8 @@ export const users = [
     bioDescription: "",
     location: "London, England",
     website: "https://www.ballet.org.uk/",
-    biography: "",
+    biography:
+      "Leading roles include Clara (role originated on) and Sugar Plum Fairy in Watkin and Smith’s Nutcracker; the title role in Khan’s Giselle and Skeaping’s Giselle; Clara/Sugar Plum in Eagling’s Nutcracker; ",
     pronoun: "her",
     profilePicUrl:
       "https://angelreyna858499931.wordpress.com/wp-content/uploads/2020/12/ivana-bueno-y-martha.jpg",
@@ -482,7 +491,7 @@ export const users = [
     socialLinks: {
       twitter: "vaneebuga",
       instagram: "vaneebuga",
-      pinterest: "",
+      pinterest: undefined,
     },
     /* Películas Favoritas ♥. aquí la idea es tener un array de ID, referencias a las películas reales  */
     favoriteFourMubis: ["tt0111161", "tt0068646", "tt0468569"],
@@ -491,7 +500,98 @@ export const users = [
     followingLists: [],
     /* Usuarios seguidos/ seguidores */
     following: ["usr_001"] /*Solo me sigue a mi */,
-    followers: [],
+    followers: ["usr_001"],
+    blocked: [],
+    favorites: [],
+    watchLater: [],
+  },
+
+  {
+    idUser: "usr_004",
+    password: "ellefan2024",
+    username: "ellefanning",
+    givenName: "Elle",
+    familyName: "Fanning",
+    email: "ellefanning@gmail.com",
+    bioDescription: "Actor, dreamer, lover of cinema and storytelling.",
+    location: "Los Angeles, California",
+    website: "https://www.imdb.com/name/nm1102577",
+    biography:
+      "Passionate about films that move the soul. Always exploring new stories on screen and behind the scenes.",
+    pronoun: "she",
+    profilePicUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOaLa9saeNyN6hC-rhX1lFUqsOP2htI8Jzxw&s",
+    joinDate: "2024-03-22",
+    isVerified: true,
+    isPrivate: false,
+    /* Estadísticas del usuario */
+    stats: {
+      totalFilms: 342,
+      totalReviews: 87,
+      totalLists: 12,
+      totalDiaryEntries: 156,
+      followers: 8234,
+      following: 145,
+    },
+    /* Additional social media */
+    socialLinks: {
+      twitter: "ellefanning",
+      instagram: "ellefanning",
+      pinterest: "ellefanning",
+    },
+    /* Películas Favoritas ♥ */
+    favoriteFourMubis: ["tt0080684"],
+    /* Listas seguidas */
+    followingLists: [],
+    /* Usuarios seguidos/seguidores */
+    following: ["usr_001", "usr_005"],
+    followers: ["usr_001", "usr_002", "usr_005"],
+    blocked: ["usr_003"],
+    favorites: [],
+    watchLater: [],
+  },
+  {
+    idUser: "usr_005",
+    password: "olivia123",
+    username: "olivicoook",
+    givenName: "Olivia",
+    familyName: "Cooke",
+    email: "contacto_olivi@gmail.com",
+    bioDescription:
+      "Actor, dreamer, mother of dragons, oh! no, just joking about my future granny.",
+    location: "L.A. Ca.",
+    website: "https://www.imdb.com/name/nm1102577",
+    biography:
+      "Actor, dreamer, mother of dragons, oh! no, just joking about my future granny.",
+    pronoun: "she",
+    profilePicUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJo8tdCOS0Rh36kGgQeTmKGtL2kFkdzIknUw&s",
+    joinDate: "2024-06-14",
+    isVerified: true,
+    isPrivate: false,
+    /* Estadísticas del usuario */
+    stats: {
+      totalFilms: 342,
+      totalReviews: 87,
+      totalLists: 12,
+      totalDiaryEntries: 156,
+      followers: 8234,
+      following: 145,
+    },
+    /* Additional social media */
+    socialLinks: {
+      twitter: "olivicoooke",
+      instagram: "olivicooke",
+      pinterest: undefined,
+    },
+    /* Películas Favoritas ♥ */
+    favoriteFourMubis: ["tt2401878"],
+    /* Listas seguidas */
+    followingLists: [],
+    /* Usuarios seguidos/seguidores */
+    following: ["usr_001", "usr_003"],
+    followers: ["usr_001", "usr_003"],
+    blocked: [],
     favorites: [],
     watchLater: [],
   },

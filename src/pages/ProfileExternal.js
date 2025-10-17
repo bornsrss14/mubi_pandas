@@ -19,7 +19,11 @@ import ActivityItem from "../core/ActivityItem";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { following } from "../storage/kindOfTabs";
 import TagElement from "../core/TagElement";
+import { Link, useParams } from "react-router-dom";
+import { users } from "../storage/tempMovieData";
+import { getMubisByIds } from "../utils/dateUtils";
 export const ProfileExternal = ({
+  follower,
   formData,
   setFormData,
   noDaysRated = 8,
@@ -96,6 +100,16 @@ export const ProfileExternal = ({
   function getHighest(arrayEnumerar) {
     return Math.max(...Object.values(arrayEnumerar));
   }
+  const { id } = useParams(); // en base a este id vamos a comparar con el id de el follower ox persona
+  const itemUser = users.find((user) => user?.idUser === String(id));
+
+  if (!itemUser) {
+    <p>El usuario al que intentas acceder no existe dentro de esta busqueda</p>;
+  }
+  console.log("El usuario que busco es", itemUser);
+
+  const fourMubis = getMubisByIds(itemUser.favoriteFourMubis);
+  console.log(fourMubis, "four mubis");
   return (
     <>
       <div className="profile-banner">
@@ -103,7 +117,7 @@ export const ProfileExternal = ({
           <div className="profile-edit-btns">
             <div>
               <ProfilePicProfileView
-                formData={formData}
+                userData={itemUser}
                 measure="70px"
               ></ProfilePicProfileView>
             </div>
@@ -111,11 +125,11 @@ export const ProfileExternal = ({
           <div className="basic-flex-row">
             <div className="basic-flex-row">
               <IconPointerFilled stroke={1} size={14}></IconPointerFilled>
-              <p>portafolio.rosfuentes.dev</p>
+              <p>{itemUser.website}v</p>
             </div>
             <div className="basic-flex-row">
               <IconBrandInstagram stroke={2} size={14}></IconBrandInstagram>
-              <p>otherexistingthings</p>
+              <p>{itemUser.socialLinks.instagram}</p>
             </div>
           </div>
           <div>
@@ -134,6 +148,7 @@ export const ProfileExternal = ({
                 <p className="text-bold-large">1</p>
                 <p className="text-light-gray">THIS YEAR</p>
               </div>
+
               <div
                 style={{
                   display: "flex",
@@ -141,8 +156,10 @@ export const ProfileExternal = ({
                   placeItems: "center",
                 }}
               >
-                <p className="text-bold-large">3</p>
-                <p className="text-light-gray">FOLLOWING</p>
+                <Link to={`/network/${id}`}>
+                  <p className="text-bold-large">3</p>
+                  <p className="text-light-gray">FOLLOWING</p>
+                </Link>
               </div>
               <div
                 style={{
@@ -161,11 +178,7 @@ export const ProfileExternal = ({
       <section className="section-persentage">
         <TagElement txt={"bio"}></TagElement>
         <div>
-          <p>
-            i am the creator and curator of black film archived and incoming
-            president og milestone iglsm, mus. pandasneezing is for fun. Just
-            get into.
-          </p>
+          <p>{itemUser.biography}</p>
         </div>
       </section>
       <section className="section-persentage pice-hidden">
@@ -176,16 +189,16 @@ export const ProfileExternal = ({
           <div>
             <TagElement txt={"FAVORITE FILMS"}></TagElement>
             <div className="favorite-films-grid">
-              {formData.favoriteFourMubis.map((favItemMubi) => (
+              {fourMubis.map((favItemMubi) => (
                 <PosterMovie
                   key={favItemMubi}
-                  posterUrl={favItemMubi}
+                  posterUrl={favItemMubi.posterUrl}
                   width={7}
                 ></PosterMovie>
               ))}
 
               {Array.from({
-                length: 4 - formData.favoriteFourMubis.length,
+                length: 4 - itemUser.favoriteFourMubis.length,
               }).map((_, index) => (
                 <div key={index} className="emptyPoster"></div>
               ))}
@@ -203,7 +216,7 @@ export const ProfileExternal = ({
           {recentReviews && (
             <div>
               <TagElement txt={"RECENT REVIEWS"}></TagElement>
-              <BasicReview spoilers={false}></BasicReview>
+              {/* <BasicReview spoilers={false}></BasicReview> */}
             </div>
           )}
 

@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PosterMovie from "../core/PosterMovie";
 import { FourMubis } from "../storage/kindOfTabs";
 import SearchBar from "../core/SearchBar";
 import { Link } from "react-router-dom";
+import { UserContext } from "../App";
+import { getMubisByIds } from "../utils/dateUtils";
 
 export const Settings = ({
   formData,
   setFormData,
-  draftForm,
+
   setDraftForm,
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -45,6 +47,11 @@ export const Settings = ({
   const cancelTemporaryChanges = () => {
     setDraftForm(formData);
   };
+
+  const { draftForm } = useContext(UserContext);
+
+  const favoriteFourMubis = getMubisByIds(draftForm.favoriteFourMubis);
+  console.log("Estas son las cuatro", favoriteFourMubis);
 
   return (
     <div>
@@ -174,7 +181,7 @@ export const Settings = ({
           </div>
           <div className="four-mubis-container">
             <div className="four-mubis-container">
-              {draftForm.favoriteFourMubis.map((favItemMubi) => (
+              {favoriteFourMubis.map((favItemMubi) => (
                 <div
                   onClick={(e) => {
                     e.preventDefault();
@@ -186,7 +193,7 @@ export const Settings = ({
 
                   <PosterMovie
                     key={favItemMubi}
-                    posterUrl={favItemMubi}
+                    posterUrl={favItemMubi.posterUrl}
                     width={7}
                   ></PosterMovie>
                 </div>

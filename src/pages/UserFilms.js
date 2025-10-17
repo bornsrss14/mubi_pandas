@@ -13,7 +13,7 @@ import { getMubisByIds } from "../utils/dateUtils";
 
 export const UserFilms = () => {
   const { formData } = useContext(UserContext);
-  const listaFavoritos = getMubisByIds(formData?.[0].favorites);
+  const listaFavoritos = getMubisByIds(formData?.favorites);
   console.log(
     "Estos son los datos de mi usuario, quiero recuperar el",
     listaFavoritos

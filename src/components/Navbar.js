@@ -7,10 +7,12 @@ import {
   IconPlus,
   IconStereoGlasses,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
+import { UserContext } from "../App";
 
 export const Navbar = ({ movies, query, setQuery }) => {
+  const { formData } = useContext(UserContext);
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
   const [searchIsOpen, setSearchIsOpen] = useState(false);
   const [addReview, setAddReview] = useState(false);
@@ -139,10 +141,9 @@ export const Navbar = ({ movies, query, setQuery }) => {
             <ul className="flex-first-submenu">
               <li className="">
                 <ProfilePicUsername
-                  imgProfile={
-                    "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
-                  }
+                  imgProfile={formData.profilePicUrl}
                   withIcon={true}
+                  userName={formData.username}
                 />
               </li>
             </ul>
@@ -152,6 +153,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
                 <Link to={"/"}>Home</Link>
               </li>
               <li>
+                {/* <Link to={`/user-profile/${useForm.idUser}`}>Profile</Link> */}
                 <Link to={"user-profile"}>Profile</Link>
               </li>
               <li>
@@ -173,7 +175,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
                 <Link to={"likes-user"}>Likes</Link>
               </li>
               <li>
-                <Link to={"/network"}>Network</Link>
+                <Link to={`/network/${formData.idUser}`}>Network</Link>
               </li>
               <li>
                 <Link to={"settings-user"}>Settings</Link>

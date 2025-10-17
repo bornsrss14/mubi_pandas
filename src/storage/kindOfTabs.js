@@ -38,12 +38,12 @@ export const arrayTabsMubiPage = [
 export const arrayTabsNetwork = [
   {
     idTab: 1001,
-    targetTab: "following",
+    targetTab: "followers",
     className: "green",
   },
   {
     idTab: 1002,
-    targetTab: "followers",
+    targetTab: "following",
     className: "green",
   },
   {

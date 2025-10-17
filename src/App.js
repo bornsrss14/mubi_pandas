@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { tempMovieData } from "../src/storage/tempMovieData";
 import { tempWatchedData } from "../src/storage/tempWatchedData";
@@ -47,11 +47,10 @@ export default function App() {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
-  const [userId, setUserId] = useState("usr_001");
+  const [userId, setUserId] = useState("usr_005");
   const [activeTab, setActiveTab] = useState(1001);
 
   const [formData, setFormData] = useState(getUserById(userId));
-  console.log(formData, "Mi usario es");
 
   const [draftForm, setDraftForm] = useState(formData);
   const [listsPerUser, setListsPerUser] = useState(getUserLists(userId));
@@ -59,7 +58,9 @@ export default function App() {
   console.log(`Those reviews were made by ${userId} user`, reviewsUser);
 
   return (
-    <UserContext.Provider value={{ reviewsUser, setReviewsUser, formData }}>
+    <UserContext.Provider
+      value={{ reviewsUser, setReviewsUser, formData, draftForm }}
+    >
       <Router>
         <Navbar movies={movies} query={query} setQuery={setQuery} />
         <Routes>
@@ -85,7 +86,7 @@ export default function App() {
             element={<Profile formData={formData} setFormData={setFormData} />}
           ></Route>
           <Route
-            path="/external-profile"
+            path="/external-profile/:id"
             element={
               <ProfileExternal
                 formData={formData}
@@ -126,7 +127,7 @@ export default function App() {
           ></Route>
           <Route path="/likes-user" element={<Likes></Likes>}></Route>
           <Route
-            path="/network"
+            path="/network/:id"
             element={
               <Network
                 activeTab={activeTab}

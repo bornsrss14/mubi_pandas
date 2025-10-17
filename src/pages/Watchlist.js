@@ -11,7 +11,7 @@ import LinkPoster from "../core/LinkPoster";
 export const Watchlist = ({ watch }) => {
   const { formData } = useContext(UserContext);
   console.log(formData, "mis datos");
-  const fullList = getMubisByIds(formData[0].watchLater);
+  const fullList = getMubisByIds(formData.watchLater);
   console.log(fullList, "full");
   return (
     <>

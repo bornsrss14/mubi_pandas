@@ -2,8 +2,9 @@ import { useState } from "react";
 import PosterMovie from "../core/PosterMovie";
 import { IconPlus, IconCheck } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { getMubisByIds } from "../utils/dateUtils";
 
-export const MemberItem = ({ name, stats, picture }) => {
+export const MemberItem = ({ name, stats, picture, arrayPosters }) => {
   const [isFollowing, setISFollowing] = useState(false);
   const toggleFollow = () => {
     setISFollowing((prev) => !prev);
@@ -12,12 +13,9 @@ export const MemberItem = ({ name, stats, picture }) => {
     );
   };
 
-  const posters = [
-    "https://cdn.posteritati.com/posters/000/000/062/660/the-tale-of-the-princess-kaguya-md-web.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIq705Iu-g6MO8NMu5KIm8OXGmQat8RmX6Ew&s",
-    "https://apreciart.pe/media/catalog/product/cache/e5e0055fc67962cf6eb0b1e5a0ef540b/p/o/posters-de-peliculas-titanic.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSRdR43zBmbstrx5KqkYnwWyOLpi8XNJmKOA&s",
-  ];
+  const posters = getMubisByIds(arrayPosters);
+  console.log(posters.posterUrl);
+
   return (
     <Link to={"/external-profile"}>
       <div className="member-card">
@@ -37,8 +35,8 @@ export const MemberItem = ({ name, stats, picture }) => {
         <h3 className="name">{name}</h3>
         <p className="stats">{stats}</p>
         <div className="posters">
-          {posters.map((poster, i) => (
-            <PosterMovie width={3} posterUrl={poster}></PosterMovie>
+          {arrayPosters.map((poster, i) => (
+            <PosterMovie width={3} posterUrl={poster.posterUrl}></PosterMovie>
           ))}
         </div>
       </div>
