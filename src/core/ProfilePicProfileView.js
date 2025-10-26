@@ -1,5 +1,3 @@
-import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
-import EditBtnDotsBtn from "./EditBtnDotsBtn";
 import ToFollowBtnDots from "./ToFollowBtnDots";
 import { useContext } from "react";
 import { UserContext } from "../App";

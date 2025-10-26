@@ -19,9 +19,15 @@ const FollowerItem = ({
       "Esto lo agrega a la lista de seguidos/ dejar de seguir por mi"
     );
   };
+
+  /*   const profile = String(follower.idUser) === String(formData.idUser); */
+
   return (
     <div className="inline-follower">
       <Link to={`/external-profile/${follower.idUser}`}>
+        {/*  <Link
+        to={profile ? "/user-profile" : `/external-profile/${follower.idUser}`}
+      > */}
         <div className="basic-flex-row">
           <div>
             <ProfilePicUsername

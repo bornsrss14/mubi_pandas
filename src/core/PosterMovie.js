@@ -1,6 +1,7 @@
 import { useState } from "react";
 import OverlyActions from "./OverlyActions";
 import LazyImg from "../services/LazyImg";
+import { OptimizedImage } from "../hooks/useOptimizedImage";
 
 export const PosterMovie = ({
   width,
@@ -22,13 +23,20 @@ export const PosterMovie = ({
         id="img-full-cover"
       >
         {/* <img className="img-full-cover" alt="img-poster" src={posterUrl} /> */}
-        <LazyImg
+        {/*  <LazyImg
           placeholder={
             "https://placehold.co/100x150/14132c/FFF/?text=Loading..."
           }
           alt={"img-poster"}
           src={posterUrl}
-        ></LazyImg>
+        ></LazyImg> */}
+        <OptimizedImage
+          placeholder="/lowQuality.jpeg"
+          className="rounded shadow"
+          skeletonClassName="rounded"
+          alt="img-poster"
+          src={posterUrl}
+        ></OptimizedImage>
         <div onMouseLeave={() => setShowModal(false)}>
           <OverlyActions
             setShowModal={setShowModal}

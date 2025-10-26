@@ -1646,6 +1646,7 @@ export const DataBaseLikes = [
     idUserAsociated: "usr_001",
   },
   { id: 40006, idMubiLiked: "tt5580393", idUserAsociated: "usr_001" },
+  { id: 40007, idMubiLiked: "tt0876563", idUserAsociated: "usr_001" },
 ];
 
 /*En este ejemplo voy a guardar una reseña de parásitos  */

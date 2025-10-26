@@ -1,7 +1,18 @@
-import { IconEye, IconHeart, IconPlaylistAdd } from "@tabler/icons-react";
+import {
+  IconEye,
+  IconHeart,
+  IconHeartFilled,
+  IconPlaylistAdd,
+} from "@tabler/icons-react";
 import Rating from "./Rating";
 import { Link } from "react-router-dom";
-export const RatingTools = ({ showRatingTools }) => {
+import { useLikes } from "../contexts/LikesContext";
+export const RatingTools = ({ showRatingTools, mubi, user }) => {
+  const { saveLike, userLikes } = useLikes();
+  function handleLike() {
+    saveLike(mubi, user);
+    console.log("Objetos de", userLikes);
+  }
   return (
     <>
       <div id="container-tools-rating">
@@ -18,13 +29,18 @@ export const RatingTools = ({ showRatingTools }) => {
             <IconEye size={"4.3rem"} stroke={1}></IconEye>
             <p>Watch</p>
           </div>
-          <div
-            onClick={() =>
-              console.log("This btn adds to the list of liked films")
-            }
-            id="centered"
-          >
-            <IconHeart size={"4.3rem"} stroke={1}></IconHeart>
+          <div onClick={() => handleLike()} id="centered">
+            {/* retorna true or false => en la lista de Me gusta del usuario, hay alguna coincidencia con 
+            el id que se está pasando de la película selecionada (?) */}
+            {userLikes.some((like) => like.idMubiLiked === mubi) ? (
+              <IconHeartFilled
+                size={"4.3rem"}
+                color="red"
+                stroke={1}
+              ></IconHeartFilled>
+            ) : (
+              <IconHeart size={"4.3rem"} stroke={1}></IconHeart>
+            )}
             <p>Like</p>
           </div>
           <div

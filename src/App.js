@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { tempMovieData } from "../src/storage/tempMovieData";
 import { tempWatchedData } from "../src/storage/tempWatchedData";
@@ -30,7 +30,6 @@ import NewListBoilerplate from "./pages/NewListBoilerplate";
 import MovieListView from "./pages/MovieListView";
 import ListWithNotes from "./pages/ListWithNotes";
 import { getUserById, getUserLists, madeReviews } from "./utils/dateUtils";
-import ReviewPreview from "./components/ReviewPreview";
 import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
 /* CONTEXT*/
@@ -47,7 +46,7 @@ export default function App() {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
-  const [userId, setUserId] = useState("usr_005");
+  const [userId, setUserId] = useState("usr_001");
   const [activeTab, setActiveTab] = useState(1001);
 
   const [formData, setFormData] = useState(getUserById(userId));

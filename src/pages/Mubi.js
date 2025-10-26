@@ -2,18 +2,22 @@ import { IconDots } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsMubiPage } from "../storage/kindOfTabs"; /*  */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RatingTools from "../core/RatingTools";
 import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
 import TagElement from "../core/TagElement";
-import LazyImg from "../services/LazyImg";
 import { useParams } from "react-router-dom";
 import { temDataMubisTotal } from "../storage/tempMovieData";
+import { OptimizedImage } from "../hooks/useOptimizedImage";
+import { LikesProvider } from "../contexts/LikesContext";
+import { UserContext } from "../App";
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
-export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
+function Mubi({ templateContainer, setActiveTab, activeTab }) {
+  const { formData } = useContext(UserContext);
   const { id } = useParams();
   const itemMubisList = temDataMubisTotal.find((item) => item.id === id);
+
   const [showTools, setShowTools] = useState(false);
 
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
@@ -24,13 +28,10 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
     setShowTools((prev) => !prev);
   };
 
-  function SaveRate() {
-    console.log("Esta función guarda el rate");
-  }
-
   if (!itemMubisList) {
     return <p> Esta película no se encuentra disponible</p>;
   }
+
   return (
     <>
       <article className="mubi-card">
@@ -40,7 +41,13 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
         <div
           className={showTools ? "rating-tools-show" : "rating-tools-hidden"}
         >
-          <RatingTools showRatingTools={showRatingTools}></RatingTools>
+          <LikesProvider>
+            <RatingTools
+              mubi={itemMubisList.id}
+              user={formData.idUser}
+              showRatingTools={showRatingTools}
+            ></RatingTools>
+          </LikesProvider>
         </div>
         <div className="mubi-hero">
           <button className="dots" onClick={showRatingTools}>
@@ -76,13 +83,13 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
             </div>
           </div>
           <div className="mubi-poster-m">
-            <LazyImg
-              placeholder={
-                "https://placehold.co/200x350/14132c/FFF/?text=Loading..."
-              }
-              alt={"img-generica"}
+            <OptimizedImage
+              placeholder="/lowQuality.jpeg"
+              className="rounded shadow"
+              skeletonClassName="rounded"
+              alt="poster"
               src={itemMubisList.posterUrl}
-            ></LazyImg>
+            ></OptimizedImage>
           </div>
         </div>
         <section className="mubi-description">
@@ -139,6 +146,6 @@ export const Mubi = ({ templateContainer, setActiveTab, activeTab }) => {
       <MainFooter></MainFooter>
     </>
   );
-};
+}
 
 export default Mubi;

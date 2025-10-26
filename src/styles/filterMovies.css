@@ -2073,3 +2073,78 @@ select {
   width: 90%;
   padding: 1rem 2rem;
 }
+
+/* Estilos de el hook de carga de imagenes */
+.optimized-image {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.optimized-image_img {
+  width: 100%;
+  height: auto;
+  transition: all 0.7s ease-out;
+}
+
+/* Estados de carga */
+.optimized-image_img.loading {
+  filter: blur(20px);
+  transform: scale(1.05);
+  opacity: 0.7;
+}
+
+.optimized-image_img.loaded {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Skeleton */
+.optimized-image_skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Error */
+.optimized-image.error {
+  background-color: #e6e6e6;
+  color: #777;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.9rem;
+  height: 100%;
+}
+
+.optimized-image_error-text {
+  padding: 0.5rem;
+}
+
+.masonry-img img {
+  width: 100%;
+  display: block;
+}
+
+.icon-native {
+  font-size: 24px;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  background: #f0f0f0;
+  border-radius: 8px;
+}

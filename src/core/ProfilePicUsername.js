@@ -1,4 +1,5 @@
-import { IconChevronDown, fontSize, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
+import { OptimizedImage } from "../hooks/useOptimizedImage";
 export const ProfilePicUsername = ({
   withNickname = true,
   children,
@@ -20,7 +21,14 @@ export const ProfilePicUsername = ({
     <>
       <div className="flex-row div-picture-nikname">
         <div style={profilePicture}>
-          <img className="img-full-cover" alt="profile-pic" src={imgProfile} />
+          {/* <img className="img-full-cover" alt="profile-pic" src={imgProfile} /> */}
+          <OptimizedImage
+            placeholder="/lowQuality.jpeg"
+            className="rounded shadow"
+            skeletonClassName="rounded"
+            alt="img-poster"
+            src={imgProfile}
+          ></OptimizedImage>
         </div>
         {withNickname && (
           <p style={{ fontSize: fontSi }} className="nickname">
