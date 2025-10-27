@@ -12,6 +12,7 @@ import { temDataMubisTotal } from "../storage/tempMovieData";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
 import { LikesProvider } from "../contexts/LikesContext";
 import { UserContext } from "../App";
+import { WatchProvider } from "../contexts/WatchContext";
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 function Mubi({ templateContainer, setActiveTab, activeTab }) {
   const { formData } = useContext(UserContext);
@@ -41,13 +42,15 @@ function Mubi({ templateContainer, setActiveTab, activeTab }) {
         <div
           className={showTools ? "rating-tools-show" : "rating-tools-hidden"}
         >
-          <LikesProvider>
-            <RatingTools
-              mubi={itemMubisList.id}
-              user={formData.idUser}
-              showRatingTools={showRatingTools}
-            ></RatingTools>
-          </LikesProvider>
+          <WatchProvider>
+            <LikesProvider>
+              <RatingTools
+                mubi={itemMubisList.id}
+                user={formData.idUser}
+                showRatingTools={showRatingTools}
+              ></RatingTools>
+            </LikesProvider>
+          </WatchProvider>
         </div>
         <div className="mubi-hero">
           <button className="dots" onClick={showRatingTools}>

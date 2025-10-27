@@ -46,13 +46,13 @@ export default function App() {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
 
-  const [userId, setUserId] = useState("usr_001");
+  const [userId] = useState("usr_001");
   const [activeTab, setActiveTab] = useState(1001);
 
   const [formData, setFormData] = useState(getUserById(userId));
 
   const [draftForm, setDraftForm] = useState(formData);
-  const [listsPerUser, setListsPerUser] = useState(getUserLists(userId));
+  const [listsPerUser] = useState(getUserLists(userId));
   const [reviewsUser, setReviewsUser] = useState(madeReviews(userId));
   console.log(`Those reviews were made by ${userId} user`, reviewsUser);
 

@@ -1,5 +1,6 @@
 import {
   IconEye,
+  IconEyeFilled,
   IconHeart,
   IconHeartFilled,
   IconPlaylistAdd,
@@ -7,11 +8,20 @@ import {
 import Rating from "./Rating";
 import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
+import { useWatch } from "../contexts/WatchContext";
 export const RatingTools = ({ showRatingTools, mubi, user }) => {
   const { saveLike, userLikes } = useLikes();
+  const { userWatch, saveWatch, userWatched, saveWatched } = useWatch();
   function handleLike() {
     saveLike(mubi, user);
     console.log("Objetos de", userLikes);
+  }
+
+  function handleAddWatchList() {
+    saveWatch(mubi, user);
+  }
+  function handleWatched() {
+    saveWatched(mubi, user);
   }
   return (
     <>
@@ -20,13 +30,17 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
           x{" "}
         </button>
         <div className="tool-rating tools-icons-rating">
-          <div
-            onClick={() =>
-              console.log("This btn adds to the list of watched films")
-            }
-            id="centered"
-          >
-            <IconEye size={"4.3rem"} stroke={1}></IconEye>
+          <div onClick={() => handleWatched()} id="centered">
+            {userWatched.some((watched) => watched.idMubiWatched === mubi) ? (
+              <IconEyeFilled
+                color="#76CD26"
+                size={"3.8rem"}
+                stroke={1}
+              ></IconEyeFilled>
+            ) : (
+              <IconEye size={"4.3rem"} stroke={1}></IconEye>
+            )}
+
             <p>Watch</p>
           </div>
           <div onClick={() => handleLike()} id="centered">
@@ -43,13 +57,17 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
             )}
             <p>Like</p>
           </div>
-          <div
-            onClick={() =>
-              console.log("This btn adds the film a the list selected")
-            }
-            id="centered"
-          >
-            <IconPlaylistAdd size={"4.3rem"} stroke={1}></IconPlaylistAdd>
+          <div onClick={() => handleAddWatchList()} id="centered">
+            {userWatch.some((watch) => watch.idMubiWatch === mubi) ? (
+              <IconPlaylistAdd
+                size={"4.3rem"}
+                color="#76CD26"
+                stroke={1}
+              ></IconPlaylistAdd>
+            ) : (
+              <IconPlaylistAdd size={"4.3rem"} stroke={1}></IconPlaylistAdd>
+            )}
+
             <p>Watchlist</p>
           </div>
         </div>

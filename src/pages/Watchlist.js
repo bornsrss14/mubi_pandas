@@ -2,17 +2,22 @@ import ContainerFilms from "../components/ContainerFilms";
 import FilterMovies from "../components/FilterMovies";
 import { IconPlaylistAdd } from "@tabler/icons-react";
 import { FilterWatchList } from "../storage/kindOfTabs";
-import PosterMovie from "../core/PosterMovie";
 import { useContext } from "react";
 import { UserContext } from "../App";
-import { getMubisByIds } from "../utils/dateUtils";
 import LinkPoster from "../core/LinkPoster";
+import {
+  DataBaseWatchLater,
+  temDataMubisTotal,
+} from "../storage/tempMovieData";
 
 export const Watchlist = ({ watch }) => {
   const { formData } = useContext(UserContext);
-  console.log(formData, "mis datos");
-  const fullList = getMubisByIds(formData.watchLater);
-  console.log(fullList, "full");
+  const allWatchListMubis = DataBaseWatchLater.filter(
+    (mubi) => mubi.idUserAsociated === formData.idUser
+  );
+  const match = temDataMubisTotal.filter((obj2) =>
+    allWatchListMubis.some((obj1) => obj1.idMubiWatch === obj2.id)
+  );
   return (
     <>
       <div>
@@ -28,8 +33,8 @@ export const Watchlist = ({ watch }) => {
               ></IconPlaylistAdd>
             </span>
           </p>
-          <div>
-            {fullList.map((mubi, i) => (
+          <div className={"basic-flex-row"}>
+            {match.map((mubi, i) => (
               <LinkPoster
                 key={i}
                 width={8}

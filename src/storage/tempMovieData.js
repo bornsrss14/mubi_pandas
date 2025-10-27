@@ -597,6 +597,27 @@ export const users = [
   },
 ];
 
+export const DataBaseWatchLater = [
+  {
+    id: 30301,
+    idMubiWatch: "tt0073486",
+    idUserAsociated: "usr_001",
+  },
+  {
+    id: 30302,
+    idMubiWatch: "tt1375666",
+    idUserAsociated: "usr_001",
+  },
+];
+
+export const DataBaseWatched = [
+  {
+    id: 40401,
+    idMubiWatched: "tt0111771",
+    idUserAsociated: "usr_001",
+  },
+];
+
 export const temDataMubisTotal = [
   {
     id: "tt2401878",
