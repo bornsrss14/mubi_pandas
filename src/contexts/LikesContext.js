@@ -16,8 +16,12 @@ export function LikesProvider({ children }) {
     ]);
     console.log("User like saved succedfully", userId, "movie:", movieId);
   };
+
+  const deleteFromLike = (idMubi) => {
+    setUserLikes((prev) => prev.filter((mubi) => mubi.idMubiLiked !== idMubi));
+  };
   return (
-    <LikesContext.Provider value={{ userLikes, saveLike }}>
+    <LikesContext.Provider value={{ userLikes, saveLike, deleteFromLike }}>
       {children}
     </LikesContext.Provider>
   );

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
 export const RatingTools = ({ showRatingTools, mubi, user }) => {
-  const { saveLike, userLikes } = useLikes();
+  const { saveLike, userLikes, deleteFromLike } = useLikes();
   const {
     userWatch,
     saveWatch,
@@ -21,22 +21,22 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
   } = useWatch();
   function handleLike() {
     saveLike(mubi, user);
-    console.log("Objetos de", userLikes);
   }
-
   function handleAddWatchList() {
     saveWatch(mubi, user);
-    console.log("Se agregó a WatchList");
   }
   function handleDeleteWatchList() {
     deleteFromWatch(mubi);
-    console.log("Se eliminó de la lista de WatchList");
   }
   function handleWatched() {
     saveWatched(mubi, user);
   }
   function handleDeleteFromWatched() {
     deleteFromWatched(mubi);
+  }
+
+  function handleDeleteLike() {
+    deleteFromLike(mubi);
   }
   return (
     <>
@@ -65,7 +65,14 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
 
             <p>Watch</p>
           </div>
-          <div onClick={() => handleLike()} id="centered">
+          <div
+            onClick={
+              userLikes.some((like) => like.idMubiLiked === mubi)
+                ? () => handleDeleteLike()
+                : () => handleLike()
+            }
+            id="centered"
+          >
             {/* retorna true or false => en la lista de Me gusta del usuario, hay alguna coincidencia con 
             el id que se está pasando de la película selecionada (?) */}
             {userLikes.some((like) => like.idMubiLiked === mubi) ? (
