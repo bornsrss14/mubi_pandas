@@ -11,7 +11,14 @@ import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
 export const RatingTools = ({ showRatingTools, mubi, user }) => {
   const { saveLike, userLikes } = useLikes();
-  const { userWatch, saveWatch, userWatched, saveWatched } = useWatch();
+  const {
+    userWatch,
+    saveWatch,
+    deleteFromWatch,
+    userWatched,
+    saveWatched,
+    deleteFromWatched,
+  } = useWatch();
   function handleLike() {
     saveLike(mubi, user);
     console.log("Objetos de", userLikes);
@@ -19,9 +26,17 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
 
   function handleAddWatchList() {
     saveWatch(mubi, user);
+    console.log("Se agregó a WatchList");
+  }
+  function handleDeleteWatchList() {
+    deleteFromWatch(mubi);
+    console.log("Se eliminó de la lista de WatchList");
   }
   function handleWatched() {
     saveWatched(mubi, user);
+  }
+  function handleDeleteFromWatched() {
+    deleteFromWatched(mubi);
   }
   return (
     <>
@@ -30,7 +45,14 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
           x{" "}
         </button>
         <div className="tool-rating tools-icons-rating">
-          <div onClick={() => handleWatched()} id="centered">
+          <div
+            onClick={
+              userWatched.some((watched) => watched.idMubiWatched === mubi)
+                ? () => handleDeleteFromWatched()
+                : () => handleWatched()
+            }
+            id="centered"
+          >
             {userWatched.some((watched) => watched.idMubiWatched === mubi) ? (
               <IconEyeFilled
                 color="#76CD26"
@@ -57,7 +79,14 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
             )}
             <p>Like</p>
           </div>
-          <div onClick={() => handleAddWatchList()} id="centered">
+          <div
+            onClick={
+              userWatch.some((watch) => watch.idMubiWatch === mubi)
+                ? () => handleDeleteWatchList()
+                : () => handleAddWatchList()
+            }
+            id="centered"
+          >
             {userWatch.some((watch) => watch.idMubiWatch === mubi) ? (
               <IconPlaylistAdd
                 size={"4.3rem"}

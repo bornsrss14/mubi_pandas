@@ -585,7 +585,7 @@ export const users = [
       pinterest: undefined,
     },
     /* Películas Favoritas ♥ */
-    favoriteFourMubis: ["tt2401878"],
+    favoriteFourMubis: ["tt2401878", "tt0876563"],
     /* Listas seguidas */
     followingLists: [],
     /* Usuarios seguidos/seguidores */

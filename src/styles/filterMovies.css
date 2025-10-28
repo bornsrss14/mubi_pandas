@@ -2013,7 +2013,7 @@ select {
   background: #4d47a0;
   font-size: 1.4rem;
   display: inline-block;
-  min-width: 500px;
+  min-width: 200px;
   margin: 1rem auto;
   padding: 1.5rem 2rem;
   text-align: center;
