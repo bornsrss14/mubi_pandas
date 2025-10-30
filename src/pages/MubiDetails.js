@@ -17,6 +17,7 @@ import movieDatabaseService from "../services/movieDatabaseService";
 function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
   const { formData } = useContext(UserContext);
   const { id } = useParams();
+  const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
   const [showTools, setShowTools] = useState(false);
 
@@ -107,7 +108,7 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
             <IconDots size={"19px"} stroke={"3"}></IconDots>
           </button>
           <img
-            src={mubi.posterUrl}
+            src={`${TMDB_IMAGE_BASE_URL}w500${mubi.backdrop_path}`}
             /*
           src="https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2020/10/neon-genesis-evangelion-y-la-revolucion-del-genero-mecha.jpg"
            */
@@ -141,7 +142,7 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
               className="rounded shadow"
               skeletonClassName="rounded"
               alt="poster"
-              src={mubi.poster_path}
+              src={`${TMDB_IMAGE_BASE_URL}w500${mubi.poster_path}`}
             ></OptimizedImage>
           </div>
         </div>
