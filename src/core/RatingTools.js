@@ -63,7 +63,11 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
               <IconEye size={"4.3rem"} stroke={1}></IconEye>
             )}
 
-            <p>Watch</p>
+            <p>
+              {userWatched.some((watched) => watched.idMubiWatched === mubi)
+                ? "Watched"
+                : "Watch"}
+            </p>
           </div>
           <div
             onClick={
@@ -84,7 +88,11 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
             ) : (
               <IconHeart size={"4.3rem"} stroke={1}></IconHeart>
             )}
-            <p>Like</p>
+            <p>
+              {userLikes.some((like) => like.idMubiLiked === mubi)
+                ? "Liked"
+                : "Like"}
+            </p>
           </div>
           <div
             onClick={
@@ -104,7 +112,11 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
               <IconPlaylistAdd size={"4.3rem"} stroke={1}></IconPlaylistAdd>
             )}
 
-            <p>Watchlist</p>
+            <p>
+              {userWatch.some((watch) => watch.idMubiWatch === mubi)
+                ? "Remove"
+                : "Watchlist"}
+            </p>
           </div>
         </div>
         <div className="tool-rating">

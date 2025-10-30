@@ -32,6 +32,7 @@ import ListWithNotes from "./pages/ListWithNotes";
 import { getUserById, getUserLists, madeReviews } from "./utils/dateUtils";
 import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
+import MubiDetails from "./pages/MubiDetails";
 /* CONTEXT*/
 export const UserContext = createContext();
 const average = (arr) =>
@@ -156,6 +157,16 @@ export default function App() {
                 } /*esto lo debo aplicar a Activity  */
                 templateContainer={DataProjects}
               ></Mubi>
+            }
+          ></Route>
+          <Route
+            path="/mubi&detail/:id"
+            element={
+              <MubiDetails
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                templateContainer={DataProjects}
+              ></MubiDetails>
             }
           ></Route>
           <Route

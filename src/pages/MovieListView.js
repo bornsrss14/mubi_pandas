@@ -48,7 +48,7 @@ const MovieListView = ({ listsPerUser }) => {
       <div className="basic-flex-row">
         <ProfilePicUsername
           imgProfile={
-            "https://www.elbuentono.com.mx/wp-content/uploads/2014/02/vanesabuganza.jpg"
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSiBzbuoRXqXqixKnB5vRM2M5QNA-aNXwYGFy-tI0x-FIecdIniU5240RIV5-6PPw3tSw&usqp=CAU"
           }
           withNickname={false}
           measure="2rem"

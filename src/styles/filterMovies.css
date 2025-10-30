@@ -2148,3 +2148,100 @@ select {
   background: #f0f0f0;
   border-radius: 8px;
 }
+
+.search-container {
+  padding: 20px 16px;
+  background: #1c1e26;
+}
+
+.search-label {
+  display: block;
+  text-align: center;
+  color: #778899;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: #1c1e26;
+  outline: none;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid #a94444;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-item:first-child {
+  background: #00e054; /* Color verde de Letterboxd */
+  color: white;
+  font-weight: 500;
+}
+
+.dropdown-item.loading,
+.dropdown-item.no-results {
+  color: #666;
+  text-align: center;
+  cursor: default;
+}
+
+.dropdown-item.loading:hover,
+.dropdown-item.no-results:hover {
+  background: white;
+}
+
+.movie-title {
+  display: block;
+  font-weight: 500;
+  color: #1c1e26;
+}
+
+.movie-director {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Estilos para el primer item (resaltado) */
+.dropdown-item:first-child .movie-title,
+.dropdown-item:first-child .movie-director {
+  color: white;
+}
+
+input,
+textarea,
+select {
+  font-size: 16px;
+}
