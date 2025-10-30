@@ -34,7 +34,9 @@ import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
 import MubiDetails from "./pages/MubiDetails";
 /* CONTEXT*/
+
 export const UserContext = createContext();
+export const NavContext = createContext();
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -42,6 +44,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [movies] = useState(tempMovieData);
   const [watched] = useState(tempWatchedData);
+  const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -58,127 +61,134 @@ export default function App() {
   console.log(`Those reviews were made by ${userId} user`, reviewsUser);
 
   return (
-    <UserContext.Provider
-      value={{ reviewsUser, setReviewsUser, formData, draftForm }}
-    >
-      <Router>
-        <Navbar movies={movies} query={query} setQuery={setQuery} />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route
-            path="/films"
-            element={
-              <Films
-                avgImdbRating={avgImdbRating}
-                avgUserRating={avgUserRating}
-                avgRuntime={avgRuntime}
-                watched={watched}
-                movies={movies}
-              />
-            }
-          ></Route>
-          <Route path="/main-films" element={<MainFilms></MainFilms>}></Route>
-          <Route path="/community" element={<Community />}></Route>
-          <Route path="/news" element={<News></News>}></Route>
-          <Route path="/user-films" element={<UserFilms />}></Route>
-          <Route
-            path="/user-profile"
-            element={<Profile formData={formData} setFormData={setFormData} />}
-          ></Route>
-          <Route
-            path="/external-profile/:id"
-            element={
-              <ProfileExternal
-                formData={formData}
-                setFormData={setFormData}
-              ></ProfileExternal>
-            }
-          >
-            {" "}
-          </Route>
-          <Route path="/activity-user" element={<Activity></Activity>}></Route>
-          <Route path="/diary-user" element={<Diary></Diary>}></Route>
-          <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>
-          <Route path="/watchlist" element={<Watchlist></Watchlist>}></Route>
-          <Route
-            path="/listsNavbar"
-            element={
-              <ListsNavbar
-                listsPerUser={listsPerUser}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                templateContainer={DataProjectsList}
-              ></ListsNavbar>
-            }
-          ></Route>
-          <Route
-            path="/listboilerplate"
-            element={<NewListBoilerplate></NewListBoilerplate>}
-          ></Route>
-          <Route
-            path="/movielistview/:id"
-            element={
-              <MovieListView listsPerUser={listsPerUser}></MovieListView>
-            }
-          ></Route>
-          <Route
-            path="/listWithNotes/:id"
-            element={<ListWithNotes></ListWithNotes>}
-          ></Route>
-          <Route path="/likes-user" element={<Likes></Likes>}></Route>
-          <Route
-            path="/network/:id"
-            element={
-              <Network
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                templateContainer={DataProjectNetwork}
-              ></Network>
-            }
-          ></Route>
-          <Route
-            path="/settings-user"
-            element={
-              <Settings
-                formData={formData}
-                setFormData={setFormData}
-                draftForm={draftForm}
-                setDraftForm={setDraftForm}
-              ></Settings>
-            }
-          ></Route>
-          <Route
-            path="/mubi/:id"
-            element={
-              <Mubi
-                activeTab={activeTab}
-                setActiveTab={
-                  setActiveTab
-                } /*esto lo debo aplicar a Activity  */
-                templateContainer={DataProjects}
-              ></Mubi>
-            }
-          ></Route>
-          <Route
-            path="/mubi&detail/:id"
-            element={
-              <MubiDetails
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                templateContainer={DataProjects}
-              ></MubiDetails>
-            }
-          ></Route>
-          <Route
-            path="review-preview"
-            element={<ReviewPreviewSecond></ReviewPreviewSecond>}
-          ></Route>
-          <Route
-            path="/review-detailed"
-            element={<ReviewDetailed></ReviewDetailed>}
-          ></Route>
-        </Routes>
-      </Router>
-    </UserContext.Provider>
+    <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
+      <UserContext.Provider
+        value={{ reviewsUser, setReviewsUser, formData, draftForm }}
+      >
+        <Router>
+          <Navbar movies={movies} query={query} setQuery={setQuery} />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route
+              path="/films"
+              element={
+                <Films
+                  avgImdbRating={avgImdbRating}
+                  avgUserRating={avgUserRating}
+                  avgRuntime={avgRuntime}
+                  watched={watched}
+                  movies={movies}
+                />
+              }
+            ></Route>
+            <Route path="/main-films" element={<MainFilms></MainFilms>}></Route>
+            <Route path="/community" element={<Community />}></Route>
+            <Route path="/news" element={<News></News>}></Route>
+            <Route path="/user-films" element={<UserFilms />}></Route>
+            <Route
+              path="/user-profile"
+              element={
+                <Profile formData={formData} setFormData={setFormData} />
+              }
+            ></Route>
+            <Route
+              path="/external-profile/:id"
+              element={
+                <ProfileExternal
+                  formData={formData}
+                  setFormData={setFormData}
+                ></ProfileExternal>
+              }
+            >
+              {" "}
+            </Route>
+            <Route
+              path="/activity-user"
+              element={<Activity></Activity>}
+            ></Route>
+            <Route path="/diary-user" element={<Diary></Diary>}></Route>
+            <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>
+            <Route path="/watchlist" element={<Watchlist></Watchlist>}></Route>
+            <Route
+              path="/listsNavbar"
+              element={
+                <ListsNavbar
+                  listsPerUser={listsPerUser}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  templateContainer={DataProjectsList}
+                ></ListsNavbar>
+              }
+            ></Route>
+            <Route
+              path="/listboilerplate"
+              element={<NewListBoilerplate></NewListBoilerplate>}
+            ></Route>
+            <Route
+              path="/movielistview/:id"
+              element={
+                <MovieListView listsPerUser={listsPerUser}></MovieListView>
+              }
+            ></Route>
+            <Route
+              path="/listWithNotes/:id"
+              element={<ListWithNotes></ListWithNotes>}
+            ></Route>
+            <Route path="/likes-user" element={<Likes></Likes>}></Route>
+            <Route
+              path="/network/:id"
+              element={
+                <Network
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  templateContainer={DataProjectNetwork}
+                ></Network>
+              }
+            ></Route>
+            <Route
+              path="/settings-user"
+              element={
+                <Settings
+                  formData={formData}
+                  setFormData={setFormData}
+                  draftForm={draftForm}
+                  setDraftForm={setDraftForm}
+                ></Settings>
+              }
+            ></Route>
+            <Route
+              path="/mubi/:id"
+              element={
+                <Mubi
+                  activeTab={activeTab}
+                  setActiveTab={
+                    setActiveTab
+                  } /*esto lo debo aplicar a Activity  */
+                  templateContainer={DataProjects}
+                ></Mubi>
+              }
+            ></Route>
+            <Route
+              path="/mubi&detail/:id"
+              element={
+                <MubiDetails
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  templateContainer={DataProjects}
+                ></MubiDetails>
+              }
+            ></Route>
+            <Route
+              path="review-preview"
+              element={<ReviewPreviewSecond></ReviewPreviewSecond>}
+            ></Route>
+            <Route
+              path="/review-detailed"
+              element={<ReviewDetailed></ReviewDetailed>}
+            ></Route>
+          </Routes>
+        </Router>
+      </UserContext.Provider>
+    </NavContext.Provider>
   );
 }

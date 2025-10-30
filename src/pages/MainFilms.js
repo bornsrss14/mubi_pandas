@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useMubiSearch } from "../hooks/useMubiSearch";
 import { Link } from "react-router-dom";
+import { NavContext } from "../App";
 
 export const MainFilms = () => {
   const [query, setQuery] = useState("");
@@ -9,7 +10,7 @@ export const MainFilms = () => {
   const dropdownRef = useRef(null);
 
   const { results, loading } = useMubiSearch(query);
-
+  const { setSearchIsOpen } = useContext(NavContext);
   //la forma en que cierro el dropdown cuando hay un click fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -61,20 +62,24 @@ export const MainFilms = () => {
 
               {!loading &&
                 results.map((movie) => (
-                  <Link to={`/mubi&detail/${movie.id}`}>
-                    <div
-                      key={movie.id}
-                      className="dropdown-item"
-                      onClick={() => handleMovieSelect(movie)}
-                    >
+                  <div
+                    key={movie.id}
+                    className="dropdown-item"
+                    onClick={
+                      (() => handleMovieSelect(movie),
+                      () => setSearchIsOpen(false))
+                    }
+                  >
+                    {" "}
+                    <Link to={`/mubi&detail/${movie.id}`}>
                       <span className="movie-title">
                         {movie.title} ({movie.year})
                       </span>
                       {movie.director && (
                         <span className="movie-director">{movie.director}</span>
                       )}
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 ))}
             </div>
           )}

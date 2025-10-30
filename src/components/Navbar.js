@@ -8,28 +8,32 @@ import {
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
-import { UserContext } from "../App";
+import { NavContext, UserContext } from "../App";
+import MainFilms from "../pages/MainFilms";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   const { formData } = useContext(UserContext);
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
-  const [searchIsOpen, setSearchIsOpen] = useState(false);
+  /* const [searchIsOpen, setSearchIsOpen] = useState(false); */
+  const { searchIsOpen, setSearchIsOpen } = useContext(NavContext);
   const [addReview, setAddReview] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); //contiene el texto de la película a buscar
+  const [searchTerm] = useState(""); //contiene el texto de la película a buscar
 
   useEffect(() => {
     console.log("Nuevo valor:", searchTerm);
   }, [searchTerm]);
 
+  /*
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  function searchFilm() {
-    console.log(`Esta función busca el valor de ${searchTerm}`);
-    setSearchTerm("");
-    setSearchIsOpen(false);
-  }
+function searchFilm() {
+  console.log(`Esta función busca el valor de ${searchTerm}`);
+  setSearchTerm("");
+  setSearchIsOpen(false);
+}
+*/
 
   function makeReview() {
     setBurgerIsOpen(false);
@@ -105,27 +109,10 @@ export const Navbar = ({ movies, query, setQuery }) => {
             </button>
           </div>
         </header>
-
+        {/*Aquí utilizo mi servicio de recuperar datos y mostrarlos ♥️*/}
         <div className={`menu-search-wrap-uno${searchIsOpen ? "show" : ""}`}>
-          <div className={"search-wrap-uno "}>
-            <input
-              value={searchTerm}
-              onChange={handleChange}
-              className="input-search-wrap"
-              type="search"
-              placeholder="Search..."
-              aria-label="Buscar"
-            ></input>
-            <button
-              onClick={searchFilm}
-              className="input-search-btn"
-              aria-label="Buscar"
-            >
-              <IconSearch color="gray" size={"17px"}></IconSearch>
-            </button>
-          </div>
+          <MainFilms></MainFilms>
         </div>
-
         <div
           onClick={(e) => {
             if (e.target.tagName === "A") {
