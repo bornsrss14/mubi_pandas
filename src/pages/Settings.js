@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import PosterMovie from "../core/PosterMovie";
-import { FourMubis } from "../storage/kindOfTabs";
 import SearchBar from "../core/SearchBar";
 import { Link } from "react-router-dom";
 import { UserContext } from "../App";

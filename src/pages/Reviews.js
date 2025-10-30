@@ -9,7 +9,7 @@ import { getMubisByIds } from "../utils/dateUtils";
 
 export const Reviews = ({ idUsr = "usr_001" }) => {
   /*CONTEXT */
-  const { reviewsUser, setReviewsUser } = useContext(UserContext);
+  const { reviewsUser } = useContext(UserContext);
   const reviewsWithMubis = reviewsUser.map((obj) => ({
     ...obj,
     movieReviewed: getMubisByIds(obj.id_mubi),

@@ -99,7 +99,7 @@ export const Profile = ({
     return Math.max(...Object.values(arrayEnumerar));
   }
 
-  const { reviewsUser, setReviewsUser } = useContext(UserContext);
+  const { reviewsUser } = useContext(UserContext);
 
   const reviewsWithMubis = reviewsUser.map((obj) => ({
     ...obj,
