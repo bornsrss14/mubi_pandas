@@ -1,4 +1,4 @@
-import { IconX, IconHeart, IconHeartFilled } from "@tabler/icons-react";
+import { IconX, IconHeartFilled } from "@tabler/icons-react";
 import PosterMovie from "../core/PosterMovie";
 import { useState } from "react";
 import Rating from "../core/Rating";

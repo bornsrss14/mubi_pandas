@@ -1,10 +1,6 @@
-import UserNavBar from "../components/UserNavBar";
 import { Link } from "react-router-dom";
-import { IconSearch } from "@tabler/icons-react";
 import FilterMovies from "../components/FilterMovies";
 import ContainerFilms from "../components/ContainerFilms";
-import MainFooter from "../components/MainFooter";
-import SubNabvar from "../components/SubNabvar";
 import PosterMovie from "../core/PosterMovie";
 import { FiltersArrayItems } from "../storage/kindOfTabs";
 import { useContext } from "react";

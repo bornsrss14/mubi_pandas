@@ -32,9 +32,7 @@ export const arrayTabsMubiPage = [
   },
   { idTab: 1005, targetTab: "releases", className: "green" },
 ];
-{
-  /* ------------------------------------------------------------------------------------------------------------------------ */
-}
+/* ------------------------------------------------------------------------------------------------------------------------ */
 export const arrayTabsNetwork = [
   {
     idTab: 1001,
@@ -65,9 +63,7 @@ export const arrayTabsList = [
     className: "green",
   },
 ];
-{
-  /* ---------------------------------------------- */
-}
+/* ---------------------------------------------- */
 
 export const arrayTabsActivity = [
   { idTab: 1001, targetTab: "friends", className: "green" },
@@ -247,14 +243,11 @@ export const FilterWatchList = [
   },
 ];
 
-{
-  /* EL siguiente array contiene las cuatro películas favoritas seleccionadas */
-}
+/* EL siguiente array contiene las cuatro películas favoritas seleccionadas */
 export const FourMubis = [
   "https://upload.wikimedia.org/wikipedia/en/2/23/IsleOfDogsFirstLook.jpg",
   "https://upload.wikimedia.org/wikipedia/en/1/1c/The_Grand_Budapest_Hotel.png",
   "https://upload.wikimedia.org/wikipedia/en/d/d5/Hotel_Rwanda_movie.jpg",
-  ,
 ];
 
 export const following = [

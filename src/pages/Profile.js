@@ -10,21 +10,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { arrayRanking } from "../storage/mubiRanking";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import SubNabvar from "../components/SubNabvar";
-import PosterMovie from "../core/PosterMovie";
-import ProfilePicUsername from "../core/ProfilePicUsername";
 import Rating from "../core/Rating";
-import { IconDots } from "@tabler/icons-react";
 
 import { useContext, useEffect, useState } from "react";
-import EditBtnDotsBtn from "../core/EditBtnDotsBtn";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
 import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
 import TagElement from "../core/TagElement";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LinkPoster from "../core/LinkPoster";
 import { UserContext } from "../App";
-import { getMubisByIds, getUserById } from "../utils/dateUtils";
+import { getMubisByIds } from "../utils/dateUtils";
 export const Profile = ({
   formData,
   setFormData,
@@ -112,8 +108,10 @@ export const Profile = ({
 
   const fourMovies = getMubisByIds(formData?.favoriteFourMubis);
 
+  /*
   const { id } = useParams();
   const userData = getUserById(id);
+  */
 
   console.log("Estas son mis favoritas", fourMovies);
 

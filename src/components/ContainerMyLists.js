@@ -1,13 +1,14 @@
-import { Link, Links } from "react-router-dom";
-import {
+import { Link } from "react-router-dom";
+/*
+import
   DataMyLists,
   ownerList,
   temDataMubisTotal,
-} from "../storage/tempMovieData";
+  "../storage/tempMovieData";
+  */
 import FooterListDescription from "./FooterListDescription";
 import ListPreview from "./ListPreview";
-import { getMubisByIds, getUserLists } from "../utils/dateUtils";
-import { useState } from "react";
+import { getMubisByIds } from "../utils/dateUtils";
 
 const ContainerMyLists = ({ listsPerUser }) => {
   /* const [listPerUser, setListPerUser] = useState(getUserLists(usrId));
@@ -15,10 +16,12 @@ const ContainerMyLists = ({ listsPerUser }) => {
   const listsPerUser = getUserLists(usrId); */
 
   /*Crea objetos con su id de lista relacionado y con un array de los codigos de películas que marca en su lista*/
+  /*
   const resultados = listsPerUser.map((obj) => ({
     id: obj._id,
     mubis: obj.mubis,
   }));
+   */
   /*Estas son las películas de las listas de cada usuario  */
   const listsWithMubis = listsPerUser.map((list) => ({
     ...list,

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import OverlyActions from "./OverlyActions";
-import LazyImg from "../services/LazyImg";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
 
 export const PosterMovie = ({

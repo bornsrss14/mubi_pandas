@@ -1,4 +1,3 @@
-import LogoScalable from "./LogoScalable";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { Link } from "react-router-dom";
 import {

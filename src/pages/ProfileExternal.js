@@ -14,7 +14,6 @@ import Rating from "../core/Rating";
 
 import { useEffect, useState } from "react";
 import ProfilePicProfileView from "../core/ProfilePicProfileView";
-import BasicReview from "../components/BasicReview";
 import ActivityItem from "../core/ActivityItem";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { following } from "../storage/kindOfTabs";

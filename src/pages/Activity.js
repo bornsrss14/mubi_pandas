@@ -1,5 +1,4 @@
 import ContainerFilms from "../components/ContainerFilms";
-import SubNabvar from "../components/SubNabvar";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsSubNavbar } from "../storage/kindOfTabs";
 

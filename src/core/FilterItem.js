@@ -1,4 +1,4 @@
-import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 
 export const FilterItem = ({ filterTitle }) => {
   return (

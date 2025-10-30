@@ -1,6 +1,4 @@
-import ContainerFilms from "../components/ContainerFilms";
 import FilterMovies from "../components/FilterMovies";
-import SubNabvar from "../components/SubNabvar";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsList, FilterList } from "../storage/kindOfTabs";
 export const ListsNavbar = ({

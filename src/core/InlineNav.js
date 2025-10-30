@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export const InlineNav = ({ arrayTabs, setActiveTab, activeTab }) => {
   return (
     <>

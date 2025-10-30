@@ -2,7 +2,7 @@ import FilterMovies from "../components/FilterMovies";
 import { IconQuoteFilled } from "@tabler/icons-react";
 import LinkPoster from "../core/LinkPoster";
 import { useParams } from "react-router-dom";
-import { DataMyLists, DataNotesRelatedLists } from "../storage/tempMovieData";
+import { DataNotesRelatedLists } from "../storage/tempMovieData";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ContainerFilms from "../components/ContainerFilms";
 import { formatDate, getMubisByIds } from "../utils/dateUtils";

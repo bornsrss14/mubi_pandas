@@ -1,8 +1,6 @@
 import ContainerFilms from "../components/ContainerFilms";
 import FilterMovies from "../components/FilterMovies";
-import SubNabvar from "../components/SubNabvar";
 import LinkPoster from "../core/LinkPoster";
-import PosterMovie from "../core/PosterMovie";
 import { FilterWatchList } from "../storage/kindOfTabs";
 import { DataBaseLikes, temDataMubisTotal } from "../storage/tempMovieData";
 export const Likes = ({ usrId = "usr_001" }) => {

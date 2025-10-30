@@ -1,19 +1,18 @@
-import { useContext } from "react";
-import ContainerFilms from "../components/ContainerFilms";
 import FilterMovies from "../components/FilterMovies";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsNetwork, FilterFolowed } from "../storage/kindOfTabs";
-import { UserContext } from "../App";
 import { getUserById, getUsersByIds } from "../utils/dateUtils";
 import { users } from "../storage/tempMovieData";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const Network = ({ templateContainer, setActiveTab, activeTab }) => {
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
 
   const { id } = useParams();
+  /*
   const { formData } = useContext(UserContext);
+   */
 
   const currentUser = getUserById(id);
   console.log(currentUser, "este es mi actual usuario");

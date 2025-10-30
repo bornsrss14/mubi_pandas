@@ -8,7 +8,6 @@ import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
 import TagElement from "../core/TagElement";
 import { useParams } from "react-router-dom";
-import { temDataMubisTotal } from "../storage/tempMovieData";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
 import { LikesProvider } from "../contexts/LikesContext";
 import { UserContext } from "../App";
@@ -21,8 +20,10 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
 
   const [showTools, setShowTools] = useState(false);
 
+  /*
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
+  */
 
   /*Estados para mostrar o no la carga de las promesas resueltas de la petición de Detalle de película  */
   const [loading, setLoading] = useState();

@@ -1,8 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import PosterMovie from "../core/PosterMovie";
-import ProfilePicUsername from "../core/ProfilePicUsername";
-import TotalChat from "../core/TotalChat";
 import GalleryPostersList from "../core/GalleryPostersList";
 
 export const ListPreview = ({ arrayListPoster, children }) => {
