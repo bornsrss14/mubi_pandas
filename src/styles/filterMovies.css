@@ -1836,6 +1836,7 @@ only desktop
 /*  full width inputs*/
 input[type="text"],
 input[type="email"],
+input[type="password"],
 select,
 textarea {
   background: var(--input);

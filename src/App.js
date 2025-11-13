@@ -33,6 +33,7 @@ import { getUserById, getUserLists, madeReviews } from "./utils/dateUtils";
 import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
 import MubiDetails from "./pages/MubiDetails";
+import SignUpForm from "./pages/SignUpForm";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -68,6 +69,7 @@ export default function App() {
         <Router>
           <Navbar movies={movies} query={query} setQuery={setQuery} />
           <Routes>
+            <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
             <Route path="/" element={<Home />}></Route>
             <Route
               path="/films"
