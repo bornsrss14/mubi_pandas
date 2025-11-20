@@ -23,7 +23,7 @@ export const ProfilePicProfileView = ({
           <img
             className="img-full-cover"
             alt="profile-pic"
-            src={userData?.profilePicUrl || "not found"}
+            src={userData?.profile_pic_url || "not found"}
           />
         </div>
         <div className="nickname-avatar">

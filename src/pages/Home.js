@@ -20,7 +20,7 @@ import { temDataMubisTotal } from "../storage/tempMovieData";
 import { UserContext } from "../App";
 
 export const Home = ({ userNikname = "bornsrss" }) => {
-  const { formData } = useContext(UserContext);
+  const { formData, mainUserData } = useContext(UserContext);
   const usrRef = useRef(null);
   {
     const galleryImages = [
@@ -185,7 +185,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
                 paddingBottom: ".5px",
               }}
             >
-              <Link to={"/user-profile"}> {formData?.username}</Link>
+              <Link to={"/user-profile"}> {mainUserData?.username}</Link>
             </span>
             <span className="username-txt-second">
               . Here's what we've been watching...

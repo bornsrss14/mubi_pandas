@@ -1,9 +1,14 @@
-import { useContext, useState } from "react";
-import PosterMovie from "../core/PosterMovie";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "../core/SearchBar";
 import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import { getMubisByIds } from "../utils/dateUtils";
+import userService from "../services/userService";
+import fourFavService from "../services/fourFavoriteService";
+import movieDatabaseService from "../services/movieDatabaseService";
+import { OptimizedImage } from "../hooks/useOptimizedImage";
+import { useMubiSearch } from "../hooks/useMubiSearch";
+import movieService from "../services/movieDatabaseService";
 
 export const Settings = ({
   formData,
@@ -11,26 +16,23 @@ export const Settings = ({
 
   setDraftForm,
 }) => {
+  const { draftForm, mainUserData } = useContext(UserContext);
+  const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   const [query, setQuery] = useState("");
 
-  /*FUNTION 1. Agrega un url <String> de poster de películas a el array, para poder mostrarlo */
-  const addFavoriteMubi = (mubiUrl) => {
-    setDraftForm((prev) => ({
-      ...prev,
-      favoriteFourMubis: [...prev.favoriteFourMubis, mubiUrl],
-    }));
-  };
-  /*FUNTION: 2. Crea un nuevo array con los que cumplen la condicional, los que son diferentes al url pasada */
-  function RemoveFavorite(mubiUrl) {
-    setDraftForm((prev) => ({
-      ...prev,
-      favoriteFourMubis: prev.favoriteFourMubis.filter(
-        (url) => url !== mubiUrl
-      ),
-    }));
-  }
+  const [topFavorites, setTopFavorites] = useState([]);
+  //Recuperar el id de las 4 pelìculas favoritas
+  const [dataFour, setDataFour] = useState([]);
+
+  const [moviesFound, setMoviesFound] = useState([]); // va a mapear todos los resultados para selecionar
+  const [selected, setSelected] = useState(null);
+
+  const [movieData, setMovieData] = useState({
+    id_mubi: "",
+    id_user: "",
+  });
+
   /*FUNTION: 3. Controlled inputs pensado para mi formulario  */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,11 +49,107 @@ export const Settings = ({
     setDraftForm(formData);
   };
 
-  const { draftForm } = useContext(UserContext);
+  const handleDelete = async (id, permission) => {
+    if (permission !== "yes") {
+      console.log("El usuario canceló la eliminación");
+      return;
+    }
+    try {
+      const res = await userService.deleteUser(id);
+      console.log("El usuario ha sido eliminado", res.data);
 
-  const favoriteFourMubis = getMubisByIds(draftForm.favoriteFourMubis);
-  console.log("Estas son las cuatro", favoriteFourMubis);
+      //Aquí refresco la lista de navegar o el user data
+    } catch (error) {
+      console.log("Error al eliminar el usuario", error);
+      alert(`No se pudo eliminar el usuario con su id: ${id}`);
+    }
+  };
 
+  useEffect(() => {
+    if (!mainUserData?.id) return; // evita llamada con undefined
+    async function fetchData() {
+      try {
+        const four = await fourFavService.getFourFavById(mainUserData.id); // aquí toma el id de un contexto
+        if (!four.success || !Array.isArray(four.data)) {
+          setDataFour([]);
+          return;
+        }
+        const ids = four.data.map((item) => item.id_mubi); // ← Extraigo solo los ids
+        setDataFour(ids);
+      } catch (error) {
+        console.error("Algo falló, intenta de nuevo");
+      }
+    }
+    if (mainUserData?.id) {
+      fetchData();
+    }
+  }, [mainUserData?.id, dataFour]);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      if (!dataFour || dataFour.length === 0) return; //avoid innecesari fetch
+
+      try {
+        const moviesDataFour = await movieDatabaseService.getMoviePoster(
+          dataFour
+        );
+        setTopFavorites(moviesDataFour);
+      } catch (error) {
+        console.error("Error obteniendo posters 📸");
+      }
+    }
+    fetchMovies();
+  }, [dataFour]);
+
+  useEffect(() => {
+    if (selected && mainUserData?.id) {
+      setMovieData({
+        id_mubi: selected.id,
+        id_user: mainUserData.id,
+      });
+    }
+  }, [selected, mainUserData?.id]);
+
+  const handleDeleteByUserAndMubi = async (id_movie, id_user) => {
+    if (window.confirm("Are you sure you want to delete this movie?")) {
+      try {
+        await fourFavService.deleteByUserAndMubi(id_movie, id_user);
+        //  IMPORTANTE: actualiza estado local
+        setDataFour((prev) =>
+          prev.filter((id) => Number(id) !== Number(id_movie))
+        );
+        alert("The movie was deleted successfully");
+      } catch (error) {
+        console.error("Something went wrong removing the movie");
+        alert("Try again later please");
+      }
+    }
+  };
+
+  const handleSearch = async (searchQuery) => {
+    if (!searchQuery || searchQuery.length < 2) {
+      setMoviesFound([]);
+      return;
+    }
+    const results = await movieService.searchMovies(searchQuery);
+    setMoviesFound(results);
+  };
+
+  const handleSelectSubmit = async (movieData) => {
+    try {
+      await fourFavService.addMovie(movieData);
+      setMovieData({
+        id_mubi: "",
+        id_user: "",
+      });
+    } catch (error) {
+      console.error("Something went wron trying to add fav movie data");
+      alert(error.message || "ERROR: (╯°□°）╯");
+    }
+  };
+
+  //me interesa guardar el id de selected.id
+  // me interesa  guardar el  mainUserData.id
   return (
     <div>
       <main className="card-settings" role="main" aria-labelledby="form-title">
@@ -65,7 +163,7 @@ export const Settings = ({
               id="username"
               name="userName"
               type="text"
-              value={draftForm.userName} /* se almacena en el draft */
+              value={mainUserData.username} /* se almacena en el draft */
               readOnly
             />
             <button
@@ -86,7 +184,7 @@ export const Settings = ({
                 id="given"
                 name="givenName"
                 type="text"
-                value={draftForm.givenName}
+                value={mainUserData.given_name}
                 onChange={handleChange}
                 placeholder="Rosario"
               />
@@ -98,7 +196,7 @@ export const Settings = ({
                 id="family"
                 name="familyName"
                 type="text"
-                value={draftForm.familyName}
+                value={mainUserData.family_name}
                 onChange={handleChange}
                 placeholder="Fuentes García"
               />
@@ -112,7 +210,7 @@ export const Settings = ({
               id="email"
               name="email"
               type="email"
-              value={draftForm.email}
+              value={mainUserData.email}
               onChange={handleChange}
             />
           </div>
@@ -125,7 +223,7 @@ export const Settings = ({
                 id="location"
                 name="location"
                 type="text"
-                value={draftForm.location}
+                value={mainUserData.location}
                 onChange={handleChange}
                 placeholder="Ciudad, País"
               />
@@ -136,7 +234,7 @@ export const Settings = ({
                 id="website"
                 name="website"
                 type="text"
-                value={draftForm.website}
+                value={mainUserData.website}
                 onChange={handleChange}
                 placeholder="https://"
               />
@@ -150,7 +248,7 @@ export const Settings = ({
               className="txt-area-settings"
               id="bio"
               name="bioDescription"
-              value={draftForm.bioDescription}
+              value={mainUserData.bio}
               onChange={handleChange}
               placeholder="Escribe algo breve sobre ti..."
             />
@@ -162,7 +260,7 @@ export const Settings = ({
             <select
               id="pronoun"
               name="pronoun"
-              value={draftForm.pronoun}
+              value={mainUserData.pronoun}
               onChange={handleChange}
             >
               <option>They / their</option>
@@ -180,26 +278,30 @@ export const Settings = ({
           </div>
           <div className="four-mubis-container">
             <div className="four-mubis-container">
-              {favoriteFourMubis.map((favItemMubi) => (
+              {topFavorites.map((mubi) => (
                 <div
-                  onClick={(e) => {
-                    e.preventDefault();
-                    RemoveFavorite(favItemMubi);
-                  }}
+                  onClick={() =>
+                    handleDeleteByUserAndMubi(mubi.id, mainUserData.id)
+                  }
                   className="delete-fav-mubi-wrapper"
                 >
                   <div className="close-btn-float-favorite">x</div>
-
-                  <PosterMovie
-                    key={favItemMubi}
-                    posterUrl={favItemMubi.posterUrl}
-                    width={7}
-                  ></PosterMovie>
+                  <div style={{ maxWidth: "9rem" }}>
+                    <div className="mubi-poster-m">
+                      <OptimizedImage
+                        className="rounded shadow"
+                        skeletonClassName="rounded"
+                        alt="poster"
+                        src={`${TMDB_IMAGE_BASE_URL}w500${mubi.poster_path}`}
+                        placeholder="/lowQuality.jpeg"
+                      ></OptimizedImage>
+                    </div>
+                  </div>
                 </div>
               ))}
 
               {Array.from({
-                length: 4 - draftForm.favoriteFourMubis.length,
+                length: 4 - topFavorites.length,
               }).map((_, index) => (
                 <div key={index} className="emptyPoster">
                   <div
@@ -216,7 +318,11 @@ export const Settings = ({
             </div>
           </div>
           <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
-            <SearchBar query={query} setQuery={setQuery}></SearchBar>
+            <SearchBar
+              handleSearch={handleSearch}
+              query={query}
+              setQuery={setQuery}
+            ></SearchBar>
 
             <button
               className="simple-button-any"
@@ -231,18 +337,41 @@ export const Settings = ({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                addFavoriteMubi(query);
+                if (!movieData.id_mubi || !movieData.id_user) {
+                  alert("Selecciona una película primero");
+                  return;
+                }
+                handleSelectSubmit(movieData);
                 setIsSearchOpen(false);
                 setQuery("");
               }}
-              className="simple-button"
             >
               Add
             </button>
           </div>
-          {/* <h3>Data persistido:</h3>
-          <pre>{JSON.stringify(draftForm, null, 2)}</pre>*/}
-          {/* Actions */}
+          <div>
+            <ul>
+              {moviesFound.map((movie) => (
+                <li onClick={() => setSelected(movie)} key={movie.id}>
+                  {movie.title}({movie.year})
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4>Seleccionadas:</h4>
+
+            {selected ? (
+              <ul>
+                <li>
+                  {selected.id} — {selected.title}
+                </li>
+              </ul>
+            ) : (
+              <p>No hay selección aún</p>
+            )}
+          </div>
+
           <div className="actions">
             <button
               onClick={cancelTemporaryChanges}
@@ -260,6 +389,16 @@ export const Settings = ({
             </button>
           </div>
         </form>
+        <section>
+          <div>
+            <button
+              className="btn"
+              onClick={() => handleDelete(mainUserData.id, "yes")}
+            >
+              Delete account
+            </button>
+          </div>
+        </section>
       </main>
     </div>
   );

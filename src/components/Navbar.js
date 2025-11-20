@@ -12,7 +12,7 @@ import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
 
 export const Navbar = ({ movies, query, setQuery }) => {
-  const { formData } = useContext(UserContext);
+  const { formData, mainUserData } = useContext(UserContext);
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
   /* const [searchIsOpen, setSearchIsOpen] = useState(false); */
   const { searchIsOpen, setSearchIsOpen } = useContext(NavContext);
@@ -127,9 +127,9 @@ function searchFilm() {
             <ul className="flex-first-submenu">
               <li className="">
                 <ProfilePicUsername
-                  imgProfile={formData.profilePicUrl}
+                  imgProfile={mainUserData.profile_pic_url}
                   withIcon={true}
-                  userName={formData.username}
+                  userName={mainUserData.username}
                 />
               </li>
             </ul>

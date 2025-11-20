@@ -1,15 +1,18 @@
 import { IconSearch } from "@tabler/icons-react";
 
-export const SearchBar = ({ setQuery, query }) => {
+export const SearchBar = ({ handleSearch, setQuery, query }) => {
   return (
     <div>
       <div className={"search-wrap-uno "}>
         <input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            handleSearch(e.target.value);
+          }}
           className="input-search-wrap"
           type="search"
-          placeholder="Search..."
+          placeholder="Search movie..."
           aria-label="Buscar"
         ></input>
         <button className="input-search-btn" aria-label="Buscar">

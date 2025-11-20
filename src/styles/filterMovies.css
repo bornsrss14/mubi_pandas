@@ -1888,10 +1888,10 @@ select {
   padding-right: 42px;
 }
 .emptyPoster {
-  width: 7rem;
+  width: 9rem;
   height: auto;
   position: relative;
-  height: 10.4rem;
+  height: auto;
   border: dotted 2px rgba(105, 97, 97, 0.493);
 }
 

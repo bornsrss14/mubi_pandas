@@ -12,10 +12,10 @@ const api = axios.create({
 const userService = {
   getAllUsers: async () => {
     try {
-      const respone = await api.get("/");
-      return respone.data;
+      const response = await api.get("/");
+      return response.data;
     } catch (error) {
-      throw error.respone?.data || error.message;
+      throw error.response?.data || error.message;
     }
   },
   /*obtener usuario por ID */

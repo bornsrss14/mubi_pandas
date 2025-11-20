@@ -99,7 +99,7 @@ export const Profile = ({
     return Math.max(...Object.values(arrayEnumerar));
   }
 
-  const { reviewsUser } = useContext(UserContext);
+  const { reviewsUser, mainUserData } = useContext(UserContext);
 
   const reviewsWithMubis = reviewsUser.map((obj) => ({
     ...obj,
@@ -107,14 +107,10 @@ export const Profile = ({
   }));
 
   const fourMovies = getMubisByIds(formData?.favoriteFourMubis);
-
   /*
   const { id } = useParams();
   const userData = getUserById(id);
   */
-
-  console.log("Estas son mis favoritas", fourMovies);
-
   return (
     <>
       <div className="profile-banner">
@@ -122,7 +118,7 @@ export const Profile = ({
           <div className="profile-edit-btns">
             <div>
               <ProfilePicProfileView
-                userData={formData}
+                userData={mainUserData}
                 measure="70px"
               ></ProfilePicProfileView>
             </div>

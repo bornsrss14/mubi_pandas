@@ -13,12 +13,11 @@ class MovieService {
       );
 
       if (!response.ok) throw new Error("Something went wrong :(");
-      console.log(response, "Esto es f estructura de una promesa resuelta");
       const data = await response.json();
 
       /* console.log(data, "TODO LOS DATOS"); */
       return data.results.map((movie) => ({
-        id: movie.id,
+        id: movie.id, //-> esto es lo que me interesa obtner para agregar una favorita
         title: movie.title,
         year: movie.release_date?.split("-")[0] || "N/A",
         director: null, //aquí voy hacer otra petición para obtener director segun película
@@ -50,6 +49,31 @@ class MovieService {
   }
 
   //Get object movie details( including director)
+
+  async getMoviePoster(movieIds) {
+    try {
+      const requests = movieIds.map(async (id) => {
+        const res = await fetch(
+          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=es-MX`
+        );
+        const data = await res.json();
+        //verificar si mmi api devuelve un error
+        if (!res.ok || data.success === false) {
+          console.warn(`There's no register with the id: ${id}`);
+          return null;
+        }
+        return data;
+      });
+
+      //Ejecuto todas las peticiones en paralelo
+      const moviesData = await Promise.all(requests);
+      //Pensado para que me devuelva [ { id: 7612123, title: "", poster_}]
+      return moviesData.filter((movie) => movie !== null); // remover inválidos
+    } catch (error) {
+      console.error("Error:", error);
+      return [];
+    }
+  }
 
   async getMovieDetails(movieId) {
     try {

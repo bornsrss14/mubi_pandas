@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { tempMovieData } from "../src/storage/tempMovieData";
 import { tempWatchedData } from "../src/storage/tempWatchedData";
@@ -34,6 +34,7 @@ import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
 import MubiDetails from "./pages/MubiDetails";
 import SignUpForm from "./pages/SignUpForm";
+import userService from "./services/userService";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -42,6 +43,23 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
+  /*Las nuevas variables con mi APi */
+  const [mainUser, setMainUser] = useState(3); //recibe mi id
+  const [mainUserData, setMainUserData] = useState({});
+  useEffect(() => {
+    handleGetUser(mainUser);
+  }, [mainUser]);
+
+  const handleGetUser = async (id) => {
+    try {
+      const res = await userService.getUserById(id);
+      setMainUserData(res.data);
+
+      console.log("Usuario cargado:", res.data);
+    } catch (error) {
+      alert(`Error al tratar de encontrar el usuario con el id: ${id}`);
+    }
+  };
   const [query, setQuery] = useState("");
   const [movies] = useState(tempMovieData);
   const [watched] = useState(tempWatchedData);
@@ -53,7 +71,6 @@ export default function App() {
 
   const [userId] = useState("usr_001");
   const [activeTab, setActiveTab] = useState(1001);
-
   const [formData, setFormData] = useState(getUserById(userId));
 
   const [draftForm, setDraftForm] = useState(formData);
@@ -64,7 +81,13 @@ export default function App() {
   return (
     <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
       <UserContext.Provider
-        value={{ reviewsUser, setReviewsUser, formData, draftForm }}
+        value={{
+          reviewsUser,
+          setReviewsUser,
+          formData,
+          draftForm,
+          mainUserData,
+        }}
       >
         <Router>
           <Navbar movies={movies} query={query} setQuery={setQuery} />

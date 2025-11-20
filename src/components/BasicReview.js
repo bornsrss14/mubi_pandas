@@ -5,8 +5,6 @@ import PosterMovie from "../core/PosterMovie";
 import { Link } from "react-router-dom";
 
 export const BasicReview = ({ objeto }) => {
-  console.log(objeto, "Esto es lo que le paso a ReviewBasic");
-
   return (
     <div>
       <div
