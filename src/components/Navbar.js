@@ -17,23 +17,6 @@ export const Navbar = ({ movies, query, setQuery }) => {
   /* const [searchIsOpen, setSearchIsOpen] = useState(false); */
   const { searchIsOpen, setSearchIsOpen } = useContext(NavContext);
   const [addReview, setAddReview] = useState(false);
-  const [searchTerm] = useState(""); //contiene el texto de la película a buscar
-
-  useEffect(() => {
-    console.log("Nuevo valor:", searchTerm);
-  }, [searchTerm]);
-
-  /*
-  const handleChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-function searchFilm() {
-  console.log(`Esta función busca el valor de ${searchTerm}`);
-  setSearchTerm("");
-  setSearchIsOpen(false);
-}
-*/
 
   function makeReview() {
     setBurgerIsOpen(false);
@@ -143,7 +126,7 @@ function searchFilm() {
                 <Link to={"user-profile"}>Profile</Link>
               </li>
               <li>
-                <Link to={"/user-films"}>Films</Link>
+                <Link to={"/watched"}>Watched</Link>
               </li>
               <li>
                 <Link to={"/diary-user"}> Diary</Link>

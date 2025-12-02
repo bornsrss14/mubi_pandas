@@ -10,20 +10,25 @@ import { OptimizedImage } from "../hooks/useOptimizedImage";
 import { useMubiSearch } from "../hooks/useMubiSearch";
 import movieService from "../services/movieDatabaseService";
 
+export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 export const Settings = ({
   formData,
   setFormData,
 
   setDraftForm,
 }) => {
-  const { draftForm, mainUserData } = useContext(UserContext);
-  const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+  const {
+    draftForm,
+    mainUserData,
+    topFavorites,
+    setTopFavorites,
+    dataFour,
+    setDataFour,
+    refreshTopFavorites,
+  } = useContext(UserContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-
-  const [topFavorites, setTopFavorites] = useState([]);
   //Recuperar el id de las 4 pelìculas favoritas
-  const [dataFour, setDataFour] = useState([]);
 
   const [moviesFound, setMoviesFound] = useState([]); // va a mapear todos los resultados para selecionar
   const [selected, setSelected] = useState(null);
@@ -64,27 +69,6 @@ export const Settings = ({
       alert(`No se pudo eliminar el usuario con su id: ${id}`);
     }
   };
-
-  useEffect(() => {
-    if (!mainUserData?.id) return; // evita llamada con undefined
-    async function fetchData() {
-      try {
-        const four = await fourFavService.getFourFavById(mainUserData.id); // aquí toma el id de un contexto
-        if (!four.success || !Array.isArray(four.data)) {
-          setDataFour([]);
-          return;
-        }
-        const ids = four.data.map((item) => item.id_mubi); // ← Extraigo solo los ids
-        setDataFour(ids);
-      } catch (error) {
-        console.error("Algo falló, intenta de nuevo");
-      }
-    }
-    if (mainUserData?.id) {
-      fetchData();
-    }
-  }, [mainUserData?.id, dataFour]);
-
   useEffect(() => {
     async function fetchMovies() {
       if (!dataFour || dataFour.length === 0) return; //avoid innecesari fetch
@@ -114,6 +98,7 @@ export const Settings = ({
     if (window.confirm("Are you sure you want to delete this movie?")) {
       try {
         await fourFavService.deleteByUserAndMubi(id_movie, id_user);
+        refreshTopFavorites();
         //  IMPORTANTE: actualiza estado local
         setDataFour((prev) =>
           prev.filter((id) => Number(id) !== Number(id_movie))
@@ -138,6 +123,7 @@ export const Settings = ({
   const handleSelectSubmit = async (movieData) => {
     try {
       await fourFavService.addMovie(movieData);
+      refreshTopFavorites();
       setMovieData({
         id_mubi: "",
         id_user: "",
@@ -147,9 +133,6 @@ export const Settings = ({
       alert(error.message || "ERROR: (╯°□°）╯");
     }
   };
-
-  //me interesa guardar el id de selected.id
-  // me interesa  guardar el  mainUserData.id
   return (
     <div>
       <main className="card-settings" role="main" aria-labelledby="form-title">
@@ -278,7 +261,7 @@ export const Settings = ({
           </div>
           <div className="four-mubis-container">
             <div className="four-mubis-container">
-              {topFavorites.map((mubi) => (
+              {topFavorites?.map((mubi) => (
                 <div
                   onClick={() =>
                     handleDeleteByUserAndMubi(mubi.id, mainUserData.id)
@@ -330,6 +313,7 @@ export const Settings = ({
                 e.preventDefault();
                 setIsSearchOpen(false);
                 setQuery("");
+                setMoviesFound([]);
               }}
             >
               Close
@@ -344,12 +328,13 @@ export const Settings = ({
                 handleSelectSubmit(movieData);
                 setIsSearchOpen(false);
                 setQuery("");
+                setMoviesFound([]);
               }}
             >
               Add
             </button>
           </div>
-          <div>
+          <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
             <ul>
               {moviesFound.map((movie) => (
                 <li onClick={() => setSelected(movie)} key={movie.id}>

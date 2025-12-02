@@ -21,9 +21,9 @@ import { Link } from "react-router-dom";
 import LinkPoster from "../core/LinkPoster";
 import { UserContext } from "../App";
 import { getMubisByIds } from "../utils/dateUtils";
+import { TMDB_IMAGE_BASE_URL } from "./Settings";
 export const Profile = ({
   formData,
-  setFormData,
   noDaysRated = 8,
   recentActivity = true,
   recentReviews = true,
@@ -99,18 +99,14 @@ export const Profile = ({
     return Math.max(...Object.values(arrayEnumerar));
   }
 
-  const { reviewsUser, mainUserData } = useContext(UserContext);
+  const { reviewsUser, mainUserData, topFavorites } = useContext(UserContext);
 
   const reviewsWithMubis = reviewsUser.map((obj) => ({
     ...obj,
     movieReviewed: getMubisByIds(obj.id_mubi),
   }));
 
-  const fourMovies = getMubisByIds(formData?.favoriteFourMubis);
-  /*
-  const { id } = useParams();
-  const userData = getUserById(id);
-  */
+  console.log(topFavorites, "FAVORITOS -_-");
   return (
     <>
       <div className="profile-banner">
@@ -161,15 +157,14 @@ export const Profile = ({
           <div>
             <TagElement txt={"favorite movies"}></TagElement>
             <div className="favorite-films-grid">
-              {fourMovies?.map((favItemMubi) => (
+              {topFavorites?.map((favItemMubi) => (
                 <LinkPoster
                   mubi={favItemMubi}
-                  key={favItemMubi}
-                  posterUrl={favItemMubi.posterUrl}
+                  key={favItemMubi.id}
+                  posterUrl={`${TMDB_IMAGE_BASE_URL}w500${favItemMubi.poster_path}`}
                   width={7}
                 ></LinkPoster>
               ))}
-
               {Array.from({
                 length: 4 - formData?.favoriteFourMubis?.length,
               }).map((_, index) => (

@@ -7,7 +7,6 @@
   margin: 2rem auto;
   justify-content: space-between;
   padding: 1rem 0rem;
-  border-bottom: 1px solid rgba(113, 103, 103, 0.229);
 }
 
 /* Aquí también agrego los estilos de el contenedor de las películas y de sus ItemsMovies, en su caso con sus tres estados */
@@ -15,7 +14,6 @@
 .container-films-user {
   min-width: 98%;
   max-width: 98%;
-  /*border: 1px solid rgba(128, 128, 128, 0.229);*/
   min-height: 11rem;
   margin: 2rem auto;
 }
@@ -86,7 +84,7 @@ a {
 }
 
 .section-persentage {
-  width: 90%;
+  width: 60%;
   margin: 2rem auto;
 }
 .overly-options {
@@ -736,6 +734,16 @@ body {
   transition: all 0.3s;
 }
 
+.btn_add_note {
+  background: none;
+  cursor: pointer;
+  color: white;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  padding: 0.5rem 0.7rem;
+  border-radius: 3px;
+  border: 1ps solid rgba(128, 128, 128, 0.441);
+}
 .btn-delete:hover {
   background-color: var(--color-red-dark);
 }
@@ -2129,7 +2137,7 @@ select {
   align-items: center;
   text-align: center;
   font-size: 0.9rem;
-  height: 100%;
+  height: 50%;
 }
 
 .optimized-image_error-text {
@@ -2245,4 +2253,26 @@ input,
 textarea,
 select {
   font-size: 16px;
+}
+
+.section-persentage-home {
+  width: 90%;
+  margin: 2rem auto;
+}
+
+.grid-new_list_desktop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 1rem;
+  gap: 3rem;
+}
+.grid-search-filter {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.border-container-films {
+  border: 1px solid rgba(128, 128, 128, 0.273);
+  border-top: none;
+  padding: 2rem;
 }

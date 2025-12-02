@@ -13,9 +13,11 @@ import { LikesProvider } from "../contexts/LikesContext";
 import { UserContext } from "../App";
 import { WatchProvider } from "../contexts/WatchContext";
 import movieDatabaseService from "../services/movieDatabaseService";
+import { useMovieToggle } from "../hooks/useMovieToggle";
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
-  const { formData } = useContext(UserContext);
+  const { formData, mainUserData } = useContext(UserContext);
+  console.log(mainUserData);
   const { id } = useParams();
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
@@ -28,16 +30,12 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
 
   /*Estados para mostrar o no la carga de las promesas resueltas de la petición de Detalle de película  */
   const [loading, setLoading] = useState();
-  const [mubi, setMubi] = useState();
+  const [mubi, setMubi] = useState(null); //Aquì es donde temporalmente se guarda la pelìcula
   const [error, setError] = useState();
   const showRatingTools = () => {
     //esto ayuda a mostrar y esconder el componente de tools para cada película
     setShowTools((prev) => !prev);
   };
-
-  /* if (!itemMubisList) {
-    return <p> Esta película no se encuentra disponible</p>;
-  } */
 
   /* cada vez que cambie el ID pasado, voy a consumir getDataDetails de mi servicio  */
   useEffect(() => {
@@ -46,7 +44,10 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
+
         console.log(movieData, "DE aqui sale todo el detalle ♥️♥️");
+
+        console.log("el id de la película es", id);
         if (!movieData) {
           throw new Error("Not found :c");
         }
@@ -59,6 +60,7 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
     };
     fetchMubiDetails();
   }, [id]);
+  const { states, toggle, loadingData } = useMovieToggle(id);
   if (loading) {
     return (
       <div>
@@ -66,6 +68,7 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
       </div>
     );
   }
+
   if (error) {
     return (
       <div>
@@ -84,6 +87,10 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
       </div>
     );
   }
+
+  console.log(mubi);
+  /*Crear la función de manejar el toggle de estados de mi componente de LIKED, WATCH, TO WATCH*/
+
   return (
     <>
       <article className="mubi-card">
@@ -96,6 +103,10 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
           <WatchProvider>
             <LikesProvider>
               <RatingTools
+                states={states}
+                toggle={toggle}
+                loadingData={loadingData}
+                id_tmdb={id}
                 mubi={mubi.id}
                 user={formData.idUser}
                 showRatingTools={showRatingTools}

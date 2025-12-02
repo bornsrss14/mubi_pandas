@@ -11,7 +11,7 @@ export const ListsNavbar = ({
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del comp
   return (
     <>
-      <div className="section-persentage">
+      <div className="section-persentage-home">
         <FilterMovies arrayFilters={FilterList}></FilterMovies>
         <InlineNav
           activeTab={activeTab}

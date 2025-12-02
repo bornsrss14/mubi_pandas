@@ -57,6 +57,7 @@ class MovieService {
           `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=es-MX`
         );
         const data = await res.json();
+
         //verificar si mmi api devuelve un error
         if (!res.ok || data.success === false) {
           console.warn(`There's no register with the id: ${id}`);

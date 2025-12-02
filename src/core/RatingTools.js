@@ -9,7 +9,16 @@ import Rating from "./Rating";
 import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
-export const RatingTools = ({ showRatingTools, mubi, user }) => {
+export const RatingTools = ({
+  showRatingTools,
+  mubi,
+  id_tmdb,
+  user,
+  states,
+  toggle,
+  loadingData,
+  handleToggleOrDeleteState,
+}) => {
   const { saveLike, userLikes, deleteFromLike } = useLikes();
   const {
     userWatch,
@@ -38,6 +47,7 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
   function handleDeleteLike() {
     deleteFromLike(mubi);
   }
+
   return (
     <>
       <div id="container-tools-rating">
@@ -46,14 +56,11 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
         </button>
         <div className="tool-rating tools-icons-rating">
           <div
-            onClick={
-              userWatched.some((watched) => watched.idMubiWatched === mubi)
-                ? () => handleDeleteFromWatched()
-                : () => handleWatched()
-            }
+            onClick={() => toggle("watched")}
+            disabled={loadingData}
             id="centered"
           >
-            {userWatched.some((watched) => watched.idMubiWatched === mubi) ? (
+            {states.watched ? (
               <IconEyeFilled
                 color="#76CD26"
                 size={"3.8rem"}
@@ -63,23 +70,21 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
               <IconEye size={"4.3rem"} stroke={1}></IconEye>
             )}
 
-            <p>
-              {userWatched.some((watched) => watched.idMubiWatched === mubi)
-                ? "Watched"
-                : "Watch"}
-            </p>
+            <p>{states.watched ? "Watched" : "Watch"}</p>
           </div>
           <div
-            onClick={
+            /* onClick={
               userLikes.some((like) => like.idMubiLiked === mubi)
                 ? () => handleDeleteLike()
                 : () => handleLike()
-            }
+            } */
+            onClick={() => toggle("liked")}
+            disabled={loadingData}
             id="centered"
           >
             {/* retorna true or false => en la lista de Me gusta del usuario, hay alguna coincidencia con 
             el id que se está pasando de la película selecionada (?) */}
-            {userLikes.some((like) => like.idMubiLiked === mubi) ? (
+            {states.liked ? (
               <IconHeartFilled
                 size={"4.3rem"}
                 color="red"
@@ -88,21 +93,16 @@ export const RatingTools = ({ showRatingTools, mubi, user }) => {
             ) : (
               <IconHeart size={"4.3rem"} stroke={1}></IconHeart>
             )}
-            <p>
-              {userLikes.some((like) => like.idMubiLiked === mubi)
-                ? "Liked"
-                : "Like"}
-            </p>
+            <p>{states.liked ? "Liked" : "Like"}</p>
           </div>
           <div
-            onClick={
-              userWatch.some((watch) => watch.idMubiWatch === mubi)
-                ? () => handleDeleteWatchList()
-                : () => handleAddWatchList()
-            }
+            onClick={() => {
+              toggle("to_watch");
+            }}
+            disabled={loadingData}
             id="centered"
           >
-            {userWatch.some((watch) => watch.idMubiWatch === mubi) ? (
+            {states.to_watch ? (
               <IconPlaylistAdd
                 size={"4.3rem"}
                 color="#76CD26"

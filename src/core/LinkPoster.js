@@ -15,7 +15,7 @@ export const LinkPoster = ({
   return (
     /* Abajo le paso un id tt0111771, este es el tipo que recibe,
     pero por si las dudas llegara a perderse el id de el item de mubi, no rompa la ap  */
-    <Link to={`/mubi/${mubi?.id}` || "tt0111771"}>
+    <Link to={`/mubi&detail/${mubi?.id}` || "tt0111771"}>
       <div
         style={{
           display: "flex",

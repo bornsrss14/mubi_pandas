@@ -175,7 +175,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
       }
     }, []);
     return (
-      <div className="section-persentage">
+      <div className="section-persentage-home">
         <section className="welcome-msg">
           <p className="username-txt">
             Welcome back{" "}
@@ -198,7 +198,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
         </section>
 
         <TagElement txt={"NEW ON MUBI"}></TagElement>
-        <section className="div-new-on-mubi section-persentage">
+        <section className="div-new-on-mubi section-persentage-home">
           <PosterMovie
             posterUrl={
               "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcThMmQN_yXAf5wfRINPKMJVdsBlbccvKwgaEHn2mc0Gc7EPZx3rUF6m4M0fxa0lnC4rWZwSEQ"
@@ -366,14 +366,15 @@ export const Home = ({ userNikname = "bornsrss" }) => {
         <TagElement txt={"POPULAR ON MUBI"}></TagElement>
         <section className="div-new-on-mubi section-persentage">
           {temDataMubisTotal.slice(0, 9).map((item) => (
-            <Link to={`/mubi/${item.id}`}>
+            <Link key={item.id} to={`/mubi/${item.id}`}>
+              {" "}
               <PosterMovie posterUrl={item.posterUrl} width={10} />
             </Link>
           ))}
         </section>
 
         <TagElement txt={"popular reviews this week"}></TagElement>
-        <section className="grid-container-reviews section-persentage">
+        <section className="grid-container-reviews section-persentage-home">
           <ReviewPreview
             reviewTotalLikes={123}
             noStars={2}
@@ -470,7 +471,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </div>
           </ReviewPreview>
         </section>
-        <section className="section-persentage">
+        <section className="section-persentage-home">
           <TagElement txt={"popular lists"}></TagElement>
 
           <div className="container-lists-home">
@@ -490,7 +491,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
             </ListPreview>
           </div>
         </section>
-        <section className="section-persentage">
+        <section className="section-persentage-home">
           <TagElement txt={"Recent stories"}></TagElement>
 
           <div>

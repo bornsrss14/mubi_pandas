@@ -8,7 +8,7 @@ import { Home } from "./pages/Home";
 import { Films } from "./pages/Films";
 import { Community } from "./pages/Community";
 import News from "./pages/News";
-import UserFilms from "./pages/UserFilms";
+import Watched from "./pages/Watched";
 import Profile from "./pages/Profile";
 import { Activity } from "./pages/Activity";
 import Diary from "./pages/Diary";
@@ -35,6 +35,9 @@ import ReviewDetailed from "./pages/ReviewDetailed";
 import MubiDetails from "./pages/MubiDetails";
 import SignUpForm from "./pages/SignUpForm";
 import userService from "./services/userService";
+import fourFavService from "./services/fourFavoriteService";
+import movieService from "./services/movieDatabaseService";
+import { useMovieToggle } from "./hooks/useMovieToggle";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -44,8 +47,13 @@ const average = (arr) =>
 
 export default function App() {
   /*Las nuevas variables con mi APi */
-  const [mainUser, setMainUser] = useState(3); //recibe mi id
+  const [mainUser, setMainUser] = useState(4); //recibe mi id
   const [mainUserData, setMainUserData] = useState({});
+  const [query, setQuery] = useState("");
+  const [movies] = useState(tempMovieData);
+  const [watched] = useState(tempWatchedData);
+  const [searchIsOpen, setSearchIsOpen] = useState(false);
+
   useEffect(() => {
     handleGetUser(mainUser);
   }, [mainUser]);
@@ -54,16 +62,10 @@ export default function App() {
     try {
       const res = await userService.getUserById(id);
       setMainUserData(res.data);
-
-      console.log("Usuario cargado:", res.data);
     } catch (error) {
       alert(`Error al tratar de encontrar el usuario con el id: ${id}`);
     }
   };
-  const [query, setQuery] = useState("");
-  const [movies] = useState(tempMovieData);
-  const [watched] = useState(tempWatchedData);
-  const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -72,21 +74,56 @@ export default function App() {
   const [userId] = useState("usr_001");
   const [activeTab, setActiveTab] = useState(1001);
   const [formData, setFormData] = useState(getUserById(userId));
+  const [topFavorites, setTopFavorites] = useState([]);
 
   const [draftForm, setDraftForm] = useState(formData);
   const [listsPerUser] = useState(getUserLists(userId));
   const [reviewsUser, setReviewsUser] = useState(madeReviews(userId));
-  console.log(`Those reviews were made by ${userId} user`, reviewsUser);
+
+  const [dataFour, setDataFour] = useState([]);
+
+  async function refreshTopFavorites() {
+    if (!mainUserData?.id) return;
+
+    const four = await fourFavService.getFourFavById(mainUserData.id);
+    const ids = four.data.map((item) => item.id_mubi);
+    const moviesDataFour = await movieService.getMoviePoster(ids);
+
+    setTopFavorites(moviesDataFour);
+  }
+  useEffect(() => {
+    if (!mainUserData?.id) return;
+
+    async function loadTopFavorites() {
+      try {
+        const four = await fourFavService.getFourFavById(mainUserData.id);
+        const ids = four.data.map((item) => item.id_mubi);
+
+        const moviesDataFour = await movieService.getMoviePoster(ids);
+        setTopFavorites(moviesDataFour);
+      } catch (error) {
+        console.error("Error loading favorites", error);
+      }
+    }
+
+    loadTopFavorites();
+  }, [mainUserData?.id]);
 
   return (
     <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
       <UserContext.Provider
         value={{
+          refreshTopFavorites,
+          topFavorites,
+          setTopFavorites,
           reviewsUser,
           setReviewsUser,
           formData,
           draftForm,
           mainUserData,
+          dataFour,
+          setDataFour,
+          setMainUserData,
         }}
       >
         <Router>
@@ -109,7 +146,7 @@ export default function App() {
             <Route path="/main-films" element={<MainFilms></MainFilms>}></Route>
             <Route path="/community" element={<Community />}></Route>
             <Route path="/news" element={<News></News>}></Route>
-            <Route path="/user-films" element={<UserFilms />}></Route>
+            <Route path="/watched" element={<Watched />}></Route>
             <Route
               path="/user-profile"
               element={
@@ -145,8 +182,9 @@ export default function App() {
                 ></ListsNavbar>
               }
             ></Route>
+            <></>
             <Route
-              path="/listboilerplate"
+              path="/list/new/"
               element={<NewListBoilerplate></NewListBoilerplate>}
             ></Route>
             <Route

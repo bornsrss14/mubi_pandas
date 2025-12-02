@@ -1,7 +1,6 @@
 import GalleryPostersList from "../core/GalleryPostersList";
 
 export const ListPreview = ({ arrayListPoster, children }) => {
-  console.log("La lista de Arrays", arrayListPoster);
   return (
     <>
       <div className="list-preview-container">
