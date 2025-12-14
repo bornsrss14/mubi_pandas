@@ -15,7 +15,13 @@ import { WatchProvider } from "../contexts/WatchContext";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { useMovieToggle } from "../hooks/useMovieToggle";
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
-function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
+function MubiDetails({
+  objeto,
+  templateContainer,
+  setActiveTab,
+  activeTab,
+  itemMubi,
+}) {
   const { formData, mainUserData } = useContext(UserContext);
   console.log(mainUserData);
   const { id } = useParams();
@@ -23,10 +29,8 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
 
   const [showTools, setShowTools] = useState(false);
 
-  /*
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
-  */
 
   /*Estados para mostrar o no la carga de las promesas resueltas de la petición de Detalle de película  */
   const [loading, setLoading] = useState();
@@ -44,9 +48,6 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
-
-        console.log(movieData, "DE aqui sale todo el detalle ♥️♥️");
-
         console.log("el id de la película es", id);
         if (!movieData) {
           throw new Error("Not found :c");
@@ -88,7 +89,6 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
     );
   }
 
-  console.log(mubi);
   /*Crear la función de manejar el toggle de estados de mi componente de LIKED, WATCH, TO WATCH*/
 
   return (
@@ -184,17 +184,17 @@ function MubiDetails({ objeto, templateContainer, setActiveTab, activeTab }) {
             ></ItemSreamingApp>
           </div>
         </section>
-        <section style={{ marginTop: "2rem" }}>
+        <section>
           <InlineNav
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             arrayTabs={arrayTabsMubiPage}
           ></InlineNav>
-          {/* <div className="content">
+          <div className="content">
             {ComponenteSelected && (
-              <ComponenteSelected itemMubi={mbi}></ComponenteSelected>
+              <ComponenteSelected itemMubi={mubi}></ComponenteSelected>
             )}
-          </div> */}
+          </div>
         </section>
         <section>
           <TagElement txt={"POPULAR REVIEWS"}></TagElement>

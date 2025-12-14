@@ -1,7 +1,7 @@
 import React from "react";
 import ContainerFilms from "./ContainerFilms";
 
-export const ContainerRelease = () => {
+export const ContainerRelease = ({ itemMubi }) => {
   return (
     <>
       <ContainerFilms>
@@ -9,7 +9,7 @@ export const ContainerRelease = () => {
           <p>PREMIERE</p>
           <div className="div-flex-cast">
             <div>
-              <p> 26 Sep 2016</p>
+              <p> {itemMubi?.release_date}</p>
             </div>
             <div
               style={{
@@ -20,14 +20,11 @@ export const ContainerRelease = () => {
                 alignItems: "center",
               }}
             >
-              <div className="flag-container">
-                <img
-                  className="img-full-cover "
-                  alt="country"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/330px-Flag_of_France.svg.png"
-                ></img>
-              </div>
-              <p>FRA</p>
+              {itemMubi?.origin_country?.map((item) => (
+                <>
+                  <p>— {item}</p>
+                </>
+              ))}
             </div>
           </div>
           <div>

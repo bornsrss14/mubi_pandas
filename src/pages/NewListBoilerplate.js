@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TagElement from "../core/TagElement";
 import ContainerFilms from "../components/ContainerFilms";
 import ListItemListed from "../core/ListItemListed";
 import SearchBar from "../core/SearchBar";
 import movieService from "../services/movieDatabaseService";
 import FilterMovies from "../components/FilterMovies";
+import { UserContext } from "../App";
+import { IconMenu4, IconLayoutGridRemove } from "@tabler/icons-react";
+import ListService from "../services/listService";
 
 const NewListBoilerplate = () => {
-  const [idList, setIdList] = useState(null);
-  const [draftList, setDraftList] = useState({
-    listTitle: "",
-    gralDescription: "",
-    movies: [],
-    isPublic: 1,
+  const { mainUserData } = useContext(UserContext); //mainUserData.id
+  const [draftEntry, setDraftEntry] = useState({
+    id_user: mainUserData?.id,
+    title: "",
+    brief_description: "",
+    is_public: 1,
+    entries: [],
   });
 
-  const [draftEntry, setDraftEntry] = useState({
-    id_item_list: null, // hace referencia a la lista que acabas de crear
-    id_tmdb: null,
-    note: null,
-    rating: null,
-    position: null,
-  });
+  useEffect(() => {
+    setDraftEntry((prev) => ({ ...prev, id_user: mainUserData?.id }));
+  }, [mainUserData?.id]);
 
   const [query, setQuery] = useState("");
   const [searchFound, setSearchFound] = useState([]);
   const [posters, setPosters] = useState([]);
-  const ids = draftList.movies.map((id) => id.id);
+  const ids = draftEntry.entries.map((id) => id.id_mubi_tmdb);
 
   const handleSearch = async (searchQuery) => {
     if (!searchQuery || searchQuery.length < 2) {
@@ -38,24 +38,47 @@ const NewListBoilerplate = () => {
   };
 
   const updateDraft = (key, value) => {
-    setDraftList((prev) => ({ ...prev, [key]: value }));
+    setDraftEntry((prev) => ({ ...prev, [key]: value }));
   };
 
-  const addMovieToDrafts = (movie) => {
-    setDraftList((prev) => {
-      const exists = prev.movies.some((m) => m.id === movie.id);
+  const addMovieToDrafts = (entry) => {
+    setDraftEntry((prev) => {
+      const exists = prev.entries.some(
+        (m) => m.id_mubi_tmdb === entry.id_mubi_tmdb
+      );
+
       if (exists) {
-        console.log(`Movie with id: ${movie.id} already exists in this list`);
+        console.log(
+          `Movie with id_mubi_tmdb: ${entry.id_mubi_tmdb} already exists in this list`
+        );
         return prev;
       }
 
+      const nextPosition = prev.entries.length + 1;
+
       return {
         ...prev,
-        movies: [...prev.movies, movie],
+        entries: [
+          ...prev.entries,
+          {
+            ...entry,
+            position: nextPosition,
+          },
+        ],
       };
     });
   };
 
+  const removeMovieFromDrafts = (id_mubi_tmdb) => {
+    setDraftEntry((prev) => {
+      return {
+        ...prev,
+        entries: prev.entries.filter(
+          (entry) => entry.id_mubi_tmdb !== id_mubi_tmdb
+        ),
+      };
+    });
+  };
   /* 
 director: null
 id: 36628
@@ -70,14 +93,35 @@ year: "2009" */
   useEffect(() => {
     async function fetchPosters() {
       try {
-        if (!ids || ids.length === 0) return;
-        const posters = await movieService.getMoviePoster(ids);
+        const posters = await movieService.getMoviePoster(
+          draftEntry.entries.map((id) => id.id_mubi_tmdb)
+        );
         setPosters(posters);
-        console.log(posters);
       } catch (error) {}
     }
     fetchPosters();
-  }, [ids]);
+  }, [draftEntry]);
+
+  const handleAddNewList = async () => {
+    console.log("Esto agrega la lista");
+    try {
+      await ListService.addListWithEntries(draftEntry);
+      console.log("lista creada exitosamente ♥️");
+      setDraftEntry({
+        id_user: mainUserData?.id,
+        title: null,
+        brief_description: null,
+        is_public: 1,
+        entries: [],
+      });
+    } catch (error) {
+      console.error("Something went wrong trying to create the list");
+      alert(
+        error.message ||
+          "Error al agregar la lista de películas con entries(╯°□°）╯"
+      );
+    }
+  };
 
   return (
     <div className="section-persentage">
@@ -88,13 +132,13 @@ year: "2009" */
             <div className="field username-row">
               <label htmlFor="username"> 🟢 List Title</label>
               <input
-                id="username"
-                name="userName"
+                id="list-title"
+                name="listTitle"
                 type="text"
                 value={
-                  draftList.listTitle
+                  draftEntry.title
                 } /* se almacena en el draft de nueva lista*/
-                onChange={(e) => updateDraft("listTitle", e.target.value)}
+                onChange={(e) => updateDraft("title", e.target.value)}
               />
             </div>
             <div className="field" style={{ maxWidth: "320px" }}>
@@ -102,8 +146,8 @@ year: "2009" */
               <select
                 id="visibility"
                 name="visibility"
-                value={draftList.isPublic}
-                onChange={(e) => updateDraft("isPublic", e.target.value)}
+                value={draftEntry.is_public}
+                onChange={(e) => updateDraft("is_public", e.target.value)}
               >
                 <option value={1}>Anyone - Public list</option>
                 <option value={1}> Anyone with share link</option>
@@ -118,8 +162,10 @@ year: "2009" */
             <div className="field">
               <label htmlFor="description">Description</label>
               <textarea
-                value={draftList.gralDescription}
-                onChange={(e) => updateDraft("gralDescription", e.target.value)}
+                value={draftEntry.brief_description}
+                onChange={(e) =>
+                  updateDraft("brief_description", e.target.value)
+                }
                 className="txt-area-settings"
               ></textarea>
             </div>
@@ -135,13 +181,27 @@ year: "2009" */
               query={query}
             ></SearchBar>
           </div>
-          <div style={{ display: "flex" }}>
+          <div className="grid-btn-filters">
             <FilterMovies></FilterMovies>
-            <div>list</div>
-            <div>grid</div>
-            <div>
-              <button>Cancel</button>
-              <button>Save</button>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <div>
+                <IconMenu4></IconMenu4>
+              </div>
+              <div>
+                <IconLayoutGridRemove></IconLayoutGridRemove>
+              </div>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <button className="btn btn-cancel">Cancel</button>
+                <button onClick={handleAddNewList} className="btn btn-save">
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -157,7 +217,12 @@ year: "2009" */
               {searchFound.map((item) => (
                 <li
                   className="dropdown-item movie-title"
-                  onClick={() => addMovieToDrafts(item)}
+                  onClick={() =>
+                    addMovieToDrafts({
+                      id_mubi_tmdb: item.id,
+                      note: "Agregar nota",
+                    })
+                  }
                   key={item.id}
                 >
                   <span>{item.title}</span> {""}
@@ -175,14 +240,13 @@ year: "2009" */
       <div>
         {/*Apartir de aquí se agrega lo de la busqueda de películas */}
         <ContainerFilms>
-          {/* <div>
-            {draftList.movies.map((item) => (
-              <p key={item.id}>{item.title}</p>
-            ))}
-          </div> */}
           <div>
-            {posters?.map((movie) => (
-              <ListItemListed movie={movie}></ListItemListed>
+            {posters?.map((movie, index) => (
+              <ListItemListed
+                deleteMovieEntry={removeMovieFromDrafts}
+                key={index}
+                movie={movie}
+              ></ListItemListed>
             ))}
           </div>
         </ContainerFilms>

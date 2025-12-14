@@ -21,14 +21,6 @@ export const PosterMovie = ({
         }}
         id="img-full-cover"
       >
-        {/* <img className="img-full-cover" alt="img-poster" src={posterUrl} /> */}
-        {/*  <LazyImg
-          placeholder={
-            "https://placehold.co/100x150/14132c/FFF/?text=Loading..."
-          }
-          alt={"img-poster"}
-          src={posterUrl}
-        ></LazyImg> */}
         <OptimizedImage
           placeholder="/lowQuality.jpeg"
           className="rounded shadow"

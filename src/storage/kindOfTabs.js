@@ -59,7 +59,7 @@ export const arrayTabsList = [
   },
   {
     idTab: 1002,
-    targetTab: "Shared with you",
+    targetTab: "Saved",
     className: "green",
   },
 ];

@@ -7,7 +7,7 @@ export const ContainerCast = ({ itemMubi }) => {
       <ContainerFilms>
         <div className="div-flex-cast">
           {itemMubi.cast.map((itemCast) => (
-            <ItemCast nameProp={itemCast}></ItemCast>
+            <ItemCast nameProp={itemCast.name}></ItemCast>
           ))}
         </div>
       </ContainerFilms>

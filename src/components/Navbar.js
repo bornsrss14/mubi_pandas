@@ -61,14 +61,16 @@ export const Navbar = ({ movies, query, setQuery }) => {
             </ProfilePicUsername>
           </Link>
           <div className="basic-flex-row">
-            <button
+            <Link
+              to={"/list/new/"}
               className="burger-button"
               aria-label="Abrir modal"
-              onClick={makeReview}
+              /* onClick={makeReview} */
+
               aria-expanded={addReview}
             >
               <IconPlus size={"22px"} color="white"></IconPlus>
-            </button>
+            </Link>
 
             <button
               className="burger-button"

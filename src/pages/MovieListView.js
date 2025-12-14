@@ -1,19 +1,22 @@
 import FilterMovies from "../components/FilterMovies";
 import { IconQuoteFilled } from "@tabler/icons-react";
 import LinkPoster from "../core/LinkPoster";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { DataNotesRelatedLists } from "../storage/tempMovieData";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ContainerFilms from "../components/ContainerFilms";
 import { formatDate, getMubisByIds } from "../utils/dateUtils";
-const MovieListView = ({ listsPerUser }) => {
+import { useContext } from "react";
+import { UserContext } from "../App";
+const MovieListView = ({ listsPerUser, movieItem }) => {
   const { id } = useParams();
+  const { mainUserData, myLists } = useContext(UserContext);
+  console.log(mainUserData);
 
   const listWithMubis = listsPerUser.map((obj) => ({
     ...obj,
     moviesData: getMubisByIds(obj.mubis),
   }));
-  console.log("🍿", listWithMubis);
 
   const itemLista = listWithMubis.find((item) => item._id === Number(id));
   const matchingNotes = DataNotesRelatedLists.filter(
@@ -24,37 +27,49 @@ const MovieListView = ({ listsPerUser }) => {
   if (!itemLista) {
     return (
       <div>
-        <section className="section-persentage basic-flex-row">
-          <div></div>
-          <div>
-            <h1>404</h1>
-            <p>Something's missing.</p>
-            <p>This page is missing or you assembled the link incorrectly.</p>
-            <button>
-              Go to homepage <span></span>
-            </button>
+        <section className="section-persentage ">
+          <div
+            style={{
+              margin: "14rem auto",
+              textAlign: "left",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: "1rem",
+            }}
+          >
+            <h1 style={{ fontSize: "4rem" }}>(╯°□°)╯︵ ┻━┻</h1>
+            <p style={{ fontSize: "2rem" }}>Something's missing.</p>
+            <p style={{ fontSize: "1.3rem" }}>
+              This page is missing or you assembled the link incorrectly.
+            </p>
+            <Link to={"/"}>
+              <button
+                style={{ textTransform: "uppercase" }}
+                className="simple-button"
+              >
+                Go to homepage <span></span>
+              </button>
+            </Link>
           </div>
         </section>
       </div>
     );
   }
-  console.log("itemLista", itemLista);
   const showNotes = () => {
     console.log("esto cambia a la vista de notas");
   };
 
   return (
-    <div className="section-persentage">
+    <div className="section-persentage-home">
       <div className="basic-flex-row">
         <ProfilePicUsername
-          imgProfile={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSiBzbuoRXqXqixKnB5vRM2M5QNA-aNXwYGFy-tI0x-FIecdIniU5240RIV5-6PPw3tSw&usqp=CAU"
-          }
+          imgProfile={mainUserData?.profile_pic_url}
           withNickname={false}
           measure="2rem"
         ></ProfilePicUsername>
         <p>
-          List by <strong> bornsrss</strong>
+          List by <strong> {mainUserData.username}</strong>
         </p>
       </div>
       <FilterMovies

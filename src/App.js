@@ -38,6 +38,7 @@ import userService from "./services/userService";
 import fourFavService from "./services/fourFavoriteService";
 import movieService from "./services/movieDatabaseService";
 import { useMovieToggle } from "./hooks/useMovieToggle";
+import ListService from "./services/listService";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -109,10 +110,25 @@ export default function App() {
     loadTopFavorites();
   }, [mainUserData?.id]);
 
+  const [myLists, setMyLists] = useState([]);
+  useEffect(() => {
+    async function getAllListsEntries(id_user) {
+      try {
+        const all = await ListService.getAllListWithEntries(id_user);
+        //todos los objetos de las listas con entidades de películas
+        setMyLists(all);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getAllListsEntries(mainUserData?.id);
+  }, [mainUserData?.id]);
+
   return (
     <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
       <UserContext.Provider
         value={{
+          myLists,
           refreshTopFavorites,
           topFavorites,
           setTopFavorites,

@@ -10,25 +10,18 @@ export const ContainerGenresFilm = ({ itemMubi }) => {
           <div>
             <p>GENRES</p>
             <div className="div-flex-cast">
-              {itemMubi.genre.map((item) => (
-                <ItemCast nameProp={item} />
+              {itemMubi.genres.map((item) => (
+                <ItemCast nameProp={item.name} />
               ))}
             </div>
-            <div>
+            {/* <div>
               <p>Themes</p>
               <div className="div-flex-cast">
                 <ItemCast
                   nameProp={"Intense Violence and sexual transgression"}
                 />
-                <ItemCast
-                  nameProp={"Horror, the undead and Monster Classics"}
-                />
-                <ItemCast nameProp={"Twisted Dark Psychological Thriller"} />
-                <ItemCast
-                  nameProp={"Terrifying, Haunted, and Supernatural Horror"}
-                />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </ContainerFilms>

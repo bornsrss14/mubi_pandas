@@ -300,13 +300,39 @@ export const Settings = ({
               ))}
             </div>
           </div>
-          <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
+          {/*  <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
             <SearchBar
               handleSearch={handleSearch}
               query={query}
               setQuery={setQuery}
             ></SearchBar>
-
+          </div> */}
+          <div className={`modal-search${isSearchOpen ? "true" : ""}`}>
+            <SearchBar
+              handleSearch={handleSearch}
+              query={query}
+              setQuery={setQuery}
+            ></SearchBar>
+            <div
+              style={{
+                background: "white",
+                height: "14rem",
+                overflowY: "auto",
+              }}
+              className={`isBarOpen${isSearchOpen ? "true" : ""}`}
+            >
+              <ul>
+                {moviesFound.map((movie) => (
+                  <li
+                    className="dropdown-item movie-title"
+                    onClick={() => setSelected(movie)}
+                    key={movie.id}
+                  >
+                    {movie.title}({movie.year})
+                  </li>
+                ))}
+              </ul>
+            </div>
             <button
               className="simple-button-any"
               onClick={(e) => {
@@ -314,6 +340,7 @@ export const Settings = ({
                 setIsSearchOpen(false);
                 setQuery("");
                 setMoviesFound([]);
+                setSelected(null);
               }}
             >
               Close
@@ -334,15 +361,7 @@ export const Settings = ({
               Add
             </button>
           </div>
-          <div className={`isBarOpen${isSearchOpen ? "true" : ""}`}>
-            <ul>
-              {moviesFound.map((movie) => (
-                <li onClick={() => setSelected(movie)} key={movie.id}>
-                  {movie.title}({movie.year})
-                </li>
-              ))}
-            </ul>
-          </div>
+
           <div>
             <h4>Seleccionadas:</h4>
 
@@ -353,7 +372,7 @@ export const Settings = ({
                 </li>
               </ul>
             ) : (
-              <p>No hay selección aún</p>
+              <p>No hay selección aún, el modal no se muestra</p>
             )}
           </div>
 

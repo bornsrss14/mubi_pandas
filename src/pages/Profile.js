@@ -98,15 +98,13 @@ export const Profile = ({
   function getHighest(arrayEnumerar) {
     return Math.max(...Object.values(arrayEnumerar));
   }
-
+  /*topFavorites objeto completo de tmdb {...} */
   const { reviewsUser, mainUserData, topFavorites } = useContext(UserContext);
 
   const reviewsWithMubis = reviewsUser.map((obj) => ({
     ...obj,
     movieReviewed: getMubisByIds(obj.id_mubi),
   }));
-
-  console.log(topFavorites, "FAVORITOS -_-");
   return (
     <>
       <div className="profile-banner">

@@ -5,7 +5,7 @@ import { arrayTabsSubNavbar } from "../storage/kindOfTabs";
 export const Activity = () => {
   return (
     <>
-      <div style={{ marginTop: "2rem" }}>
+      <div style={{ marginTop: "2rem", border: "solid red 3px" }}>
         <InlineNav arrayTabs={arrayTabsSubNavbar}></InlineNav>
         <ContainerFilms>
           <p>no films yet</p>

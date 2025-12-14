@@ -26,42 +26,63 @@ export const ContainerCrew = ({ itemMubi }) => {
           <div>
             <p>WRITER</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Douglas Aibel"} />
-              <ItemCast nameProp={"Marc Bienstock"} />
-              <ItemCast nameProp={"Mike Gioulakis"} />
+              {itemMubi?.crew?.map((person) =>
+                person.department === "Writing" ? (
+                  <ItemCast nameProp={person.name} />
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
-
           <div>
             <p>CASTING</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Douglas Aibel"} />
-              <ItemCast nameProp={"Colleen Kay"} />
-              <ItemCast nameProp={"Henry Ruselle Bergstein"} />
+              {itemMubi?.crew?.map((person) =>
+                person.department === "Casting" ? (
+                  <ItemCast nameProp={person.name} />
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
           <div>
             <p>EDITOR</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Douglas Aibel"} />
-              <ItemCast nameProp={"Colleen Kay"} />
-              <ItemCast nameProp={"Henry Ruselle Bergstein"} />
+              {itemMubi?.crew?.map((person) =>
+                person.department === "Editing" ? (
+                  <ItemCast nameProp={person.name} />
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
 
           <div>
             <p>CINEMATOGRAPHY</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Roger Deakins"} />
-              <ItemCast nameProp={"Emmanuel Lubezki"} />
-              <ItemCast nameProp={"Rachel Morrison"} />
+              {itemMubi?.crew?.map((person) =>
+                person.department === "Camera" ? (
+                  <ItemCast nameProp={person.name} />
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
 
           <div>
             <p>ART DIRECTION</p>
             <div className="div-flex-cast">
-              <ItemCast nameProp={"Jesse Rosenthal"}></ItemCast>
+              {itemMubi?.crew?.map((person) =>
+                person.department === "Art" ? (
+                  <ItemCast nameProp={person.name} />
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
 

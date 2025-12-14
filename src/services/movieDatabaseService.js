@@ -89,9 +89,16 @@ class MovieService {
       const director = creditsData.crew.find(
         (person) => person.job === "Director"
       );
+      /* return console.log("bebecita", {
+        ...detailsData,
+        director: director?.name || "Desconocido",
+        ...creditsData,
+      }); */
+
       return {
         ...detailsData,
         director: director?.name || "Desconocido",
+        ...creditsData,
       };
     } catch (error) {
       console.error("Error:", error);

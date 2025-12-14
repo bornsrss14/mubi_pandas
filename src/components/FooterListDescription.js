@@ -11,14 +11,14 @@ const FooterListDescription = ({ numFilms = 4, itemLista }) => {
       </div>
       <div className="basic-flex-row">
         <p>
-          {itemLista.mubis.length} <span> films</span>
+          {itemLista.entries.length} <span> films</span>
         </p>
         <div>
           <IconPencil size={"20px"} color="white" stroke={2}></IconPencil>
         </div>
       </div>
       <div>
-        <p>{itemLista.description}</p>
+        <p>{itemLista.brief_description}</p>
       </div>
     </div>
   );

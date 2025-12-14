@@ -22,7 +22,6 @@ export const FilterMovies = ({
 
   const toggleFilters = () => {
     setFiltersIsOpen((prev) => !prev);
-    console.log("esto cambia falso a verdadero and viseversa");
   };
   return (
     <div className="container-filters">

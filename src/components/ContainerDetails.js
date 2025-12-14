@@ -11,14 +11,15 @@ export const ContainerDetails = ({ itemMubi }) => {
             <div>
               <p>STUDIOS</p>
               <div className="div-flex-cast">
-                <ItemCast nameProp={"M. Night Shyamalan"} />
-                <ItemCast nameProp={"Danny Boyle"} />
+                {itemMubi?.production_companies?.map((studio) => (
+                  <ItemCast nameProp={studio.name} />
+                ))}
               </div>
             </div>
             <div>
               <p>LENGUAGE</p>
               <div className="div-flex-cast">
-                <ItemCast nameProp={itemMubi.language} />
+                <ItemCast nameProp={itemMubi.original_language} />
               </div>
             </div>
 

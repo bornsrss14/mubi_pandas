@@ -7,6 +7,7 @@ const ListItemListed = ({
   title = "How to lose a guy in 10 days",
   year = 2003,
   movie,
+  deleteMovieEntry,
 }) => {
   return (
     <div className="basic-flex-row">
@@ -38,7 +39,10 @@ const ListItemListed = ({
         <button className="btn_add_note"> Add note</button>
       </div>
       <div>
-        <button className="simple-btn">
+        <button
+          onClick={() => deleteMovieEntry(movie.id)}
+          className="simple-btn"
+        >
           <IconTrash></IconTrash>
         </button>
       </div>

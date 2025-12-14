@@ -2276,3 +2276,41 @@ select {
   border-top: none;
   padding: 2rem;
 }
+
+.modal-search {
+  display: none;
+}
+.modal-search.true {
+  display: flex;
+}
+.grid-btn-filters {
+  display: grid;
+  grid-template-columns: 22rem auto;
+  gap: 1rem;
+  align-items: center; /* o center */
+}
+
+.btn {
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-cancel {
+  background: #e5e7eb; /* gris suave */
+  color: #111;
+}
+
+.btn-cancel:hover {
+  background: #d1d5db;
+}
+
+.btn-save {
+  background: #22c55e; /* verde */
+  color: white;
+}
+.btn-save:hover {
+  background: #16a34a;
+}

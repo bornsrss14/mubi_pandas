@@ -9,8 +9,9 @@ import
 import FooterListDescription from "./FooterListDescription";
 import ListPreview from "./ListPreview";
 import { getMubisByIds } from "../utils/dateUtils";
+import movieService from "../services/movieDatabaseService";
 
-const ContainerMyLists = ({ listsPerUser }) => {
+const ContainerMyLists = ({ listsPerUser, myLists }) => {
   /* const [listPerUser, setListPerUser] = useState(getUserLists(usrId));
   /*Filtrar objetos de películas que coincidan con las claves de las películas de X usuario 
   const listsPerUser = getUserLists(usrId); */
@@ -31,16 +32,47 @@ const ContainerMyLists = ({ listsPerUser }) => {
   return (
     <>
       <div>
+        {/* 
         {listsWithMubis.map((list, i) => (
           <Link to={`/movielistview/${list._id}`} key={i}>
-            {" "}
+            recupero posters por ids <<-- comentario
             <ListPreview arrayListPoster={list.moviesData}>
+              <FooterListDescription itemLista={list}></FooterListDescription>
+            </ListPreview>
+          </Link>
+        ))}
+              */}
+
+        {myLists?.map((list, index) => (
+          <Link to={`/movielistview/${list.id}`} key={index}>
+            <ListPreview
+              arrayListPoster={list.entries.map((list) => list.id_mubi_tmdb)}
+            >
               <FooterListDescription itemLista={list}></FooterListDescription>
             </ListPreview>
           </Link>
         ))}
       </div>
 
+      <section>
+        <div>
+          {myLists?.data?.map((lista) => (
+            <>
+              <h2>{lista?.title}</h2>
+              <p>{lista?.brief_description}</p>
+              <ul>
+                {/* {lista.entries.map((item) => (
+                  <li key={item.id}>   
+                    {item.id_mubi_tmdb} – {item.note}
+                  </li>
+                ))} */}
+
+                {lista?.entries.map((item) => item.id_mubi_tmdb)}
+              </ul>
+            </>
+          ))}
+        </div>
+      </section>
       <div className="">
         <button
           className="btn-add-list"
