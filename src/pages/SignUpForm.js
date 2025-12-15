@@ -2,8 +2,6 @@ import { useState } from "react";
 
 import userService from "../services/userService";
 export const SignUpForm = () => {
-  const [usuarios, setUsuarios] = useState([]);
-  const [isLoading, setIsLoading] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
     email: "",

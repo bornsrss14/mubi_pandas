@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
 export const RatingTools = ({
+  ratingRecord,
   showRatingTools,
   mubi,
   id_tmdb,
@@ -28,26 +29,6 @@ export const RatingTools = ({
     saveWatched,
     deleteFromWatched,
   } = useWatch();
-  function handleLike() {
-    saveLike(mubi, user);
-  }
-  function handleAddWatchList() {
-    saveWatch(mubi, user);
-  }
-  function handleDeleteWatchList() {
-    deleteFromWatch(mubi);
-  }
-  function handleWatched() {
-    saveWatched(mubi, user);
-  }
-  function handleDeleteFromWatched() {
-    deleteFromWatched(mubi);
-  }
-
-  function handleDeleteLike() {
-    deleteFromLike(mubi);
-  }
-
   return (
     <>
       <div id="container-tools-rating">
@@ -122,7 +103,12 @@ export const RatingTools = ({
         <div className="tool-rating">
           <div id="centered">
             <p>Rate</p>
-            <Rating stroke={0.71} starSize={47} toRate={true}></Rating>
+            <Rating
+              id_tmdb={id_tmdb}
+              stroke={0.71}
+              starSize={47}
+              toRate={true}
+            ></Rating>
           </div>
         </div>
         <div

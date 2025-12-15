@@ -1,7 +1,11 @@
 import { IconStar, IconStarFilled, IconX } from "@tabler/icons-react";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../App";
+import { RatingContext } from "../pages/MubiDetails";
+import ratingService from "../services/ratingService";
 export const Rating = ({
+  id_tmdb,
   stroke,
   starSize,
   toRate = false,
@@ -9,8 +13,12 @@ export const Rating = ({
   widthContainer,
   customColor = "fff",
 }) => {
-  const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const userContextValue = useContext(UserContext);
+  const { mainUserData } = userContextValue || {}; // ← Agrega || {}
+
+  const ratingContextValue = useContext(RatingContext);
+  const { ratingRecord, setRatingRecord } = ratingContextValue || {};
   const styleContainer = {
     width: widthContainer,
     height: "auto",
@@ -29,17 +37,42 @@ export const Rating = ({
     fontSize: "1rem",
   };
 
-  function handleRating(rating) {
-    setRating(rating);
-  }
   function settingHoverRating(i) {
     setHoverRating(i);
   }
 
-  function resetRatingValues() {
-    console.log("Esto resetea el estado de las estrellas");
-    setRating(0);
-  }
+  console.log("Este es mi rating seleccionado 🐷🐷🐷", ratingRecord);
+  const deleteRating = async (id_user, id_tmdb) => {
+    try {
+      await ratingService.deleteByUserAndMubiId(id_user, id_tmdb);
+      setRatingRecord(0);
+      console.log("Rating eliminado └(＾ω＾)┐ ");
+      alert("Rating deleted └(＾ω＾)┐");
+    } catch (error) {
+      console.error("No se pudo eliminar este rating");
+      alert(error.message || "Error al eliminar el rating(╯°□°）╯");
+    }
+  };
+
+  const handleRating = async (rating) => {
+    try {
+      if (!mainUserData?.id) {
+        console.error("Usuario no autenticado");
+        return;
+      }
+      setRatingRecord(rating);
+      const ratingData = {
+        id_user: mainUserData?.id,
+        id_tmdb: id_tmdb,
+        rating: rating,
+      };
+      await ratingService.create(ratingData);
+      console.log("Rating creada con éxito ⭐");
+    } catch (error) {
+      console.error("Something went wrong trying to create the rating");
+      alert(error.message || "Error al agregar el usuario(╯°□°）╯");
+    }
+  };
 
   return (
     <>
@@ -55,7 +88,7 @@ export const Rating = ({
                   key={i}
                   style={{ cursor: "pointer" }}
                 >
-                  {rating >= i + 1 || hoverRating >= i + 1 ? (
+                  {ratingRecord >= i + 1 || hoverRating >= i + 1 ? (
                     <IconStarFilled
                       stroke={stroke}
                       size={`${starSize}px`}
@@ -71,9 +104,9 @@ export const Rating = ({
                 </span>
               ))}
 
-              {rating >= 1 ? (
+              {ratingRecord >= 1 ? (
                 <button
-                  onClick={resetRatingValues}
+                  onClick={() => deleteRating(mainUserData.id, id_tmdb)}
                   style={{ margin: "0 0 0 1rem" }}
                   className="burger-button"
                 >
@@ -105,7 +138,7 @@ export const Rating = ({
               )
             )}
         </div>
-        <p style={textStyle}>{rating || hoverRating || ""}</p>
+        <p style={textStyle}>{ratingRecord || hoverRating || ""}</p>
       </div>
     </>
   );

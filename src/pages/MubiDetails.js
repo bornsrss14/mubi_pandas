@@ -2,7 +2,7 @@ import { IconDots } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsMubiPage } from "../storage/kindOfTabs"; /*  */
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import RatingTools from "../core/RatingTools";
 import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
@@ -14,7 +14,10 @@ import { UserContext } from "../App";
 import { WatchProvider } from "../contexts/WatchContext";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { useMovieToggle } from "../hooks/useMovieToggle";
+import ratingService from "../services/ratingService";
+
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
+export const RatingContext = createContext();
 function MubiDetails({
   objeto,
   templateContainer,
@@ -22,8 +25,9 @@ function MubiDetails({
   activeTab,
   itemMubi,
 }) {
-  const { formData, mainUserData } = useContext(UserContext);
-  console.log(mainUserData);
+  const userContextValue = useContext(UserContext);
+  const { formData, mainUserData } = userContextValue || {};
+
   const { id } = useParams();
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
@@ -40,7 +44,27 @@ function MubiDetails({
     //esto ayuda a mostrar y esconder el componente de tools para cada película
     setShowTools((prev) => !prev);
   };
+  const [ratingRecord, setRatingRecord] = useState([]);
+  /*Recupero si la película seleccionada, ya tiene rating */
+  useEffect(() => {
+    setRatingRecord(null);
+    const fetchRating = async () => {
+      try {
+        const record = await ratingService.getByUserAndTmdbId(
+          mainUserData?.id,
+          id
+        );
+        setRatingRecord(record.data.rating);
+      } catch (error) {
+        console.error("Error al encontrar el rating con el usuario y id ");
+      }
+    };
 
+    if (mainUserData?.id) {
+      // Solo fetch si hay usuario
+      fetchRating();
+    }
+  }, [mainUserData?.id, id]);
   /* cada vez que cambie el ID pasado, voy a consumir getDataDetails de mi servicio  */
   useEffect(() => {
     const fetchMubiDetails = async () => {
@@ -88,9 +112,7 @@ function MubiDetails({
       </div>
     );
   }
-
-  /*Crear la función de manejar el toggle de estados de mi componente de LIKED, WATCH, TO WATCH*/
-
+  console.log(ratingRecord, "⭐⭐⭐⭐⭐📩");
   return (
     <>
       <article className="mubi-card">
@@ -100,19 +122,21 @@ function MubiDetails({
         <div
           className={showTools ? "rating-tools-show" : "rating-tools-hidden"}
         >
-          <WatchProvider>
-            <LikesProvider>
-              <RatingTools
-                states={states}
-                toggle={toggle}
-                loadingData={loadingData}
-                id_tmdb={id}
-                mubi={mubi.id}
-                user={formData.idUser}
-                showRatingTools={showRatingTools}
-              ></RatingTools>
-            </LikesProvider>
-          </WatchProvider>
+          <RatingContext.Provider value={{ ratingRecord, setRatingRecord }}>
+            <WatchProvider>
+              <LikesProvider>
+                <RatingTools
+                  states={states}
+                  toggle={toggle}
+                  loadingData={loadingData}
+                  id_tmdb={id}
+                  mubi={mubi.id}
+                  user={formData.idUser}
+                  showRatingTools={showRatingTools}
+                ></RatingTools>
+              </LikesProvider>
+            </WatchProvider>
+          </RatingContext.Provider>
         </div>
         <div className="mubi-hero">
           <button className="dots" onClick={showRatingTools}>

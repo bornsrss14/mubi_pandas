@@ -29,7 +29,6 @@ const userService = {
   },
 
   /*Add new user*/
-
   addUser: async (userData) => {
     try {
       const response = await api.post("/", userData);

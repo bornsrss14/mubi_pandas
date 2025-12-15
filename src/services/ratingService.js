@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/ratings";
+const API_URL = "http://localhost:3001/api/user/ratings";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -42,6 +42,25 @@ const ratingService = {
   getByUser: async (id_user) => {
     try {
       const response = await api.get(`${id_user}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+  //but really what it does, first search a record by id_user and id_tmdb and if exists, recover the record and uses its record.id
+  //so, really it makes a delete by ouw id
+  deleteByUserAndMubiId: async (id_user, id_tmdb) => {
+    try {
+      const response = await api.delete(`/${id_user}/${id_tmdb}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  getByUserAndTmdbId: async (id_user, id_tmdb) => {
+    try {
+      const response = await api.get(`${id_user}/${id_tmdb}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

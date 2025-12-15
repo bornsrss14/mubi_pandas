@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import FilterMovies from "../components/FilterMovies";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsList, FilterList } from "../storage/kindOfTabs";

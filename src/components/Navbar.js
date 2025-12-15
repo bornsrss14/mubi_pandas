@@ -6,7 +6,7 @@ import {
   IconPlus,
   IconStereoGlasses,
 } from "@tabler/icons-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
