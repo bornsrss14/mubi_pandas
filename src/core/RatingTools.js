@@ -9,16 +9,15 @@ import Rating from "./Rating";
 import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
+import { RatingContext } from "../contexts/Eliminar";
+import { useContext } from "react";
 export const RatingTools = ({
-  ratingRecord,
   showRatingTools,
   mubi,
   id_tmdb,
-  user,
   states,
   toggle,
   loadingData,
-  handleToggleOrDeleteState,
 }) => {
   const { saveLike, userLikes, deleteFromLike } = useLikes();
   const {

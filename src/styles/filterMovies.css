@@ -1495,6 +1495,9 @@ only desktop
 
 /*ONLY FOR DESKTOP DEVICES */
 @media (min-width: 1023px) {
+  .margin-desktop {
+    margin: 1rem 30rem;
+  }
   .menu-flot {
     position: absolute;
     display: none;
@@ -1896,10 +1899,9 @@ select {
   padding-right: 42px;
 }
 .emptyPoster {
-  width: 9rem;
-  height: auto;
+  width: 7rem;
+  height: 10rem;
   position: relative;
-  height: auto;
   border: dotted 2px rgba(105, 97, 97, 0.493);
 }
 
@@ -2313,4 +2315,143 @@ select {
 }
 .btn-save:hover {
   background: #16a34a;
+}
+
+.grid-areas-review {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "poster title" "txt_review txt_review  ";
+}
+@media (min-width: 1023px) {
+  .grid-areas-review {
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "poster title" "poster txt_review";
+  }
+}
+.poster {
+  grid-area: poster;
+}
+.title {
+  grid-area: title;
+  margin: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.txt_review {
+  grid-area: txt_review;
+}
+
+.review-title {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26.4px;
+}
+.review-year {
+  font-size: 17.5px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 17.5px;
+}
+
+.font-form-review {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17.3333px;
+}
+.cont-date {
+  padding: 0.3rem 1.4rem;
+  text-align: center;
+  background-color: rgba(23, 44, 63, 1);
+  border-radius: 6px;
+}
+.txt_area {
+  background-color: #cde;
+  color: rgb(56, 88, 119);
+
+  /* Bordes y espaciado */
+  border: 2px solid #abd;
+  border-radius: 8px;
+  padding: 12px;
+
+  /* Tipografía */
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+
+  /* Tamaño */
+  width: 100%;
+  min-height: 120px;
+  resize: vertical; /* Solo permite redimensionar verticalmente */
+
+  /* Transiciones suaves */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.header-txt {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22.5px;
+}
+
+.cont-review {
+  display: grid;
+  padding: 1rem 2rem;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+.header-review {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0rem 0.7rem 1rem;
+}
+
+.container-review-tool {
+  margin: 1rem 0rem 0rem;
+}
+.spoiler-checkbox {
+  display: none;
+}
+.spoiler-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.spoiler-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #555;
+  border-radius: 4px;
+  position: relative;
+  background-color: white;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+/* estado activo */
+.spoiler-checkbox:checked + .spoiler-label .spoiler-icon {
+  background-color: rgb(76, 175, 80);
+  border-color: rgb(76, 175, 80);
+}
+
+/* palomita */
+.spoiler-checkbox:checked + .spoiler-label .spoiler-icon::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 0.9rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+}
+
+.movies-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }

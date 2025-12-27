@@ -164,7 +164,7 @@ export const Profile = ({
                 ></LinkPoster>
               ))}
               {Array.from({
-                length: 4 - formData?.favoriteFourMubis?.length,
+                length: 4 - topFavorites?.length,
               }).map((_, index) => (
                 <div key={index} className="emptyPoster"></div>
               ))}

@@ -37,12 +37,13 @@ import SignUpForm from "./pages/SignUpForm";
 import userService from "./services/userService";
 import fourFavService from "./services/fourFavoriteService";
 import movieService from "./services/movieDatabaseService";
-import { useMovieToggle } from "./hooks/useMovieToggle";
 import ListService from "./services/listService";
+import ReviewComposer from "./components/ReviewComposer";
 /* CONTEXT*/
 
 export const UserContext = createContext();
 export const NavContext = createContext();
+export const RatingContextR = createContext();
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -124,6 +125,7 @@ export default function App() {
     getAllListsEntries(mainUserData?.id);
   }, [mainUserData?.id]);
 
+  console.log(topFavorites);
   return (
     <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
       <UserContext.Provider
@@ -264,6 +266,10 @@ export default function App() {
             <Route
               path="/review-detailed"
               element={<ReviewDetailed></ReviewDetailed>}
+            ></Route>
+            <Route
+              path="/movies/review/:id"
+              element={<ReviewComposer></ReviewComposer>}
             ></Route>
           </Routes>
         </Router>

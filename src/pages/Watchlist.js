@@ -45,7 +45,7 @@ export const Watchlist = ({ watch }) => {
   console.log(allWatchList);
   return (
     <>
-      <div>
+      <div className="card-settings">
         <FilterMovies arrayFilters={FilterWatchList}></FilterMovies>
         <ContainerFilms>
           <p>
@@ -58,7 +58,7 @@ export const Watchlist = ({ watch }) => {
               ></IconPlaylistAdd>
             </span>
           </p>
-          <div className={"basic-flex-row"}>
+          <div className="movies-container">
             {allWatchList?.map((mubi, i) => (
               <LinkPoster
                 key={mubi.id}

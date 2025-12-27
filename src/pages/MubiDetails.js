@@ -14,10 +14,9 @@ import { UserContext } from "../App";
 import { WatchProvider } from "../contexts/WatchContext";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { useMovieToggle } from "../hooks/useMovieToggle";
-import ratingService from "../services/ratingService";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
-export const RatingContext = createContext();
+/* export const RatingContext = createContext(); */
 function MubiDetails({
   objeto,
   templateContainer,
@@ -26,9 +25,10 @@ function MubiDetails({
   itemMubi,
 }) {
   const userContextValue = useContext(UserContext);
+
+  const { id } = useParams(); // ← obtengo el id de url
   const { formData, mainUserData } = userContextValue || {};
 
-  const { id } = useParams();
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
   const [showTools, setShowTools] = useState(false);
@@ -44,27 +44,7 @@ function MubiDetails({
     //esto ayuda a mostrar y esconder el componente de tools para cada película
     setShowTools((prev) => !prev);
   };
-  const [ratingRecord, setRatingRecord] = useState([]);
-  /*Recupero si la película seleccionada, ya tiene rating */
-  useEffect(() => {
-    setRatingRecord(null);
-    const fetchRating = async () => {
-      try {
-        const record = await ratingService.getByUserAndTmdbId(
-          mainUserData?.id,
-          id
-        );
-        setRatingRecord(record.data.rating);
-      } catch (error) {
-        console.error("Error al encontrar el rating con el usuario y id ");
-      }
-    };
 
-    if (mainUserData?.id) {
-      // Solo fetch si hay usuario
-      fetchRating();
-    }
-  }, [mainUserData?.id, id]);
   /* cada vez que cambie el ID pasado, voy a consumir getDataDetails de mi servicio  */
   useEffect(() => {
     const fetchMubiDetails = async () => {
@@ -72,7 +52,6 @@ function MubiDetails({
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
-        console.log("el id de la película es", id);
         if (!movieData) {
           throw new Error("Not found :c");
         }
@@ -112,7 +91,6 @@ function MubiDetails({
       </div>
     );
   }
-  console.log(ratingRecord, "⭐⭐⭐⭐⭐📩");
   return (
     <>
       <article className="mubi-card">
@@ -122,21 +100,19 @@ function MubiDetails({
         <div
           className={showTools ? "rating-tools-show" : "rating-tools-hidden"}
         >
-          <RatingContext.Provider value={{ ratingRecord, setRatingRecord }}>
-            <WatchProvider>
-              <LikesProvider>
-                <RatingTools
-                  states={states}
-                  toggle={toggle}
-                  loadingData={loadingData}
-                  id_tmdb={id}
-                  mubi={mubi.id}
-                  user={formData.idUser}
-                  showRatingTools={showRatingTools}
-                ></RatingTools>
-              </LikesProvider>
-            </WatchProvider>
-          </RatingContext.Provider>
+          <WatchProvider>
+            <LikesProvider>
+              <RatingTools
+                states={states}
+                toggle={toggle}
+                loadingData={loadingData}
+                id_tmdb={id} // ← Paos el id directamente
+                mubi={mubi.id}
+                user={formData.idUser}
+                showRatingTools={showRatingTools}
+              ></RatingTools>
+            </LikesProvider>
+          </WatchProvider>
         </div>
         <div className="mubi-hero">
           <button className="dots" onClick={showRatingTools}>

@@ -37,10 +37,10 @@ export const Likes = ({ usrId = "usr_001" }) => {
   }, [mainUserData?.id]);
   return (
     <>
-      <div>
+      <div className="card-settings">
         <FilterMovies arrayFilters={FilterWatchList}></FilterMovies>
         <ContainerFilms>
-          <div className={"basic-flex-row"}>
+          <div className="movies-container">
             {allLiked?.map((favItemMubi) => (
               <LinkPoster
                 mubi={favItemMubi}

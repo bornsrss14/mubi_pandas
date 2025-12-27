@@ -33,21 +33,23 @@ export const Watched = () => {
   }, [mainUserData.id]);
   return (
     <>
-      <FilterMovies arrayFilters={FiltersArrayItems}></FilterMovies>
-      <ContainerFilms>
-        <div className="container-films-user-films"></div>
-        <p>watched</p>
-        <div className={"basic-flex-row"}>
-          {allWatched?.map((favItemMubi) => (
-            <LinkPoster
-              mubi={favItemMubi}
-              key={favItemMubi.id}
-              posterUrl={`${TMDB_IMAGE_BASE_URL}w500${favItemMubi.poster_path}`}
-              width={7}
-            ></LinkPoster>
-          ))}
-        </div>
-      </ContainerFilms>
+      <div className="card-settings">
+        <FilterMovies arrayFilters={FiltersArrayItems}></FilterMovies>
+        <ContainerFilms>
+          <div className="container-films-user-films"></div>
+          <p>watched</p>
+          <div className="movies-container">
+            {allWatched?.map((favItemMubi) => (
+              <LinkPoster
+                mubi={favItemMubi}
+                key={favItemMubi.id}
+                posterUrl={`${TMDB_IMAGE_BASE_URL}w500${favItemMubi.poster_path}`}
+                width={7}
+              ></LinkPoster>
+            ))}
+          </div>
+        </ContainerFilms>
+      </div>
     </>
   );
 };

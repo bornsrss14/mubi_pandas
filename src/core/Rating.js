@@ -1,11 +1,10 @@
 import { IconStar, IconStarFilled, IconX } from "@tabler/icons-react";
-
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
-import { RatingContext } from "../pages/MubiDetails";
 import ratingService from "../services/ratingService";
+
 export const Rating = ({
-  id_tmdb,
+  id_tmdb, // ← este es el id el que voy a pasar
   stroke,
   starSize,
   toRate = false,
@@ -16,9 +15,8 @@ export const Rating = ({
   const [hoverRating, setHoverRating] = useState(0);
   const userContextValue = useContext(UserContext);
   const { mainUserData } = userContextValue || {}; // ← Agrega || {}
+  const [ratingRecord, setRatingRecord] = useState(0); // ← Estado local
 
-  const ratingContextValue = useContext(RatingContext);
-  const { ratingRecord, setRatingRecord } = ratingContextValue || {};
   const styleContainer = {
     width: widthContainer,
     height: "auto",
@@ -41,7 +39,6 @@ export const Rating = ({
     setHoverRating(i);
   }
 
-  console.log("Este es mi rating seleccionado 🐷🐷🐷", ratingRecord);
   const deleteRating = async (id_user, id_tmdb) => {
     try {
       await ratingService.deleteByUserAndMubiId(id_user, id_tmdb);
@@ -73,6 +70,28 @@ export const Rating = ({
       alert(error.message || "Error al agregar el usuario(╯°□°）╯");
     }
   };
+
+  useEffect(() => {
+    setRatingRecord(null);
+    const fetchRating = async () => {
+      try {
+        const record = await ratingService.getByUserAndTmdbId(
+          mainUserData?.id,
+          id_tmdb
+        );
+        console.log("Rating fetched:", record?.data?.rating); // ← Debug
+        setRatingRecord(record?.data?.rating);
+      } catch (error) {
+        console.error("Error al encontrar el rating con el usuario y id ");
+        setRatingRecord(0); // ← Si no hay rating, poner en 0
+      }
+    };
+
+    if (mainUserData?.id && id_tmdb) {
+      // Solo fetch si hay usuario
+      fetchRating();
+    }
+  }, [mainUserData?.id, id_tmdb]);
 
   return (
     <>
