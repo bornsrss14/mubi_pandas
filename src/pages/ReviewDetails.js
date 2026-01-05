@@ -7,7 +7,7 @@ import RatingTools from "../core/RatingTools";
 import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
 import TagElement from "../core/TagElement";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
 import { LikesProvider } from "../contexts/LikesContext";
 import { UserContext } from "../App";
@@ -15,30 +15,24 @@ import { WatchProvider } from "../contexts/WatchContext";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { useMovieToggle } from "../hooks/useMovieToggle";
 import { useBreakpoint } from "../hooks/useBreakpoint";
+import ProfilePicUsername from "../core/ProfilePicUsername";
+import CommentItem from "../core/CommentItem";
+import { useReview } from "../contexts/ReviewProvider";
 import { formatDateShortES } from "../utils/dateUtils";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 /* export const RatingContext = createContext(); */
-function MubiDetails({
-  objeto,
-  templateContainer,
-  setActiveTab,
-  activeTab,
-  itemMubi,
-}) {
+function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const userContextValue = useContext(UserContext);
 
   const { id } = useParams(); // ← obtengo el id de url
   /*mainUserData */
 
-  const { formData } = userContextValue || {};
+  const { allPosters, allReviews, loadingRevProv, errorRevProv } = useReview();
+  const { formData, mainUserData } = userContextValue || {};
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
   const [showTools, setShowTools] = useState(false);
-  /*   const [showReviewForm, setShowReviewForm] = useState(false); */
-
-  const activeTabItem = templateContainer.find((item) => item.id === activeTab);
-  const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
 
   /*Estados para mostrar o no la carga de las promesas resueltas de la petición de Detalle de película  */
   const [loading, setLoading] = useState();
@@ -72,10 +66,17 @@ function MubiDetails({
 
   const { states, toggle, loadingData } = useMovieToggle(id);
   const { isMobile, isDesktop } = useBreakpoint();
+
+  const [txtArea, setTxtArea] = useState("");
+  const createComment = (event) => {
+    event.preventDefault();
+    console.log("Aquí creo un comentario");
+  };
+
   if (loading) {
     return (
       <div>
-        <p>Loading details...</p>
+        <p>Loading details (－_－) zzZ ...</p>
       </div>
     );
   }
@@ -98,6 +99,15 @@ function MubiDetails({
       </div>
     );
   }
+
+  if (loadingRevProv) return <p>Loading reviews...</p>;
+  if (errorRevProv) return <p>Error: {error}</p>;
+
+  /*Tengo que encontrar la review  que hace match con la película id_tmdb === id*/
+
+  const itemReview = allReviews?.data?.find(
+    (review) => review?.id_tmdb === parseInt(id)
+  );
 
   return (
     <>
@@ -191,11 +201,27 @@ function MubiDetails({
 
           <div className="grid-section-detail-ranking">
             <section>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1.3rem",
+                }}
+              >
+                <ProfilePicUsername
+                  imgProfile={mainUserData?.profile_pic_url}
+                  withNickname={false}
+                ></ProfilePicUsername>
+                <p>
+                  Reviewed by{" "}
+                  <span className="nickname">{mainUserData?.username}</span>
+                </p>
+              </div>
               <div className="mubi-content">
                 <div className="wrapper-title-meta">
-                  <h2 className="mubi-title">
+                  <Link to={`/mubi&detail/${id}`} className="mubi-title">
                     {mubi?.title || "Evangelion: 3.0+1.0 Thrice Upon a Time"}
-                  </h2>
+                  </Link>
                   {mubi?.originalTitle && (
                     <p className="mubi-subtitle"> {mubi?.originalTitle}</p>
                   )}
@@ -221,58 +247,81 @@ function MubiDetails({
                 )}
               </div>
               <section className="mubi-description">
-                <button className="trailer-btn">🎬 Trailer</button>
-                <span className="duration">{mubi?.runtime} mins</span>
-
-                <p className="mubi-description">
-                  {mubi?.overview}
-                  <a href="#sd"> more</a>
+                <p>
+                  Created {""}
+                  <span>{formatDateShortES(itemReview?.created_at)}</span>
                 </p>
+                <p className="mubi-description">{itemReview?.review}</p>
               </section>
               {isMobile && (
                 <>
                   <TagElement txt={"RATINGS"}></TagElement>
                   <section className="">
                     <div>
-                      <p>WHERE TO WATCH</p>
-                      <ItemSreamingApp
-                        plataform={"Amazon MX"}
-                      ></ItemSreamingApp>
-                      <ItemSreamingApp
-                        plataform={"Netflix MX"}
-                        iconPlataform={
-                          "https://media.licdn.com/dms/image/v2/D4E0BAQGMva5_E8pUjw/company-logo_200_200/company-logo_200_200/0/1736276678240/netflix_logo?e=2147483647&v=beta&t=-84GbYZIgL-lNtKMkXAk-OE1L6VJVMfBSLJRG8FLkVY"
-                        }
-                      ></ItemSreamingApp>
-                      <ItemSreamingApp
-                        plataform={"Apple TV"}
-                        iconPlataform="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRELLKoluS51qond1uFLC3HFGHqexq6KIeyZQ&s"
-                      ></ItemSreamingApp>
+                      <p>liked this review</p>
+                      <p>
+                        Aquí aparecen fotos de perfil de personas que le gusta
+                        este review
+                      </p>
                     </div>
                   </section>
                 </>
               )}
               <section>
-                <InlineNav
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  arrayTabs={arrayTabsMubiPage}
-                ></InlineNav>
-                <div className="content">
-                  {ComponenteSelected && (
-                    <ComponenteSelected itemMubi={mubi}></ComponenteSelected>
-                  )}
-                </div>
-              </section>
-              <section>
-                <TagElement txt={"POPULAR REVIEWS"}></TagElement>
-                <div>
-                  <ReviewPreviewSecond
-                    nickname={"muz129"}
+                <TagElement txt={"liked this review"}></TagElement>
+                <div className="grid-liked-pics">
+                  <ProfilePicUsername
                     imgProfile={
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3PxU_RqoB6hZj2TBoFiz_nWYOTjQCCPrCvw&s"
                     }
-                  ></ReviewPreviewSecond>
+                    withNickname={false}
+                  ></ProfilePicUsername>
+                  <ProfilePicUsername
+                    imgProfile={
+                      "https://a.ltrbxd.com/resized/avatar/upload/5/6/8/5/5/4/shard/avtr-0-80-0-80-crop.jpg?v=bf9f3935e7"
+                    }
+                    withNickname={false}
+                  ></ProfilePicUsername>
+                  <ProfilePicUsername
+                    imgProfile={
+                      "https://a.ltrbxd.com/resized/avatar/upload/4/9/9/2/4/8/shard/avtr-0-80-0-80-crop.jpg?v=f409bcda26"
+                    }
+                    withNickname={false}
+                  ></ProfilePicUsername>
+                </div>
+              </section>
+              <section>
+                <TagElement txt={"Comments"}></TagElement>
+                <div>
+                  <CommentItem></CommentItem>
+                  <CommentItem></CommentItem>
+                </div>
+              </section>
+              <section className="container-txt-area">
+                <div className="grid-txt-area">
+                  <div>
+                    <div className="field">
+                      <label
+                        style={{ marginBottom: "1rem" }}
+                        htmlFor="description"
+                      >
+                        Description
+                      </label>
+                      <textarea
+                        value={txtArea}
+                        onChange={(e) => setTxtArea(e.target.value)}
+                        className="txt_comment"
+                        placeholder="Replay as bornsrss..."
+                      ></textarea>
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => createComment(e)}
+                    style={{ alignSelf: "flex-end" }}
+                    className="btn btn-save"
+                  >
+                    Comment
+                  </button>
                 </div>
               </section>
             </section>
@@ -309,4 +358,4 @@ function MubiDetails({
   );
 }
 
-export default MubiDetails;
+export default ReviewDetails;

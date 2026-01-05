@@ -4,6 +4,9 @@ import { UserContext } from "../App";
 import ratingService from "../services/ratingService";
 
 export const Rating = ({
+  draftReview,
+  setDraftReview, // funcion
+  saveRateState, //true or false
   id_tmdb, // ← este es el id el que voy a pasar
   stroke,
   starSize,
@@ -74,15 +77,17 @@ export const Rating = ({
   useEffect(() => {
     setRatingRecord(null);
     const fetchRating = async () => {
+      if (!id_tmdb) {
+        console.log("falta definir el id de la película");
+        return;
+      }
       try {
         const record = await ratingService.getByUserAndTmdbId(
           mainUserData?.id,
           id_tmdb
         );
-        console.log("Rating fetched:", record?.data?.rating); // ← Debug
         setRatingRecord(record?.data?.rating);
       } catch (error) {
-        console.error("Error al encontrar el rating con el usuario y id ");
         setRatingRecord(0); // ← Si no hay rating, poner en 0
       }
     };
@@ -93,6 +98,10 @@ export const Rating = ({
     }
   }, [mainUserData?.id, id_tmdb]);
 
+  useEffect(() => {
+    console.log("ratingRecord cambió:", ratingRecord);
+    // Aquí va tu lógica cuando ratingRecord cambie
+  }, [ratingRecord]); // ← Solo esta dependencia
   return (
     <>
       <div style={styleContainer}>
@@ -101,7 +110,19 @@ export const Rating = ({
             <div style={{ display: "flex", alignItems: "center" }}>
               {Array.from({ length: noStars }, (_, i) => (
                 <span
-                  onClick={() => handleRating(i + 1)}
+                  value={draftReview?.rating}
+                  //saveRateState es true, entonces el estado que comparti
+                  onClick={
+                    saveRateState
+                      ? () => {
+                          setDraftReview((prev) => ({
+                            ...prev,
+                            rating: i + 1,
+                          }));
+                          setRatingRecord(i + 1);
+                        }
+                      : () => handleRating(i + 1)
+                  }
                   onMouseEnter={() => settingHoverRating(i + 1)}
                   onMouseLeave={() => setHoverRating(0)}
                   key={i}
@@ -125,7 +146,14 @@ export const Rating = ({
 
               {ratingRecord >= 1 ? (
                 <button
-                  onClick={() => deleteRating(mainUserData.id, id_tmdb)}
+                  onClick={
+                    saveRateState // en caso de que sea solo para guardar el draftReview (°ロ°) !
+                      ? () => {
+                          setDraftReview((prev) => ({ ...prev, rating: null }));
+                          setRatingRecord(null);
+                        }
+                      : () => deleteRating(mainUserData.id, id_tmdb)
+                  }
                   style={{ margin: "0 0 0 1rem" }}
                   className="burger-button"
                 >

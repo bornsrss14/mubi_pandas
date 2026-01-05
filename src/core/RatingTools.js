@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
 import { RatingContext } from "../contexts/Eliminar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useBreakpoint } from "../hooks/useBreakpoint";
+import ReviewComposer from "../components/ReviewComposer";
 export const RatingTools = ({
   showRatingTools,
   mubi,
@@ -28,9 +30,12 @@ export const RatingTools = ({
     saveWatched,
     deleteFromWatched,
   } = useWatch();
+  //Determinamos cuál UI según viewport
+  const { isMobile, isDesktop } = useBreakpoint();
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   return (
     <>
-      <div id="container-tools-rating">
+      <div id={isMobile ? "container-tools-rating" : ""}>
         <button onClick={showRatingTools} className="close-btn-float">
           x{" "}
         </button>
@@ -105,7 +110,7 @@ export const RatingTools = ({
             <Rating
               id_tmdb={id_tmdb}
               stroke={0.71}
-              starSize={47}
+              starSize={isDesktop ? 27 : 47}
               toRate={true}
             ></Rating>
           </div>
@@ -117,19 +122,22 @@ export const RatingTools = ({
           <Link to={"/activity-user"}>Show your activity</Link>
         </div>
         <div
-          onClick={() =>
-            console.log("Esto es para agregar una reseña, o editar")
-          }
+          /*Cerrar el modal de tools */
+          onClick={() => setIsReviewModalOpen(true)}
           className="tool-rating tool-txt"
         >
-          <Link to={""}>Review or log...</Link>
+          <span>Review or log...</span>
+          {/* <Link to={`/movies/review/${id_tmdb}`}>Review or log...</Link> */}
         </div>
-        <div
-          onClick={() => console.log("Esto me permite agregar a una lista")}
-          className="tool-rating tool-txt"
-        >
+        <div className="tool-rating tool-txt">
           <Link to={""}>Add to list...</Link>
         </div>
+        {isReviewModalOpen && (
+          <ReviewComposer
+            id_tmdb={id_tmdb}
+            onClose={() => setIsReviewModalOpen(false)}
+          ></ReviewComposer>
+        )}
       </div>
     </>
   );

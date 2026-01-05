@@ -6,7 +6,7 @@ const breakpoints = {
   desktop: "(min-width: 1024px)",
 };
 
-export function useBreakpooint() {
+export function useBreakpoint() {
   const getMatches = () => ({
     isMobile: window.matchMedia(breakpoints.mobile).matches,
     isTablet: window.matchMedia(breakpoints.tablet).matches,

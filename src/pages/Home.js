@@ -20,7 +20,7 @@ import { temDataMubisTotal } from "../storage/tempMovieData";
 import { UserContext } from "../App";
 
 export const Home = ({ userNikname = "bornsrss" }) => {
-  const { formData, mainUserData } = useContext(UserContext);
+  const { mainUserData } = useContext(UserContext);
   const usrRef = useRef(null);
   {
     const galleryImages = [

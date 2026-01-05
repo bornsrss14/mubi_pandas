@@ -55,3 +55,28 @@ export function getUsersByIds(array, datos) {
     .map((id) => datos.find((item) => item.idUser === id))
     .filter((item) => item !== undefined);
 }
+
+export const formatDateShortES = (isoDate) => {
+  if (!isoDate) return "";
+
+  const date = new Date(isoDate);
+
+  const months = [
+    "ENE",
+    "FEB",
+    "MAR",
+    "ABR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AGO",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DIC",
+  ];
+
+  return `${date.getUTCDate()} ${
+    months[date.getUTCMonth()]
+  } ${date.getUTCFullYear()}`;
+};

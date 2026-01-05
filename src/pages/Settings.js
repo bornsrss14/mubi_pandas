@@ -10,7 +10,7 @@ import { OptimizedImage } from "../hooks/useOptimizedImage";
 import { useMubiSearch } from "../hooks/useMubiSearch";
 import movieService from "../services/movieDatabaseService";
 
-export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"; ///https://image.tmdb.org/t/p/z632eZtXaw76ZE5mMMGOBXCpm1T.jpg
 export const Settings = ({
   formData,
   setFormData,

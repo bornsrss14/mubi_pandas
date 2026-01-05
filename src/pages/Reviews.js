@@ -6,7 +6,10 @@ import { FilterReview } from "../storage/kindOfTabs";
 import { DataBaseReviews, temDataMubisTotal } from "../storage/tempMovieData";
 import { UserContext } from "../App";
 import { getMubisByIds } from "../utils/dateUtils";
+/* /api/user/reviews/4
 
+Lo interesante es que debo de hacer una función que llame a recuperar todas las reviews de X usuario por su id_user
+Aquí las renderizo y a la vez las actuaizo según vayan cambiando ya sea que se eliminen o se actualicen*/
 export const Reviews = ({ idUsr = "usr_001" }) => {
   /*CONTEXT */
   const { reviewsUser } = useContext(UserContext);

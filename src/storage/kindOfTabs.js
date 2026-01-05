@@ -1,3 +1,4 @@
+import { Activity } from "react";
 import ContainerBlocked from "../components/ContainerBlocked";
 import ContainerCast from "../components/ContainerCast";
 import ContainerCrew from "../components/ContainerCrew";
@@ -8,6 +9,11 @@ import ContainerGenresFilm from "../components/ContainerGenresFilm";
 import ContainerMyLists from "../components/ContainerMyLists";
 import ContainerRelease from "../components/ContainerRelease";
 import ContainerSharedLists from "../components/ContainerSharedLists";
+import Films from "../pages/Films";
+import Diary from "../pages/Diary";
+import Watched from "../pages/Watched";
+import ReviewComposer from "../components/ReviewComposer";
+import Reviews from "../pages/Reviews";
 
 export const arrayTabsMubiPage = [
   {
@@ -133,6 +139,15 @@ export const DataProjectNetwork = [
 export const DataProjectsList = [
   { id: 1001, componente: ContainerMyLists },
   { id: 1002, componente: ContainerSharedLists },
+];
+
+export const DataComponentsActivity = [
+  { id: 1001, componente: Diary },
+  { id: 1002, componente: Diary },
+  { id: 1003, componente: Diary },
+  { id: 1004, componente: Diary },
+  { id: 1005, componente: Diary },
+  { id: 1006, componente: Diary },
 ];
 
 export const FiltersArrayItems = [

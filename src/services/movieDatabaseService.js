@@ -84,8 +84,7 @@ class MovieService {
       ]);
 
       const detailsData = await details.json();
-      const creditsData = await credits.json();
-      console.log("Aquí viene el director en los créditos:", creditsData);
+      const creditsData = await credits.json(); // Aquí viene el director en los créditos
       const director = creditsData.crew.find(
         (person) => person.job === "Director"
       );

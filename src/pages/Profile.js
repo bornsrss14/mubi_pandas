@@ -20,8 +20,8 @@ import TagElement from "../core/TagElement";
 import { Link } from "react-router-dom";
 import LinkPoster from "../core/LinkPoster";
 import { UserContext } from "../App";
-import { getMubisByIds } from "../utils/dateUtils";
 import { TMDB_IMAGE_BASE_URL } from "./Settings";
+import { useReview } from "../contexts/ReviewProvider";
 export const Profile = ({
   formData,
   noDaysRated = 8,
@@ -32,6 +32,7 @@ export const Profile = ({
 }) => {
   const totalMubis = arrayRanking.length;
 
+  const { allPosters, allReviews } = useReview();
   const [starsRank, setStarsRank] = useState({
     oneStars: 0,
     twoStars: 0,
@@ -99,12 +100,21 @@ export const Profile = ({
     return Math.max(...Object.values(arrayEnumerar));
   }
   /*topFavorites objeto completo de tmdb {...} */
-  const { reviewsUser, mainUserData, topFavorites } = useContext(UserContext);
+  const { /* reviewsUser */ mainUserData, topFavorites } =
+    useContext(UserContext);
 
-  const reviewsWithMubis = reviewsUser.map((obj) => ({
-    ...obj,
-    movieReviewed: getMubisByIds(obj.id_mubi),
-  }));
+  const normalizedReviews = allReviews?.data?.map((review) => {
+    const posterObj = allPosters?.find(
+      (poster) => poster.id === review.id_tmdb
+    );
+
+    return {
+      ...review,
+      title: posterObj?.title,
+      date: posterObj?.release_date,
+      poster: posterObj?.poster_path ?? null,
+    };
+  });
   return (
     <>
       <div className="profile-banner">
@@ -188,8 +198,15 @@ export const Profile = ({
 
           {recentReviews && (
             <div>
-              <TagElement txt={"Recent Reviews"}>{<p>MORE</p>}</TagElement>
-              {reviewsWithMubis.slice(0, 3).map((review) => (
+              {/* Aquí debo de pasar el link dinamico para ir a las secciones */}
+              <TagElement txt={"Recent Reviews"}>
+                {
+                  <Link to={"/diary-user"}>
+                    <p>MORE</p>
+                  </Link>
+                }
+              </TagElement>
+              {normalizedReviews?.slice(0, 3).map((review) => (
                 <BasicReview
                   key={review.id}
                   objeto={review}

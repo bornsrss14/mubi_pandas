@@ -39,6 +39,8 @@ import fourFavService from "./services/fourFavoriteService";
 import movieService from "./services/movieDatabaseService";
 import ListService from "./services/listService";
 import ReviewComposer from "./components/ReviewComposer";
+import ReviewDetails from "./pages/ReviewDetails";
+import { ReviewProvider } from "./contexts/ReviewProvider";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -49,7 +51,10 @@ const average = (arr) =>
 
 export default function App() {
   /*Las nuevas variables con mi APi */
-  const [mainUser, setMainUser] = useState(4); //recibe mi id
+  const [
+    mainUser,
+    /* setMainUser */
+  ] = useState(4); //recibe mi id
   const [mainUserData, setMainUserData] = useState({});
   const [query, setQuery] = useState("");
   const [movies] = useState(tempMovieData);
@@ -144,135 +149,148 @@ export default function App() {
           setMainUserData,
         }}
       >
-        <Router>
-          <Navbar movies={movies} query={query} setQuery={setQuery} />
-          <Routes>
-            <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
-            <Route path="/" element={<Home />}></Route>
-            <Route
-              path="/films"
-              element={
-                <Films
-                  avgImdbRating={avgImdbRating}
-                  avgUserRating={avgUserRating}
-                  avgRuntime={avgRuntime}
-                  watched={watched}
-                  movies={movies}
-                />
-              }
-            ></Route>
-            <Route path="/main-films" element={<MainFilms></MainFilms>}></Route>
-            <Route path="/community" element={<Community />}></Route>
-            <Route path="/news" element={<News></News>}></Route>
-            <Route path="/watched" element={<Watched />}></Route>
-            <Route
-              path="/user-profile"
-              element={
-                <Profile formData={formData} setFormData={setFormData} />
-              }
-            ></Route>
-            <Route
-              path="/external-profile/:id"
-              element={
-                <ProfileExternal
-                  formData={formData}
-                  setFormData={setFormData}
-                ></ProfileExternal>
-              }
-            >
-              {" "}
-            </Route>
-            <Route
-              path="/activity-user"
-              element={<Activity></Activity>}
-            ></Route>
-            <Route path="/diary-user" element={<Diary></Diary>}></Route>
-            <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>
-            <Route path="/watchlist" element={<Watchlist></Watchlist>}></Route>
-            <Route
-              path="/listsNavbar"
-              element={
-                <ListsNavbar
-                  listsPerUser={listsPerUser}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  templateContainer={DataProjectsList}
-                ></ListsNavbar>
-              }
-            ></Route>
-            <></>
-            <Route
-              path="/list/new/"
-              element={<NewListBoilerplate></NewListBoilerplate>}
-            ></Route>
-            <Route
-              path="/movielistview/:id"
-              element={
-                <MovieListView listsPerUser={listsPerUser}></MovieListView>
-              }
-            ></Route>
-            <Route
-              path="/listWithNotes/:id"
-              element={<ListWithNotes></ListWithNotes>}
-            ></Route>
-            <Route path="/likes-user" element={<Likes></Likes>}></Route>
-            <Route
-              path="/network/:id"
-              element={
-                <Network
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  templateContainer={DataProjectNetwork}
-                ></Network>
-              }
-            ></Route>
-            <Route
-              path="/settings-user"
-              element={
-                <Settings
-                  formData={formData}
-                  setFormData={setFormData}
-                  draftForm={draftForm}
-                  setDraftForm={setDraftForm}
-                ></Settings>
-              }
-            ></Route>
-            <Route
-              path="/mubi/:id"
-              element={
-                <Mubi
-                  activeTab={activeTab}
-                  setActiveTab={
-                    setActiveTab
-                  } /*esto lo debo aplicar a Activity  */
-                  templateContainer={DataProjects}
-                ></Mubi>
-              }
-            ></Route>
-            <Route
-              path="/mubi&detail/:id"
-              element={
-                <MubiDetails
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  templateContainer={DataProjects}
-                ></MubiDetails>
-              }
-            ></Route>
-            <Route
-              path="review-preview"
-              element={<ReviewPreviewSecond></ReviewPreviewSecond>}
-            ></Route>
-            <Route
-              path="/review-detailed"
-              element={<ReviewDetailed></ReviewDetailed>}
-            ></Route>
-            <Route
-              path="/movies/review/:id"
-              element={<ReviewComposer></ReviewComposer>}
-            ></Route>
-          </Routes>
-        </Router>
+        <ReviewProvider mainUserData={mainUserData}>
+          <Router>
+            <Navbar movies={movies} query={query} setQuery={setQuery} />
+            <Routes>
+              <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route
+                path="/films"
+                element={
+                  <Films
+                    avgImdbRating={avgImdbRating}
+                    avgUserRating={avgUserRating}
+                    avgRuntime={avgRuntime}
+                    watched={watched}
+                    movies={movies}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/main-films"
+                element={<MainFilms></MainFilms>}
+              ></Route>
+              <Route path="/community" element={<Community />}></Route>
+              <Route path="/news" element={<News></News>}></Route>
+              <Route path="/watched" element={<Watched />}></Route>
+              <Route
+                path="/user-profile"
+                element={
+                  <Profile formData={formData} setFormData={setFormData} />
+                }
+              ></Route>
+              <Route
+                path="/external-profile/:id"
+                element={
+                  <ProfileExternal
+                    formData={formData}
+                    setFormData={setFormData}
+                  ></ProfileExternal>
+                }
+              >
+                {" "}
+              </Route>
+              <Route
+                path="/activity-user"
+                element={<Activity></Activity>}
+              ></Route>
+              <Route path="/diary-user" element={<Diary></Diary>}></Route>
+              <Route path="/reviews-user" element={<Reviews></Reviews>}></Route>
+              <Route
+                path="/watchlist"
+                element={<Watchlist></Watchlist>}
+              ></Route>
+              <Route
+                path="/listsNavbar"
+                element={
+                  <ListsNavbar
+                    listsPerUser={listsPerUser}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    templateContainer={DataProjectsList}
+                  ></ListsNavbar>
+                }
+              ></Route>
+              <></>
+              <Route
+                path="/list/new/"
+                element={<NewListBoilerplate></NewListBoilerplate>}
+              ></Route>
+              <Route
+                path="/movielistview/:id"
+                element={
+                  <MovieListView listsPerUser={listsPerUser}></MovieListView>
+                }
+              ></Route>
+              <Route
+                path="/listWithNotes/:id"
+                element={<ListWithNotes></ListWithNotes>}
+              ></Route>
+              <Route path="/likes-user" element={<Likes></Likes>}></Route>
+              <Route
+                path="/network/:id"
+                element={
+                  <Network
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    templateContainer={DataProjectNetwork}
+                  ></Network>
+                }
+              ></Route>
+              <Route
+                path="/settings-user"
+                element={
+                  <Settings
+                    formData={formData}
+                    setFormData={setFormData}
+                    draftForm={draftForm}
+                    setDraftForm={setDraftForm}
+                  ></Settings>
+                }
+              ></Route>
+              <Route
+                path="/mubi/:id"
+                element={
+                  <Mubi
+                    activeTab={activeTab}
+                    setActiveTab={
+                      setActiveTab
+                    } /*esto lo debo aplicar a Activity  */
+                    templateContainer={DataProjects}
+                  ></Mubi>
+                }
+              ></Route>
+              <Route
+                path="/mubi&detail/:id"
+                element={
+                  <MubiDetails
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    templateContainer={DataProjects}
+                  ></MubiDetails>
+                }
+              ></Route>
+              <Route
+                path="review&detail/:id"
+                element={<ReviewDetails></ReviewDetails>}
+              ></Route>
+
+              <Route
+                path="review-preview"
+                element={<ReviewPreviewSecond></ReviewPreviewSecond>}
+              ></Route>
+              <Route
+                path="/review-detailed"
+                element={<ReviewDetailed></ReviewDetailed>}
+              ></Route>
+              <Route
+                path="/movies/review/:id"
+                element={<ReviewComposer></ReviewComposer>}
+              ></Route>
+            </Routes>
+          </Router>
+        </ReviewProvider>
       </UserContext.Provider>
     </NavContext.Provider>
   );

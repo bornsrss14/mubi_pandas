@@ -66,6 +66,14 @@ const ratingService = {
       throw error.response?.data || error.message;
     }
   },
+  getByOwnId: async (id, id_user) => {
+    try {
+      const response = await api.get(`${id}/${id_user}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default ratingService;
