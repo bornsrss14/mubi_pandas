@@ -4,6 +4,7 @@ import ProfilePicUsername from "../core/ProfilePicUsername";
 import Rating from "../core/Rating";
 
 export const ReviewPreviewSecond = ({
+  review,
   nickname,
   noStarsRated = 1,
   imgProfile,
@@ -21,7 +22,7 @@ export const ReviewPreviewSecond = ({
       <div className="basic-flex-column">
         <div className="basic-flex-row">
           <p style={{ color: "gray" }}>
-            Review by <span style={{ color: "white" }}>{nickname}</span>
+            Review by <span style={{ color: "white" }}>{review?.username}</span>
           </p>
 
           <div>
@@ -33,10 +34,7 @@ export const ReviewPreviewSecond = ({
           </div>
         </div>
         <div>
-          <p>
-            lcl I watched this one agther the second one, I felt like this one
-            was no ehrte neas as goof as ethe sevonf
-          </p>
+          <p>{review?.review}</p>
         </div>
         <div>
           <div className="likesCount">

@@ -49,10 +49,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
-        console.log(
-          "Esto debe ser el error, no está llegando el id del id_tmdb correcto 👀👀👀👀👀👀👀👀👀➜",
-          movieData
-        );
+
         if (!movieData) {
           throw new Error("Not found :c");
         }
@@ -102,7 +99,22 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
     );
   }
 
-  if (loadingRevProv) return <p>Loading reviews...</p>;
+  if (loadingRevProv)
+    return (
+      <section
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyItems: "center",
+        }}
+      >
+        <p style={{ fontSize: "6rem" }}>Espera un poco, un poquito más ♪♪</p>
+        <p style={{ fontSize: "10rem" }}>(・∀・)ノ⌛ </p>
+      </section>
+    );
   if (errorRevProv) return <p>Error: {error}</p>;
 
   /*Tengo que encontrar la review  que hace match con la película id_tmdb === id*/

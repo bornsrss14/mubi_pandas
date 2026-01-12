@@ -16,6 +16,7 @@ import movieDatabaseService from "../services/movieDatabaseService";
 import { useMovieToggle } from "../hooks/useMovieToggle";
 import { useBreakpoint } from "../hooks/useBreakpoint";
 import { formatDateShortES } from "../utils/dateUtils";
+import reviewService from "../services/reviewService";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 /* export const RatingContext = createContext(); */
@@ -68,6 +69,27 @@ function MubiDetails({
       }
     };
     fetchMubiDetails();
+  }, [id]);
+
+  const [reviewsByMubi, setReviewsByMubi] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setLoadingReviews(true);
+        const allReviews = await reviewService.getByMubi(id);
+        if (!allReviews) {
+          throw new Error(`Not reviews with the id ${id} found`);
+        }
+        setReviewsByMubi(allReviews);
+      } catch (error) {
+        console.log("Error server");
+      } finally {
+        setLoadingReviews(false);
+      }
+    };
+    fetchReviews();
   }, [id]);
 
   const { states, toggle, loadingData } = useMovieToggle(id);
@@ -266,13 +288,27 @@ function MubiDetails({
               </section>
               <section>
                 <TagElement txt={"POPULAR REVIEWS"}></TagElement>
+                {/* Click en  ReviewPreview ➜ <ReviewDetails /> ➜ <MubiDetails /> */}
                 <div>
-                  <ReviewPreviewSecond
-                    nickname={"muz129"}
-                    imgProfile={
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3PxU_RqoB6hZj2TBoFiz_nWYOTjQCCPrCvw&s"
-                    }
-                  ></ReviewPreviewSecond>
+                  {loadingReviews ? (
+                    <p> espera un poco, un poquito máaaas </p>
+                  ) : (
+                    <>
+                      {reviewsByMubi?.data ? (
+                        reviewsByMubi?.data?.map((r) => (
+                          <ReviewPreviewSecond
+                            review={r}
+                            nickname={"muz129"}
+                            imgProfile={r.profile_pic_url}
+                          ></ReviewPreviewSecond>
+                        ))
+                      ) : (
+                        <>
+                          <p>Nothing here ...</p>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               </section>
             </section>
