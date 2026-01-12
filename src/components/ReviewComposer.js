@@ -1,5 +1,5 @@
 import {
-  IconHeartFilled,
+  /*IconHeartFilled*/
   IconLabelFilled,
   IconHeart,
 } from "@tabler/icons-react";
@@ -8,7 +8,6 @@ import LinkPoster from "../core/LinkPoster";
 import { TMDB_IMAGE_BASE_URL } from "../pages/Settings";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
-import { useParams } from "react-router-dom";
 import reviewService from "../services/reviewService";
 import ratingService from "../services/ratingService";
 /*"id_user": 4, "id_tmdb": 554, "review": " delete this as soon as you see this ","has_spoilers": 1, "rating": 5 */
@@ -70,7 +69,7 @@ export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
     return withTime ? date.toISOString() : date.toISOString().split("T")[0];
   }
 
-  const [hasSpoilers, setHasSpoilers] = useState(true);
+  const [, /*hasSpoilers*/ setHasSpoilers] = useState(true);
   const handleCheckbox = (e) => {
     const checked = e.target.checked;
     setHasSpoilers(checked);

@@ -54,14 +54,17 @@ export const Diary = () => {
         <p>Aquí solo van las reviews que hice</p>
         <div>
           {" "}
-          {normalizedReviews?.map((review) => (
-            <>
-              <BasicReview
-                key={review.id}
-                objeto={review}
-                spoilers={false}
-              ></BasicReview>
-              {/*    <p>
+          {normalizedReviews?.map(
+            (
+              review // review contiene el objeto, tengo que acceder al id
+            ) => (
+              <>
+                <BasicReview
+                  key={review.id}
+                  objeto={review}
+                  spoilers={false}
+                ></BasicReview>
+                {/*    <p>
                 {review?.title}- <span>{review?.date}</span>
               </p>
               <p>
@@ -83,8 +86,9 @@ export const Diary = () => {
                 posterUrl={`${TMDB_IMAGE_BASE_URL}w500${review?.poster}`}
                 width={7}
               ></LinkPoster> */}
-            </>
-          ))}
+              </>
+            )
+          )}
         </div>
       </ContainerFilms>
     </>

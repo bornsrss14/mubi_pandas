@@ -35,6 +35,15 @@ const reviewService = {
       throw error.response?.data || error.message;
     }
   },
+
+  getByMubi: async (id_tmdb) => {
+    try {
+      const response = await api.get(`/movie/${id_tmdb}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default reviewService;

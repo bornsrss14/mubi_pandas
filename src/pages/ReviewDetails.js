@@ -1,10 +1,7 @@
 import { IconDots } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
-import InlineNav from "../core/InlineNav";
-import { arrayTabsMubiPage } from "../storage/kindOfTabs"; /*  */
 import { useContext, useEffect, useState } from "react";
 import RatingTools from "../core/RatingTools";
-import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
 import TagElement from "../core/TagElement";
 import { Link, useParams } from "react-router-dom";
@@ -28,7 +25,8 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const { id } = useParams(); // ← obtengo el id de url
   /*mainUserData */
 
-  const { allPosters, allReviews, loadingRevProv, errorRevProv } = useReview();
+  const { /*allPosters*/ allReviews, loadingRevProv, errorRevProv } =
+    useReview();
   const { formData, mainUserData } = userContextValue || {};
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
@@ -51,6 +49,10 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
+        console.log(
+          "Esto debe ser el error, no está llegando el id del id_tmdb correcto 👀👀👀👀👀👀👀👀👀➜",
+          movieData
+        );
         if (!movieData) {
           throw new Error("Not found :c");
         }
@@ -85,7 +87,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
     return (
       <div>
         <div>
-          <p>Something went wron! 🙀</p>
+          <p>Something went wron! (￣□￣;)</p>
         </div>
       </div>
     );
@@ -213,7 +215,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                   withNickname={false}
                 ></ProfilePicUsername>
                 <p>
-                  Reviewed by{" "}
+                  Reviewed by
                   <span className="nickname">{mainUserData?.username}</span>
                 </p>
               </div>

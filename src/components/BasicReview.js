@@ -8,9 +8,11 @@ import { formatDateShortES } from "../utils/dateUtils";
 
 export const BasicReview = ({ objeto }) => {
   const itemReview = objeto ?? "Aún está cargando la review pasada por props🔍";
-  console.log(itemReview, "poster🍿🍿🍿");
+  console.log(itemReview, "poster🍿");
+  console.log(itemReview?.id, "A este id es el de la review, OWN 👽");
   return (
     <Link to={`/review&detail/${itemReview?.id_tmdb}`}>
+      {/*agregar item_review?.id */}
       <div
         style={{
           display: "grid",
