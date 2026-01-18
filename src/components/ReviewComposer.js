@@ -83,7 +83,6 @@ export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
     try {
       const response = await reviewService.createOrUpdate(reviewObject);
       console.log(response);
-      console.log("Review created successfully ✔️");
       /*   setDraftReview({
         id_user: mainUserData?.id,
         id_tmdb: id,

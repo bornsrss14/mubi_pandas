@@ -16,6 +16,7 @@ import ProfilePicUsername from "../core/ProfilePicUsername";
 import CommentItem from "../core/CommentItem";
 import { useReview } from "../contexts/ReviewProvider";
 import { formatDateShortES } from "../utils/dateUtils";
+import commentService from "../services/commentService";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 /* export const RatingContext = createContext(); */
@@ -66,10 +67,18 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const { states, toggle, loadingData } = useMovieToggle(id);
   const { isMobile, isDesktop } = useBreakpoint();
 
-  const [txtArea, setTxtArea] = useState("");
-  const createComment = (event) => {
-    event.preventDefault();
-    console.log("Aquí creo un comentario");
+  const [commentData, setCommentData] = useState({
+    id_review: 27,
+    id_user: 4,
+    comment_txt: "",
+  });
+  const handleAddComment = async (commentData) => {
+    try {
+      await commentService.addComment(commentData);
+    } catch (error) {
+      console.error("Something went wrong trying to add the comment");
+      alert(error.message || "Error (╯°□°）╯💬");
+    }
   };
 
   if (loading) {
@@ -322,15 +331,28 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                         Description
                       </label>
                       <textarea
-                        value={txtArea}
-                        onChange={(e) => setTxtArea(e.target.value)}
+                        value={commentData.comment_txt}
+                        //cambia esto titi
+                        onChange={(e) =>
+                          setCommentData({
+                            ...commentData,
+                            comment_txt: e.target.value,
+                          })
+                        }
                         className="txt_comment"
                         placeholder="Replay as bornsrss..."
                       ></textarea>
                     </div>
                   </div>
                   <button
-                    onClick={(e) => createComment(e)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (!commentData?.id_review || !commentData?.id_user) {
+                        alert("Selecciona primero el usuario y la review");
+                        return;
+                      }
+                      handleAddComment(commentData);
+                    }}
                     style={{ alignSelf: "flex-end" }}
                     className="btn btn-save"
                   >

@@ -27,9 +27,10 @@ export const ReviewPreviewSecond = ({
 
           <div>
             <Rating
+              customColor="white"
               starSize={"12"}
               toRate={false}
-              noStars={noStarsRated}
+              noStars={review?.rating || noStarsRated}
             ></Rating>
           </div>
         </div>

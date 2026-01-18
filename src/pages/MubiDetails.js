@@ -2,7 +2,7 @@ import { IconDots } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsMubiPage } from "../storage/kindOfTabs"; /*  */
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import RatingTools from "../core/RatingTools";
 import ReviewPreviewSecond from "../components/ReviewPreviewSecond";
 import MainFooter from "../components/MainFooter";
@@ -18,8 +18,9 @@ import { useBreakpoint } from "../hooks/useBreakpoint";
 import { formatDateShortES } from "../utils/dateUtils";
 import reviewService from "../services/reviewService";
 
-/*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
+/*Mubi receives an ID that will be compared to find it in its route. */
 /* export const RatingContext = createContext(); */
+export const ReviewContext = createContext();
 function MubiDetails({
   objeto,
   templateContainer,
@@ -28,30 +29,36 @@ function MubiDetails({
   itemMubi,
 }) {
   const userContextValue = useContext(UserContext);
+  const { id } = useParams(); // ← GET the id from the route param
 
-  const { id } = useParams(); // ← obtengo el id de url
   /*mainUserData */
-
   const { formData } = userContextValue || {};
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
   const [showTools, setShowTools] = useState(false);
   /*   const [showReviewForm, setShowReviewForm] = useState(false); */
-
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
-  const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del componente que se renderizará
+  const ComponenteSelected = activeTabItem?.componente; //Assigns the name of the component to be rendered
 
-  /*Estados para mostrar o no la carga de las promesas resueltas de la petición de Detalle de película  */
+  /*States whether show or not the resoult of charging resolved promises in the fetch of Movie Detail*/
   const [loading, setLoading] = useState();
   const [mubi, setMubi] = useState(null); //Aquì es donde temporalmente se guarda la pelìcula
-
   const [error, setError] = useState();
+
+  /*Three main states to manage the pagination of reviews for a given id_tmdb*/
+  const [reviewsByMubi, setReviewsByMubi] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    hasMore: true,
+  });
+  const REVIEWS_PER_PAGE = 3;
   const showRatingTools = () => {
     //esto ayuda a mostrar y esconder el componente de tools para cada película
     setShowTools((prev) => !prev);
   };
 
-  /* cada vez que cambie el ID pasado, voy a consumir getDataDetails de mi servicio  */
+  /*Call detDataDetails service  function seach time id changes */
   useEffect(() => {
     const fetchMubiDetails = async () => {
       try {
@@ -71,29 +78,64 @@ function MubiDetails({
     fetchMubiDetails();
   }, [id]);
 
-  const [reviewsByMubi, setReviewsByMubi] = useState([]);
-  const [loadingReviews, setLoadingReviews] = useState(false);
+  const fetchReviews = async (id, page = 1) => {
+    try {
+      setLoadingReviews(true);
+      const response = await reviewService.getByMubi(
+        id,
+        page,
+        REVIEWS_PER_PAGE
+      );
+
+      if (page === 1) {
+        setReviewsByMubi(response?.data || []);
+      } else {
+        setReviewsByMubi((prev) => [...prev, ...(response.data || [])]);
+      }
+
+      setPagination({
+        page: response?.pagination?.page || page,
+        hasMore: response?.pagination?.hasMore || false,
+      });
+      console.log("Pagination updated:", {
+        page: response?.pagination?.page,
+        hasMore: response?.pagination?.hasMore,
+      });
+    } catch (error) {
+      console.error("Error loading reviews:", error);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setLoadingReviews(true);
-        const allReviews = await reviewService.getByMubi(id);
-        if (!allReviews) {
-          throw new Error(`Not reviews with the id ${id} found`);
-        }
-        setReviewsByMubi(allReviews);
-      } catch (error) {
-        console.log("Error server");
-      } finally {
-        setLoadingReviews(false);
-      }
-    };
-    fetchReviews();
+    // Reset when movie changes
+    setReviewsByMubi([]);
+    setPagination({ page: 1, hasMore: true });
+    fetchReviews(id, 1);
   }, [id]);
+
+  const loadMoreReviews = () => {
+    console.log("load more clicked!");
+    console.log("pagination before:", pagination);
+
+    if (!loadingReviews && pagination?.hasMore) {
+      fetchReviews(id, pagination.page + 1);
+    } else {
+      console.log(
+        "Bloqueado - loading:",
+        loadingReviews,
+        "hasMore:",
+        pagination?.hasMore
+      );
+    }
+  };
 
   const { states, toggle, loadingData } = useMovieToggle(id);
   const { isMobile, isDesktop } = useBreakpoint();
+
+  // 1-paso crear un callback para volver a cargar datos en el padre, onReviewCreated()
+
   if (loading) {
     return (
       <div>
@@ -288,26 +330,50 @@ function MubiDetails({
               </section>
               <section>
                 <TagElement txt={"POPULAR REVIEWS"}></TagElement>
-                {/* Click en  ReviewPreview ➜ <ReviewDetails /> ➜ <MubiDetails /> */}
+                {/* Click on  ReviewPreviewSecond ➜ <ReviewDetails /> ➜ <MubiDetails /> */}
                 <div>
-                  {loadingReviews ? (
-                    <p> espera un poco, un poquito máaaas </p>
-                  ) : (
+                  {/* Primera carga */}
+                  {loadingReviews && reviewsByMubi.length === 0 && (
+                    <p>Cargando reviews...</p>
+                  )}
+
+                  {/* Reviews */}
+                  {reviewsByMubi.length > 0 && (
                     <>
-                      {reviewsByMubi?.data ? (
-                        reviewsByMubi?.data?.map((r) => (
-                          <ReviewPreviewSecond
-                            review={r}
-                            nickname={"muz129"}
-                            imgProfile={r.profile_pic_url}
-                          ></ReviewPreviewSecond>
-                        ))
-                      ) : (
-                        <>
-                          <p>Nothing here ...</p>
-                        </>
-                      )}
+                      {reviewsByMubi.map((r) => (
+                        <ReviewPreviewSecond
+                          key={r.id}
+                          review={r}
+                          nickname={r.username || "muz129"}
+                          imgProfile={r.profile_pic_url}
+                        />
+                      ))}
                     </>
+                  )}
+
+                  {/* Loading more reviews */}
+                  {loadingReviews && reviewsByMubi.length > 0 && (
+                    <p className="loading-more">Loading more...</p>
+                  )}
+
+                  {/*Button Load More */}
+                  {!loadingReviews &&
+                    pagination.hasMore &&
+                    reviewsByMubi.length > 0 && (
+                      <button
+                        onClick={loadMoreReviews}
+                        className="btn-load-more"
+                        onMouseEnter={() => console.log("Mouse over button")} // 👈 Test hove
+                      >
+                        Load More Reviews
+                      </button>
+                    )}
+
+                  {/* no reviews to show */}
+                  {!loadingReviews && reviewsByMubi.length === 0 && (
+                    <p className="fallback-msg-reviews">
+                      No reviews yet. Be the first to review! (•̀ᴗ•́)و ★
+                    </p>
                   )}
                 </div>
               </section>

@@ -2,12 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import SearchBar from "../core/SearchBar";
 import { Link } from "react-router-dom";
 import { UserContext } from "../App";
-import { getMubisByIds } from "../utils/dateUtils";
 import userService from "../services/userService";
 import fourFavService from "../services/fourFavoriteService";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
-import { useMubiSearch } from "../hooks/useMubiSearch";
 import movieService from "../services/movieDatabaseService";
 
 export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"; ///https://image.tmdb.org/t/p/z632eZtXaw76ZE5mMMGOBXCpm1T.jpg
@@ -83,7 +81,7 @@ export const Settings = ({
       }
     }
     fetchMovies();
-  }, [dataFour]);
+  }, [dataFour, setTopFavorites]);
 
   useEffect(() => {
     if (selected && mainUserData?.id) {

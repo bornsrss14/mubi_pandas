@@ -36,9 +36,11 @@ const reviewService = {
     }
   },
 
-  getByMubi: async (id_tmdb) => {
+  getByMubi: async (id_tmdb, page = 1, limit = 3) => {
     try {
-      const response = await api.get(`/movie/${id_tmdb}`);
+      const response = await api.get(`/movie/search/${id_tmdb}`, {
+        params: { page, limit },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
