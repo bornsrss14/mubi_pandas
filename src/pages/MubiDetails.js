@@ -84,7 +84,7 @@ function MubiDetails({
       const response = await reviewService.getByMubi(
         id,
         page,
-        REVIEWS_PER_PAGE
+        REVIEWS_PER_PAGE,
       );
 
       if (page === 1) {
@@ -97,7 +97,7 @@ function MubiDetails({
         page: response?.pagination?.page || page,
         hasMore: response?.pagination?.hasMore || false,
       });
-      console.log("Pagination updated:", {
+      console.log("Pagination updated_este no es:", {
         page: response?.pagination?.page,
         hasMore: response?.pagination?.hasMore,
       });
@@ -126,7 +126,7 @@ function MubiDetails({
         "Bloqueado - loading:",
         loadingReviews,
         "hasMore:",
-        pagination?.hasMore
+        pagination?.hasMore,
       );
     }
   };

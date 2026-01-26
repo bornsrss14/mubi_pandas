@@ -72,9 +72,8 @@ export const Settings = ({
       if (!dataFour || dataFour.length === 0) return; //avoid innecesari fetch
 
       try {
-        const moviesDataFour = await movieDatabaseService.getMoviePoster(
-          dataFour
-        );
+        const moviesDataFour =
+          await movieDatabaseService.getMoviePoster(dataFour);
         setTopFavorites(moviesDataFour);
       } catch (error) {
         console.error("Error obteniendo posters 📸");
@@ -99,7 +98,7 @@ export const Settings = ({
         refreshTopFavorites();
         //  IMPORTANTE: actualiza estado local
         setDataFour((prev) =>
-          prev.filter((id) => Number(id) !== Number(id_movie))
+          prev.filter((id) => Number(id) !== Number(id_movie)),
         );
         alert("The movie was deleted successfully");
       } catch (error) {

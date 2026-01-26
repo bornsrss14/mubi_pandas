@@ -1,4 +1,4 @@
-import { IconDots } from "@tabler/icons-react";
+import { IconDots, IconHeartFilled } from "@tabler/icons-react";
 import ItemSreamingApp from "../core/ItemSreamingApp";
 import { useContext, useEffect, useState } from "react";
 import RatingTools from "../core/RatingTools";
@@ -23,7 +23,7 @@ import commentService from "../services/commentService";
 function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const userContextValue = useContext(UserContext);
 
-  const { id } = useParams(); // ← obtengo el id de url
+  const { id, id_review } = useParams(); // ← obtengo el id de url
   /*mainUserData */
 
   const { /*allPosters*/ allReviews, loadingRevProv, errorRevProv } =
@@ -68,19 +68,85 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const { isMobile, isDesktop } = useBreakpoint();
 
   const [commentData, setCommentData] = useState({
-    id_review: 27,
-    id_user: 4,
-    comment_txt: "",
+    id_review: id_review,
+    id_user: mainUserData?.id || 4, //cambiar
+    comment_txt: "", //
   });
   const handleAddComment = async (commentData) => {
     try {
       await commentService.addComment(commentData);
+      //add refreshComments function from CommentProviderContext;
+      //2. Reset commentData?.comment_txt: ➜ "" empty;
+      setCommentData({
+        id_review: id_review,
+        id_user: mainUserData?.id || 4, //cambiar
+        comment_txt: "",
+      });
     } catch (error) {
       console.error("Something went wrong trying to add the comment");
       alert(error.message || "Error (╯°□°）╯💬");
     }
   };
 
+  const [commentsByReview, setCommentsByReview] = useState([]);
+  const [loadingComments, setLoadingComments] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    hasMore: true,
+  });
+
+  const getCommentsByReview = async (id_review, page, limit = 3) => {
+    try {
+      setLoadingComments(true);
+      const response = await commentService.getByReviewId(
+        id_review,
+        page,
+        limit,
+      );
+      if (page === 1) {
+        setCommentsByReview(response?.data || []);
+      } else {
+        setCommentsByReview((prev) => [...prev, ...(response?.data || [])]);
+      }
+      setPagination({
+        page: response?.pagination?.page,
+        hasMore: response?.pagination?.hasMore,
+      });
+
+      console.log("Pagination updated", {
+        page: response?.pagination?.page,
+        hasMore: response?.pagination?.hasMore,
+      });
+    } catch (error) {
+      console.error(
+        `Error loading comments asociated this review ${id_review}`,
+      );
+    } finally {
+      setLoadingComments(false);
+    }
+  };
+
+  //Reset when REVIEW_ID changes.
+  useEffect(() => {
+    setCommentsByReview([]);
+    setPagination({ page: 1, hasMore: true });
+    getCommentsByReview(id_review, 1, 3);
+  }, [id_review]);
+
+  const loadMoreComments = () => {
+    console.log("Load more comments clicked! (°ロ°) !");
+    console.log("Pagination bbefore", pagination);
+    if (!loadingComments && pagination?.hasMore) {
+      getCommentsByReview(id_review, pagination?.page + 1);
+    } else {
+      console.log(
+        "BLOQUEADO - loading comments:",
+        loadingComments,
+        "has more comments",
+        pagination?.hasMore,
+      );
+    }
+  };
   if (loading) {
     return (
       <div>
@@ -129,7 +195,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   /*Tengo que encontrar la review  que hace match con la película id_tmdb === id*/
 
   const itemReview = allReviews?.data?.find(
-    (review) => review?.id_tmdb === parseInt(id)
+    (review) => review?.id_tmdb === parseInt(id),
   );
 
   return (
@@ -236,7 +302,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                   withNickname={false}
                 ></ProfilePicUsername>
                 <p>
-                  Reviewed by
+                  Reviewed by{" "}
                   <span className="nickname">{mainUserData?.username}</span>
                 </p>
               </div>
@@ -276,6 +342,19 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                 </p>
                 <p className="mubi-description">{itemReview?.review}</p>
               </section>
+              <section>
+                <div
+                  onClick={() => console.log("you just clicked like review")}
+                  className="btn-like-review"
+                >
+                  <IconHeartFilled
+                    size={"1.3rem"}
+                    color="white"
+                  ></IconHeartFilled>
+                  <p>Like review</p>
+                  <p className="fallback-txt">5 Likes</p>
+                </div>
+              </section>
               {isMobile && (
                 <>
                   <TagElement txt={"RATINGS"}></TagElement>
@@ -291,7 +370,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                 </>
               )}
               <section>
-                <TagElement txt={"liked this review"}></TagElement>
+                <TagElement txt={"People liked this review"}></TagElement>
                 <div className="grid-liked-pics">
                   <ProfilePicUsername
                     imgProfile={
@@ -314,10 +393,45 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                 </div>
               </section>
               <section>
+                {/* AQUÍ RENDERIZO MIS COMENTARIOS DE MI REVIEW_ID; */}
                 <TagElement txt={"Comments"}></TagElement>
                 <div>
-                  <CommentItem></CommentItem>
-                  <CommentItem></CommentItem>
+                  {/*  Primera carga de comments*/}
+                  {loadingComments && commentsByReview.length === 0 && (
+                    <p>cargando comentarios...</p>
+                  )}
+                  {/* Comments asociated */}
+                  {commentsByReview?.length > 0 && (
+                    <>
+                      {commentsByReview?.map((c, i) => (
+                        <CommentItem key={i} objectComment={c}></CommentItem>
+                      ))}
+                    </>
+                  )}
+
+                  {/* Loading more comments*/}
+                  {loadingComments && commentsByReview?.length > 0 && (
+                    <p className="loading-more">Loading more...</p>
+                  )}
+
+                  {/*Button Load More */}
+                  {!loadingComments &&
+                    pagination.hasMore &&
+                    commentsByReview?.length > 0 && (
+                      <button
+                        onClick={loadMoreComments}
+                        className="btn-load-more"
+                        onMouseEnter={() => console.log("Mouse over button")} // 👈 Test hove
+                      >
+                        Show more comments
+                      </button>
+                    )}
+                  {/* no comments to display */}
+                  {!loadingComments && commentsByReview?.length === 0 && (
+                    <p className="fallback-msg-reviews">
+                      No comments yet. Be the first to drop a comment! (•̀ᴗ•́)و 📨
+                    </p>
+                  )}
                 </div>
               </section>
               <section className="container-txt-area">
@@ -331,7 +445,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                         Description
                       </label>
                       <textarea
-                        value={commentData.comment_txt}
+                        value={commentData?.comment_txt}
                         //cambia esto titi
                         onChange={(e) =>
                           setCommentData({

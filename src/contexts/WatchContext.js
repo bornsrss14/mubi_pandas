@@ -21,7 +21,7 @@ export function WatchProvider({ children }) {
   /*2.  Fun: Elimina de la lista de Watch: Son las películas que guardo en WatchList, no las he marcado como vistas */
   const deleteFromWatch = (idMubi) => {
     setWatch((prev) =>
-      prev.filter((itemMubi) => itemMubi.idMubiWatch !== idMubi)
+      prev.filter((itemMubi) => itemMubi.idMubiWatch !== idMubi),
     );
   };
   /*1. Fun: Agrega a la lista de películas vistas */
@@ -39,7 +39,7 @@ export function WatchProvider({ children }) {
   /* 2. Fun: Elimina de la lista de películas vistas la que le pase como parametro, y de Xn usuario  */
   const deleteFromWatched = (idMubi) => {
     setWatched((prev) =>
-      prev.filter((itemMubi) => itemMubi.idMubiWatched !== idMubi)
+      prev.filter((itemMubi) => itemMubi.idMubiWatched !== idMubi),
     );
   };
 

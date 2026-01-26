@@ -24,9 +24,9 @@ export const useMovieToggle = (id_tmdb) => {
         if (response.ok) {
           const data = await response.json();
           setStates({
-            liked: data.liked === 1,
-            watched: data.watched === 1,
-            to_watch: data.to_watch === 1,
+            liked: data?.liked === 1,
+            watched: data?.watched === 1,
+            to_watch: data?.to_watch === 1,
           });
         }
       } catch (error) {
@@ -48,7 +48,7 @@ export const useMovieToggle = (id_tmdb) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ field }),
-        }
+        },
       );
 
       if (response.ok) {

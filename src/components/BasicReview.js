@@ -11,7 +11,8 @@ export const BasicReview = ({ objeto }) => {
   console.log(itemReview, "poster🍿");
   console.log(itemReview?.id, "A este id es el de la review, OWN 👽");
   return (
-    <Link to={`/review&detail/${itemReview?.id_tmdb}`}>
+    /* <Link to={`/review&detail/${itemReview?.id_tmdb}`}> */
+    <Link to={`/review&detail/${itemReview?.id_tmdb}/${itemReview?.id}`}>
       {/*agregar item_review?.id */}
       <div
         style={{
@@ -80,7 +81,7 @@ export const BasicReview = ({ objeto }) => {
               {itemReview?.created_at && "created at"} {""}
               <span>
                 {formatDateShortES(
-                  itemReview?.updated_at ?? itemReview?.created_at
+                  itemReview?.updated_at ?? itemReview?.created_at,
                 ) ||
                   itemReview?.date ||
                   itemReview?.date ||

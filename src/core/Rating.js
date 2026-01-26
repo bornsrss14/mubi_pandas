@@ -42,18 +42,7 @@ export const Rating = ({
     setHoverRating(i);
   }
 
-  const deleteRating = async (id_user, id_tmdb) => {
-    try {
-      await ratingService.deleteByUserAndMubiId(id_user, id_tmdb);
-      setRatingRecord(0);
-      console.log("Rating eliminado └(＾ω＾)┐ ");
-      alert("Rating deleted └(＾ω＾)┐");
-    } catch (error) {
-      console.error("No se pudo eliminar este rating");
-      alert(error.message || "Error al eliminar el rating(╯°□°）╯");
-    }
-  };
-
+  /* console.log("Rating creada con éxito ⭐"); */
   const handleRating = async (rating) => {
     try {
       if (!mainUserData?.id) {
@@ -67,10 +56,19 @@ export const Rating = ({
         rating: rating,
       };
       await ratingService.create(ratingData);
-      console.log("Rating creada con éxito ⭐");
     } catch (error) {
       console.error("Something went wrong trying to create the rating");
       alert(error.message || "Error al agregar el usuario(╯°□°）╯");
+    }
+  };
+  const deleteRating = async (id_user, id_tmdb) => {
+    try {
+      await ratingService.deleteByUserAndMubiId(id_user, id_tmdb);
+      setRatingRecord(0);
+      alert("Rating deleted └(＾ω＾)┐");
+    } catch (error) {
+      console.error("No se pudo eliminar este rating");
+      alert(error.message || "Error al eliminar el rating(╯°□°）╯");
     }
   };
 
@@ -84,7 +82,7 @@ export const Rating = ({
       try {
         const record = await ratingService.getByUserAndTmdbId(
           mainUserData?.id,
-          id_tmdb
+          id_tmdb,
         );
         setRatingRecord(record?.data?.rating);
       } catch (error) {
@@ -98,9 +96,9 @@ export const Rating = ({
     }
   }, [mainUserData?.id, id_tmdb]);
 
+  // Aquí va tu lógica cuando ratingRecord cambie
   useEffect(() => {
     console.log("ratingRecord cambió:", ratingRecord);
-    // Aquí va tu lógica cuando ratingRecord cambie
   }, [ratingRecord]); // ← Solo esta dependencia
   return (
     <>
@@ -165,7 +163,7 @@ export const Rating = ({
             </div>
           )}
 
-          {!toRate && //aquí ya está calificado
+          {!toRate && //rating record already has a value; display only
             Array.from(
               {
                 length: noStars,
@@ -182,7 +180,7 @@ export const Rating = ({
                     <p>oops! error</p>
                   )}
                 </span>
-              )
+              ),
             )}
         </div>
         <p style={textStyle}>{ratingRecord || hoverRating || ""}</p>

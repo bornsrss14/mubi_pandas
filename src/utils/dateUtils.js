@@ -80,3 +80,35 @@ export const formatDateShortES = (isoDate) => {
     months[date.getUTCMonth()]
   } ${date.getUTCFullYear()}`;
 };
+
+/* if (diffSeconds < 0) {
+  // futuro → rtf.format(valorPositivo)
+} */
+export const timeAgo = (dateString) => {
+  const now = new Date();
+  const date = new Date(dateString);
+
+  const diffSeconds = Math.floor((now - date) / 1000);
+  const rtf = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
+
+  // 👉 FUTURO
+  if (diffSeconds < 0) {
+    const minutes = Math.ceil(Math.abs(diffSeconds) / 60);
+    const hours = Math.ceil(minutes / 60);
+    const days = Math.ceil(hours / 24);
+
+    if (minutes < 60) return rtf.format(minutes, "minute");
+    if (hours < 24) return rtf.format(hours, "hour");
+    return rtf.format(days, "day");
+  }
+
+  // 👉 PASADO
+  const minutes = Math.floor(diffSeconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (minutes < 1) return "justo ahora";
+  if (minutes < 60) return rtf.format(-minutes, "minute");
+  if (hours < 24) return rtf.format(-hours, "hour");
+  return rtf.format(-days, "day");
+};

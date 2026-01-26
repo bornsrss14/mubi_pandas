@@ -9,8 +9,7 @@ import Rating from "./Rating";
 import { Link } from "react-router-dom";
 import { useLikes } from "../contexts/LikesContext";
 import { useWatch } from "../contexts/WatchContext";
-import { RatingContext } from "../contexts/Eliminar";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useBreakpoint } from "../hooks/useBreakpoint";
 import ReviewComposer from "../components/ReviewComposer";
 export const RatingTools = ({
@@ -69,7 +68,7 @@ export const RatingTools = ({
           >
             {/* retorna true or false => en la lista de Me gusta del usuario, hay alguna coincidencia con 
             el id que se está pasando de la película selecionada (?) */}
-            {states.liked ? (
+            {states?.liked ? (
               <IconHeartFilled
                 size={"4.3rem"}
                 color="red"

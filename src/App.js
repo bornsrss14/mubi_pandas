@@ -88,7 +88,11 @@ export default function App() {
   const [reviewsUser, setReviewsUser] = useState(madeReviews(userId));
 
   const [dataFour, setDataFour] = useState([]);
+  const [comments, setAllComments] = useState([]);
 
+  async function refreshComments() {
+    if (!mainUser?.id) return;
+  }
   async function refreshTopFavorites() {
     if (!mainUserData?.id) return;
 
@@ -98,6 +102,7 @@ export default function App() {
 
     setTopFavorites(moviesDataFour);
   }
+
   useEffect(() => {
     if (!mainUserData?.id) return;
 
@@ -272,7 +277,8 @@ export default function App() {
                 }
               ></Route>
               <Route
-                path="review&detail/:id"
+                /* path="review&detail/:id" */
+                path="review&detail/:id/:id_review"
                 element={<ReviewDetails></ReviewDetails>}
               ></Route>
 
