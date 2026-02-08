@@ -2440,6 +2440,10 @@ select {
   background-color: #456;
   padding: 4rem 3rem;
 }
+.hide,
+.offscreen {
+  display: none;
+}
 @media (min-width: 1023px) {
   #form-register {
     min-width: 28rem;

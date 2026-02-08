@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ProfilePicUsername from "../core/ProfilePicUsername";
-import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils";
+import { EMAIL_REGEX, PWD_REGEX, USER_REGEX } from "../utils/dateUtils";
 
 export const Register = () => {
   const userRef = useRef();
@@ -20,6 +20,10 @@ export const Register = () => {
   const [userFocus, setUserFocus] = useState(false);
   const validUser = USER_REGEX.test(user_handle); // esto sustituyó validUser, setValidUSer state
 
+  const [email_handle, setEmail] = useState("");
+  const [emailFocus, setEmailFocus] = useState(false);
+  const validEmail = EMAIL_REGEX.test(email_handle);
+  // pasa el REGEX email test??
   const [pwd, setPwd] = useState();
   const [pwdFocus, setPwdFocus] = useState(false);
   const validPwd = PWD_REGEX.test(pwd); //const [validPwd, setValidPwd] = useState(false);
@@ -119,8 +123,37 @@ export const Register = () => {
           </p>
         </div>
         <div className="field">
-          <label htmlFor="email">email</label>
-          <input autoComplete="off" id="email" type="email"></input>
+          <label htmlFor="email_handle">
+            email
+            <span className={validEmail ? "valid" : "hide"}>
+              {/*  hide display to none */}
+              <FontAwesomeIcon icon={faCheck} />
+            </span>
+            <span className={validEmail || !email_handle ? "hide" : "invalid"}>
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </label>
+          <input
+            required
+            value={email_handle}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            autoComplete="off"
+            id="email_handle"
+            type="email"
+            onFocus={() => setEmailFocus(true)}
+            onBlur={() => setPwdFocus(false)}
+            aria-describedby="emailnote"
+          ></input>
+          <p
+            id="emailnote"
+            className={emailFocus && !validEmail ? "instructions" : "offscreen"}
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+            Not a valid e-mail, try again
+            <br />
+          </p>
         </div>
         <div className="field">
           {validMatch ? "Correct 👌" : "Try again 🙅‍♀️"}
