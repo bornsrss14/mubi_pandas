@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../contexts/AuthProvider.js";
 import loginService from "../services/loginService.js";
+import { Link } from "react-router-dom";
+import ProfilePicUsername from "../core/ProfilePicUsername.js";
 // 4-24 characters, letters, numbers, underscores, hyphens
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 // 8-24 characters, at least one uppercase, one lowercase, one number, one special character
@@ -82,63 +84,90 @@ export const Login = () => {
           </p>
         </section>
       ) : (
-        <section className="sect-form">
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
-          <form onSubmit={handleSubmit}>
-            <div className="">
-              <label className="" htmlFor="username">
-                nickname
-              </label>
-              <input
-                className=""
-                id="username"
-                name="username"
-                type="text"
-                ref={userRef} //we can set focus on the input
-                autoComplete="off"
-                onChange={(e) => {
-                  setUser(e.target.value);
-                }}
-                value={user}
-                required
-                aria-invalid={validName ? "false" : "true"}
-                aria-describedby="uidnote"
-                onFocus={() => setUserFocus(true)}
-                onBlur={() => {
-                  setUserFocus(false);
-                }}
-              ></input>
+        <>
+          <section className="form-login-register" id="form-register">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <ProfilePicUsername
+                withNickname={false}
+                measure="26px"
+                imgProfile={
+                  "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
+                }
+              ></ProfilePicUsername>
+              <h1>Sign in to pandasneezing</h1>
             </div>
+            <div
+              style={{
+                marginTop: "1.5rem",
+                marginBottom: "1.5rem",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <p className="need-account">Need an account?</p>
+              <button className="btn btn-alternative">Create an account</button>
+            </div>
+            <p
+              ref={errRef}
+              className={errMsg ? "errmsg" : "offscreen"}
+              aria-live="assertive"
+            >
+              {errMsg}
+            </p>
+            <form className="form-register" onSubmit={handleSubmit}>
+              <div className="field">
+                <label className="" htmlFor="username">
+                  nickname
+                </label>
+                <input
+                  className=""
+                  id="username"
+                  name="username"
+                  type="text"
+                  ref={userRef} //we can set focus on the input
+                  autoComplete="off"
+                  onChange={(e) => {
+                    setUser(e.target.value);
+                  }}
+                  value={user}
+                  required
+                  aria-invalid={validName ? "false" : "true"}
+                  aria-describedby="uidnote"
+                  onFocus={() => setUserFocus(true)}
+                  onBlur={() => {
+                    setUserFocus(false);
+                  }}
+                ></input>
+              </div>
 
-            <div className="">
-              <label className="" htmlFor="email">
-                pasword
-              </label>
-              <input
-                className=""
-                id="password"
-                name="password"
-                type="password"
-              ></input>
-            </div>
-            <div className="">
-              <label className="" htmlFor="email">
-                Confirm pasword:
-              </label>
-              <input
-                className=""
-                id="password"
-                name="password"
-                type="password"
-              ></input>
-            </div>
-            {/* <div className="">
+              <div className="field">
+                <label htmlFor="email">Pasword:</label>
+                <input
+                  className=""
+                  id="password"
+                  name="password"
+                  type="password"
+                ></input>
+              </div>
+              <div className="field">
+                <label htmlFor="email">Confirm pasword:</label>
+                <input
+                  className=""
+                  id="password"
+                  name="password"
+                  type="password"
+                ></input>
+              </div>
+              {/* <div className="">
           <label className="" htmlFor="email">
             username
           </label>
@@ -159,19 +188,19 @@ export const Login = () => {
             procesing of my personal information in accordance with it
           </p>
         </div> */}
-            <button type="submit" className="simple-btn btn-sign-up">
-              sign up
-            </button>
-          </form>
-          <div>
-            <p>
-              Need an account? <br />
-              <span className="line">
-                {/* put link router here */} <a href="https"> Sign Up</a>
-              </span>
-            </p>
-          </div>
-        </section>
+              <button type="submit" className="btn sign-up">
+                sign in
+              </button>
+            </form>
+          </section>
+          <>
+            <div className="basic-flex-row">
+              <p>Terms Privacy </p>
+              <p>Policy</p>
+              <p>Contact</p>
+            </div>
+          </>
+        </>
       )}
     </>
   );
