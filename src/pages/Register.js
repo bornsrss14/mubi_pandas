@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProfilePicUsername from "../core/ProfilePicUsername";
+import { USER_REGEX } from "../utils/dateUtils";
 
 export const Register = () => {
+  const userRef = useRef();
+  const errRef = useRef(); // if i had an erro, i need to put focus to this to annouce to screanreaders for accesibility
+
+  //state for fields
+
+  const [user, setUser] = useState("");
+  const [userFocus, setUserFocus] = useState(false);
+  const validUser = USER_REGEX.test(user);
+
+  const [pwd, setPwd] = useState();
+  const [pwdFocus, setPwdFocus] = useState(false);
+  const [validPwd, setValidPwd] = useState(false);
+
+  const [matchPwd, setMatchPwd] = useState();
+  const [matchFocus, setMatchFocus] = useState(false);
+  const [validMatchPwd, setValidMatchPwd] = useState(false);
+
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []); //setting the focus qhen the component loads, focus on the username input
+
   return (
     <section className="form-login-register" id="form-register">
       <div
@@ -31,13 +56,18 @@ export const Register = () => {
           gap: "1rem",
         }}
       >
-        <p className="need-account">Already have a Letterboxd account?</p>
+        <p className="need-account">Already have a pandasneezing account?</p>
         <span className="need-account">Sign in.</span>
       </div>
       <form className="form-register">
         <div className="field">
           <label>username</label>
-          <input type="text"></input>
+          <input
+            ref={userRef}
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+            type="text"
+          ></input>
         </div>
         <div className="field">
           <label>email</label>
