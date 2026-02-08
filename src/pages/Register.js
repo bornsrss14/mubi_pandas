@@ -1,6 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import ProfilePicUsername from "../core/ProfilePicUsername";
-import { USER_REGEX } from "../utils/dateUtils";
+import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils";
 
 export const Register = () => {
   const userRef = useRef();
@@ -8,18 +16,19 @@ export const Register = () => {
 
   //state for fields
 
-  const [user, setUser] = useState("");
+  const [user_handle, setUser] = useState("");
   const [userFocus, setUserFocus] = useState(false);
-  const validUser = USER_REGEX.test(user);
+  const validUser = USER_REGEX.test(user_handle); // esto sustituyó validUser, setValidUSer state
 
   const [pwd, setPwd] = useState();
   const [pwdFocus, setPwdFocus] = useState(false);
-  const [validPwd, setValidPwd] = useState(false);
+  const validPwd = PWD_REGEX.test(pwd); //const [validPwd, setValidPwd] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState();
   const [matchFocus, setMatchFocus] = useState(false);
-  const [validMatchPwd, setValidMatchPwd] = useState(false);
+  const validMatch = pwd === matchPwd; //  const [validMatchPwd, setValidMatchPwd] = useState(false);
 
+  console.log("¿Son válidas las contraseñas?");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -27,6 +36,9 @@ export const Register = () => {
     userRef.current.focus();
   }, []); //setting the focus qhen the component loads, focus on the username input
 
+  useEffect(() => {
+    setErrMsg("");
+  }, [user_handle, pwd, matchPwd]);
   return (
     <section className="form-login-register" id="form-register">
       <div
@@ -59,30 +71,96 @@ export const Register = () => {
         <p className="need-account">Already have a pandasneezing account?</p>
         <span className="need-account">Sign in.</span>
       </div>
+
+      <p
+        ref={errRef}
+        className={errMsg ? "errmsg" : "offscreen"} //position absolute way off the screenc but will be available to screen
+        aria-live="assertive"
+      >
+        {errMsg}
+      </p>
       <form className="form-register">
         <div className="field">
-          <label>username</label>
+          <label htmlFor="username_handle">
+            username
+            <span className={validUser ? "valid" : "hide"}>
+              {/*  hide display to none */}
+              <FontAwesomeIcon icon={faCheck} />
+            </span>
+            <span className={validUser || !user_handle ? "hide" : "invalid"}>
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </label>
           <input
-            ref={userRef}
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
             type="text"
+            id="username_handle"
+            ref={userRef}
+            autoComplete="off"
+            value={user_handle}
+            onChange={(e) => setUser(e.target.value)}
+            required
+            aria-invalid={validUser ? "false" : "true"}
+            aria-describedby="uidnote"
+            onFocus={() => setUserFocus(true)}
+            onBlur={() => setUserFocus(false)}
+          ></input>
+          <p
+            id="uidnote"
+            className={
+              userFocus && user_handle && !validUser
+                ? "instructions"
+                : "offscreen"
+            }
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+            4 to 24 characters. <br />
+            Must begin with a letter. <br />
+            Letters, numbers, underscores, hyphens allowed.
+          </p>
+        </div>
+        <div className="field">
+          <label htmlFor="email">email</label>
+          <input autoComplete="off" id="email" type="email"></input>
+        </div>
+        <div className="field">
+          {validMatch ? "Correct 👌" : "Try again 🙅‍♀️"}
+          <label htmlFor="password">password</label>
+          <input
+            id="password"
+            value={pwd}
+            onChange={(e) => setPwd(e.target.value)}
+            required
+            aria-invalid={validPwd ? "false" : "true"}
+            aria-describedby="pwdnote"
+            onFocus={() => setPwdFocus(true)}
+            onBlur={() => setPwdFocus(false)}
+            type="password"
+          ></input>
+          <p
+            id="pwdnote"
+            className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+          >
+            <FontAwesomeIcon icon={faInfoCircle} />
+            8 to 24 characters. <br />
+            Must include uppercase and lowercase letters, a number a special
+            character. <br />
+          </p>
+        </div>
+        <div className="field">
+          <label htmlFor="matchpassword">Type again password</label>
+          <input
+            id="matchpassword"
+            value={matchPwd}
+            onChange={(e) => setMatchPwd(e.target.value)}
+            type="password"
           ></input>
         </div>
         <div className="field">
-          <label>email</label>
-          <input type="email"></input>
+          <label htmlFor="givenname">given name</label>
+          <input id="givenname" type="text"></input>
         </div>
-        <div className="field">
-          <label>password</label>
-          <input type="password"></input>
-        </div>
-        <div className="field">
-          <label>given name</label>
-          <input type="text"></input>
-        </div>
-        <div className="field">
-          <label>family name</label>
+        <div htmlFor="familyname" className="field">
+          <label id="familyname">family name</label>
           <input type="text"></input>
         </div>
         <div className="field">
