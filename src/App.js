@@ -41,6 +41,8 @@ import ListService from "./services/listService";
 import ReviewComposer from "./components/ReviewComposer";
 import ReviewDetails from "./pages/ReviewDetails";
 import { ReviewProvider } from "./contexts/ReviewProvider";
+import { Login } from "./pages/Login";
+import Register from "./pages/Register";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -281,7 +283,8 @@ export default function App() {
                 path="review&detail/:id/:id_review"
                 element={<ReviewDetails></ReviewDetails>}
               ></Route>
-
+              <Route path="/login" element={<Login></Login>}></Route>
+              <Route path="/register" element={<Register></Register>}></Route>
               <Route
                 path="review-preview"
                 element={<ReviewPreviewSecond></ReviewPreviewSecond>}
@@ -294,6 +297,8 @@ export default function App() {
                 path="/movies/review/:id"
                 element={<ReviewComposer></ReviewComposer>}
               ></Route>
+
+              <></>
             </Routes>
           </Router>
         </ReviewProvider>

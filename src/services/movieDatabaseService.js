@@ -8,8 +8,8 @@ class MovieService {
     try {
       const response = await fetch(
         `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
-          query
-        )}&language=es-MX`
+          query,
+        )}&language=es-MX`,
       );
 
       if (!response.ok) throw new Error("Something went wrong :(");
@@ -37,7 +37,7 @@ class MovieService {
   async getPopularMovies(page = 1) {
     try {
       const response = await fetch(
-        `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}&language=es-MX`
+        `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}&language=es-MX`,
       );
 
       if (!response.ok) throw new Error("Error fetching popular movies");
@@ -54,7 +54,7 @@ class MovieService {
     try {
       const requests = movieIds.map(async (id) => {
         const res = await fetch(
-          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=es-MX`
+          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=es-MX`,
         );
         const data = await res.json();
 
@@ -86,7 +86,7 @@ class MovieService {
       const detailsData = await details.json();
       const creditsData = await credits.json(); // Aquí viene el director en los créditos
       const director = creditsData.crew.find(
-        (person) => person.job === "Director"
+        (person) => person.job === "Director",
       );
       /* return console.log("bebecita", {
         ...detailsData,

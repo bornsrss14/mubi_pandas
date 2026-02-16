@@ -46,6 +46,15 @@ const reviewService = {
       throw error.response?.data || error.message;
     }
   },
+
+  getMainReview: async (id_tmdb, id) => {
+    try {
+      const response = await api.get(`/details/${id_tmdb}/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default reviewService;

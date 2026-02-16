@@ -44,12 +44,12 @@ const NewListBoilerplate = () => {
   const addMovieToDrafts = (entry) => {
     setDraftEntry((prev) => {
       const exists = prev.entries.some(
-        (m) => m.id_mubi_tmdb === entry.id_mubi_tmdb
+        (m) => m.id_mubi_tmdb === entry.id_mubi_tmdb,
       );
 
       if (exists) {
         console.log(
-          `Movie with id_mubi_tmdb: ${entry.id_mubi_tmdb} already exists in this list`
+          `Movie with id_mubi_tmdb: ${entry.id_mubi_tmdb} already exists in this list`,
         );
         return prev;
       }
@@ -74,7 +74,7 @@ const NewListBoilerplate = () => {
       return {
         ...prev,
         entries: prev.entries.filter(
-          (entry) => entry.id_mubi_tmdb !== id_mubi_tmdb
+          (entry) => entry.id_mubi_tmdb !== id_mubi_tmdb,
         ),
       };
     });
@@ -94,7 +94,7 @@ year: "2009" */
     async function fetchPosters() {
       try {
         const posters = await movieService.getMoviePoster(
-          draftEntry.entries.map((id) => id.id_mubi_tmdb)
+          draftEntry.entries.map((id) => id.id_mubi_tmdb),
         );
         setPosters(posters);
       } catch (error) {}
@@ -118,7 +118,7 @@ year: "2009" */
       console.error("Something went wrong trying to create the list");
       alert(
         error.message ||
-          "Error al agregar la lista de películas con entries(╯°□°）╯"
+          "Error al agregar la lista de películas con entries(╯°□°）╯",
       );
     }
   };

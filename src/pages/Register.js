@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   faCheck,
   faTimes,
@@ -9,30 +9,56 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { EMAIL_REGEX, PWD_REGEX, USER_REGEX } from "../utils/dateUtils";
+import userService from "../services/userService";
 
 export const Register = () => {
   const userRef = useRef();
   const errRef = useRef(); // if i had an erro, i need to put focus to this to annouce to screanreaders for accesibility
-
+  const rol_default = 2001;
+  const [registerUser, setUserRegister] = useState({
+    username: "",
+    given_name: "",
+    family_name: "",
+    email: "",
+    password_hash: "",
+    pronoun: "prefer not no say",
+    roles: rol_default,
+  });
   //state for fields
 
-  const [user_handle, setUser] = useState("");
-  const [userFocus, setUserFocus] = useState(false);
-  const validUser = USER_REGEX.test(user_handle); // esto sustituyó validUser, setValidUSer state
+  const handleState = (e) => {
+    const { name, value } = e.target;
+    setUserRegister((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  /* {
+  yo necesito enviar este formato json a mi servidor
+  "username": "bornsrss_",
+  "given_name": "Rosario",
+  "family_name": "Fuentes Garcìa",
+  "email": "contacto@rosfuentes.dev",
+  "password_hash": "poderLun4r14$$",
+  "roles": 2001
+}
+ */
 
-  const [email_handle, setEmail] = useState("");
+  console.log("Mi objeto de nuevo uaurio es", registerUser);
+
+  const [userFocus, setUserFocus] = useState(false);
+  const validUser = USER_REGEX.test(registerUser.username); // esto sustituyó validUser, setValidUSer state
+
   const [emailFocus, setEmailFocus] = useState(false);
-  const validEmail = EMAIL_REGEX.test(email_handle);
+  const validEmail = EMAIL_REGEX.test(registerUser.email);
   // pasa el REGEX email test??
-  const [pwd, setPwd] = useState();
   const [pwdFocus, setPwdFocus] = useState(false);
-  const validPwd = PWD_REGEX.test(pwd); //const [validPwd, setValidPwd] = useState(false);
+  const validPwd = PWD_REGEX.test(registerUser.password_hash); //const [validPwd, setValidPwd] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState();
   const [matchFocus, setMatchFocus] = useState(false);
-  const validMatch = pwd === matchPwd; //  const [validMatchPwd, setValidMatchPwd] = useState(false);
+  const validMatch = registerUser.password_hash === matchPwd; //  const [validMatchPwd, setValidMatchPwd] = useState(false);
 
-  console.log("¿Son válidas las contraseñas?");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -42,7 +68,31 @@ export const Register = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [user_handle, pwd, matchPwd]);
+  }, [registerUser.username, registerUser.password_hash, matchPwd]);
+
+  const createNewUser = async (e) => {
+    e.preventDefault();
+    try {
+      const newUser = await userService.addUser(registerUser);
+      console.log(`${newUser.username} created successfully `);
+      setUserRegister({
+        username: "",
+        given_name: "",
+        family_name: "",
+        email: "",
+        password_hash: "",
+        pronoun: "prefer not to say",
+        roles: rol_default,
+      });
+      setMatchPwd("");
+    } catch (error) {
+      console.error(
+        "Something went wrong trying to create the user",
+        registerUser.username,
+      );
+      alert(error.message || "Error al agregar el usuario(╯°□°）╯");
+    }
+  };
   return (
     <section className="form-login-register" id="form-register">
       <div
@@ -83,7 +133,7 @@ export const Register = () => {
       >
         {errMsg}
       </p>
-      <form className="form-register">
+      <form onSubmit={createNewUser} className="form-register">
         <div className="field">
           <label htmlFor="username_handle">
             username
@@ -91,7 +141,11 @@ export const Register = () => {
               {/*  hide display to none */}
               <FontAwesomeIcon icon={faCheck} />
             </span>
-            <span className={validUser || !user_handle ? "hide" : "invalid"}>
+            <span
+              className={
+                validUser || !registerUser.username ? "hide" : "invalid"
+              }
+            >
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </label>
@@ -100,8 +154,9 @@ export const Register = () => {
             id="username_handle"
             ref={userRef}
             autoComplete="off"
-            value={user_handle}
-            onChange={(e) => setUser(e.target.value)}
+            name="username"
+            value={registerUser.username}
+            onChange={handleState}
             required
             aria-invalid={validUser ? "false" : "true"}
             aria-describedby="uidnote"
@@ -111,7 +166,7 @@ export const Register = () => {
           <p
             id="uidnote"
             className={
-              userFocus && user_handle && !validUser
+              userFocus && registerUser.username && !validUser
                 ? "instructions"
                 : "offscreen"
             }
@@ -123,24 +178,25 @@ export const Register = () => {
           </p>
         </div>
         <div className="field">
-          <label htmlFor="email_handle">
+          <label htmlFor="email">
             email
             <span className={validEmail ? "valid" : "hide"}>
               {/*  hide display to none */}
               <FontAwesomeIcon icon={faCheck} />
             </span>
-            <span className={validEmail || !email_handle ? "hide" : "invalid"}>
+            <span
+              className={validEmail || !registerUser.email ? "hide" : "invalid"}
+            >
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </label>
           <input
             required
-            value={email_handle}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            name="email"
+            value={registerUser.email}
+            onChange={handleState}
             autoComplete="off"
-            id="email_handle"
+            id="email"
             type="email"
             onFocus={() => setEmailFocus(true)}
             onBlur={() => setPwdFocus(false)}
@@ -156,12 +212,12 @@ export const Register = () => {
           </p>
         </div>
         <div className="field">
-          {validMatch ? "Correct 👌" : "Try again 🙅‍♀️"}
           <label htmlFor="password">password</label>
           <input
             id="password"
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)}
+            name="password_hash"
+            value={registerUser.password_hash}
+            onChange={handleState}
             required
             aria-invalid={validPwd ? "false" : "true"}
             aria-describedby="pwdnote"
@@ -180,6 +236,21 @@ export const Register = () => {
           </p>
         </div>
         <div className="field">
+          {registerUser.password_hash &&
+          registerUser.password_hash.length > 6 ? (
+            validMatch ? (
+              <p style={{ color: " rgb(6, 240, 6)" }}>
+                Correct <span style={{ color: "white" }}>◝(ᵔᗜᵔ)◜</span>
+              </p>
+            ) : (
+              <p>
+                <span style={{ color: "red" }}>Error: {""}</span>Type the same
+                previous password (¬_¬")
+              </p>
+            )
+          ) : (
+            ""
+          )}
           <label htmlFor="matchpassword">Type again password</label>
           <input
             id="matchpassword"
@@ -190,19 +261,37 @@ export const Register = () => {
         </div>
         <div className="field">
           <label htmlFor="givenname">given name</label>
-          <input id="givenname" type="text"></input>
+          <input
+            required
+            name="given_name"
+            value={registerUser.given_name}
+            onChange={handleState}
+            id="givenname"
+            type="text"
+          ></input>
         </div>
         <div htmlFor="familyname" className="field">
           <label id="familyname">family name</label>
-          <input type="text"></input>
+          <input
+            required
+            value={registerUser.family_name}
+            name="family_name"
+            onChange={handleState}
+            type="text"
+          ></input>
         </div>
         <div className="field">
           <label htmlFor="pronoun">pronoun</label>
-          <select id="pronoun" name="pronoun">
-            <option value={1}>She/her</option>
-            <option value={2}> He/him</option>
-            <option value={3}>prefer not to say</option>
-            <option value={4}>other</option>
+          <select
+            id="pronoun"
+            name="pronoun"
+            value={registerUser.pronoun}
+            onChange={handleState}
+          >
+            <option>She/her</option>
+            <option> He/him</option>
+            <option>Prefer not to say</option>
+            <option>other</option>
           </select>
         </div>
         <button className="btn sign-up">create an account</button>

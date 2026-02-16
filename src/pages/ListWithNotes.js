@@ -12,7 +12,7 @@ const ListWithNotes = () => {
   const matchingNotes = DataNotesRelatedLists.filter(
     (itemNote) =>
       itemNote.list === Number(id) &&
-      itemLista.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi)
+      itemLista.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi),
   );
 
   /* const note = matchingNotes.map((itemNote) => itemNote.id_mubi === ); */

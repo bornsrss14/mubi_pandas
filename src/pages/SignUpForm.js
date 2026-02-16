@@ -40,7 +40,7 @@ export const SignUpForm = () => {
     } catch (error) {
       console.error(
         "Something went wrong trying to create the user",
-        formData.username
+        formData.username,
       );
       alert(error.message || "Error al agregar el usuario(╯°□°）╯");
     }

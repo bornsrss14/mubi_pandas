@@ -112,3 +112,10 @@ export const timeAgo = (dateString) => {
   if (hours < 24) return rtf.format(-hours, "hour");
   return rtf.format(-days, "day");
 };
+
+export const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{7,23}$/;
+// 8-24 characters, at least one uppercase, one lowercase, one number, one special character
+export const PWD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

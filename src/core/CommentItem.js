@@ -9,11 +9,16 @@ export const CommentItem = ({ objectComment }) => {
   const [loadingReplies, setLoadingReplies] = useState(false);
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
+  const [openReplyArea, setOpenReplyArea] = useState(false);
   /*  */
   //tengo que pasarle el id_comment a la función de getReplies();
 
   const handleShow = () => {
     setShowReplies((prev) => !prev);
+  };
+
+  const handleReply = () => {
+    setOpenReplyArea((prev) => !prev);
   };
   const getReplies = async (id_comment) => {
     try {

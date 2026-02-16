@@ -17,6 +17,7 @@ import CommentItem from "../core/CommentItem";
 import { useReview } from "../contexts/ReviewProvider";
 import { formatDateShortES } from "../utils/dateUtils";
 import commentService from "../services/commentService";
+import reviewService from "../services/reviewService";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 /* export const RatingContext = createContext(); */
@@ -90,6 +91,8 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
 
   const [commentsByReview, setCommentsByReview] = useState([]);
   const [loadingComments, setLoadingComments] = useState(false);
+  const [mainReview, setMainReview] = useState([]);
+  const [loadMainReview, setLoadMainReview] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
     hasMore: true,
@@ -125,7 +128,22 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
       setLoadingComments(false);
     }
   };
+  const getMainReview = async (id_tmdb, id) => {
+    try {
+      setLoadMainReview(true);
+      const review = await reviewService.getMainReview(id_tmdb, id);
+      setMainReview(review?.data);
+    } catch (error) {
+      console.log("Error loading the main review");
+    } finally {
+      setLoadMainReview(false);
+    }
+  };
 
+  useEffect(() => {
+    if (!id || !id_review) return;
+    getMainReview(id, id_review);
+  }, [id, id_review]);
   //Reset when REVIEW_ID changes.
   useEffect(() => {
     setCommentsByReview([]);
@@ -171,6 +189,13 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
           <p>We couldn't find this movie, try again!</p>
         </div>
       </div>
+    );
+  }
+  if (loadMainReview) {
+    console.log("Loading this full review 🐷");
+  } else {
+    console.log(
+      "Este es mi principal review, para el detalle de mi review y película 🐷🐷🐷🐷🐷🐷🐷🐷",
     );
   }
 
@@ -298,12 +323,12 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                 }}
               >
                 <ProfilePicUsername
-                  imgProfile={mainUserData?.profile_pic_url}
+                  imgProfile={mainReview?.profile_pic_url}
                   withNickname={false}
                 ></ProfilePicUsername>
                 <p>
                   Reviewed by{" "}
-                  <span className="nickname">{mainUserData?.username}</span>
+                  <span className="nickname">{mainReview?.username}</span>
                 </p>
               </div>
               <div className="mubi-content">
@@ -442,7 +467,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
                         style={{ marginBottom: "1rem" }}
                         htmlFor="description"
                       >
-                        Description
+                        Comment
                       </label>
                       <textarea
                         value={commentData?.comment_txt}

@@ -343,6 +343,7 @@ function MubiDetails({
                       {reviewsByMubi.map((r) => (
                         <ReviewPreviewSecond
                           key={r.id}
+                          id_tmdb={id}
                           review={r}
                           nickname={r.username || "muz129"}
                           imgProfile={r.profile_pic_url}

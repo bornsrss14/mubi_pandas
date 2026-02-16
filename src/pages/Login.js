@@ -3,10 +3,9 @@ import AuthContext from "../contexts/AuthProvider.js";
 import loginService from "../services/loginService.js";
 import { Link } from "react-router-dom";
 import ProfilePicUsername from "../core/ProfilePicUsername.js";
+import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils.js";
 // 4-24 characters, letters, numbers, underscores, hyphens
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-// 8-24 characters, at least one uppercase, one lowercase, one number, one special character
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
 export const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
