@@ -38,6 +38,22 @@ const userService = {
     }
   },
 
+  findByUsername: async (username) => {
+    try {
+      const response = await api.post("/check-username", { username });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+  findByEmail: async (email) => {
+    try {
+      const response = await api.post("/check-email", { email });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
   //update existing user user
   updateUSer: async (id, userData) => {
     try {

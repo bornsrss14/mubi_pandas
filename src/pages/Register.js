@@ -61,7 +61,18 @@ export const Register = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const [duplicatedErr, setDuplicatedErr] = useState({
+    username: null,
+    email: null,
+  });
 
+  /*  
+  setDuplicatedErr((prev)=>({
+    ...prev, 
+    username: "username already taken"
+  }));
+  
+  */
   useEffect(() => {
     userRef.current.focus();
   }, []); //setting the focus qhen the component loads, focus on the username input
@@ -69,6 +80,54 @@ export const Register = () => {
   useEffect(() => {
     setErrMsg("");
   }, [registerUser.username, registerUser.password_hash, matchPwd]);
+
+  /*1.-Verificar que no haya usuario rpetido  */
+  const handleUsernameCheck = async () => {
+    if (!registerUser.username.trim()) return;
+
+    try {
+      await userService.findByUsername(registerUser.username);
+
+      // Si llega aquí, está disponible
+      setDuplicatedErr((prev) => ({
+        ...prev,
+        username: null,
+      }));
+    } catch (error) {
+      if (error.success === false) {
+        setDuplicatedErr((prev) => ({
+          ...prev,
+          username: error.message,
+        }));
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+  /*2.- Verificar que el correo electrónico no esté registrado anteriormente*/
+
+  const handleEmailCheck = async () => {
+    if (!registerUser.email.trim()) return;
+
+    try {
+      await userService.findByEmail(registerUser.email);
+
+      // Si llega aquí, está disponible
+      setDuplicatedErr((prev) => ({
+        ...prev,
+        email: null,
+      }));
+    } catch (error) {
+      if (error.success === false) {
+        setDuplicatedErr((prev) => ({
+          ...prev,
+          email: error.message,
+        }));
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
 
   const createNewUser = async (e) => {
     e.preventDefault();
@@ -161,8 +220,14 @@ export const Register = () => {
             aria-invalid={validUser ? "false" : "true"}
             aria-describedby="uidnote"
             onFocus={() => setUserFocus(true)}
-            onBlur={() => setUserFocus(false)}
+            onBlur={() => {
+              setUserFocus(false);
+              handleUsernameCheck();
+            }}
           ></input>
+          {typeof duplicatedErr.username === "string" && (
+            <p>{duplicatedErr.username}</p>
+          )}
           <p
             id="uidnote"
             className={
@@ -199,9 +264,15 @@ export const Register = () => {
             id="email"
             type="email"
             onFocus={() => setEmailFocus(true)}
-            onBlur={() => setPwdFocus(false)}
+            onBlur={() => {
+              setPwdFocus(false);
+              handleEmailCheck();
+            }}
             aria-describedby="emailnote"
           ></input>
+          {duplicatedErr.email && (
+            <p className="error-register">{duplicatedErr.email}</p>
+          )}
           <p
             id="emailnote"
             className={emailFocus && !validEmail ? "instructions" : "offscreen"}
