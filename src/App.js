@@ -43,6 +43,7 @@ import ReviewDetails from "./pages/ReviewDetails";
 import { ReviewProvider } from "./contexts/ReviewProvider";
 import { Login } from "./pages/Login";
 import Register from "./pages/Register";
+import HomePage from "./pages/HomePage";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -160,6 +161,10 @@ export default function App() {
           <Router>
             <Navbar movies={movies} query={query} setQuery={setQuery} />
             <Routes>
+              <Route
+                path="/pandas-home"
+                element={<HomePage></HomePage>}
+              ></Route>
               <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
               <Route path="/" element={<Home />}></Route>
               <Route

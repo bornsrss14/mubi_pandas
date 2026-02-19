@@ -195,17 +195,29 @@ export const Register = () => {
       <form onSubmit={createNewUser} className="form-register">
         <div className="field">
           <label htmlFor="username_handle">
-            username
-            <span className={validUser ? "valid" : "hide"}>
-              {/*  hide display to none */}
-              <FontAwesomeIcon icon={faCheck} />
-            </span>
             <span
-              className={
-                validUser || !registerUser.username ? "hide" : "invalid"
-              }
+              style={{ display: "flex", flexDirection: "row", gap: ".51rem" }}
             >
-              <FontAwesomeIcon icon={faTimes} />
+              <span>username </span>
+              <span>
+                {typeof duplicatedErr.username === "string" && (
+                  <p>{duplicatedErr.username}</p>
+                )}
+              </span>
+              {duplicatedErr.username ? (
+                <span
+                  className={
+                    validUser || !registerUser.username ? "hide" : "invalid"
+                  }
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </span>
+              ) : (
+                <span className={validUser ? "valid" : "hide"}>
+                  {/*  hide display to none */}
+                  <FontAwesomeIcon icon={faCheck} />
+                </span>
+              )}
             </span>
           </label>
           <input
@@ -225,9 +237,7 @@ export const Register = () => {
               handleUsernameCheck();
             }}
           ></input>
-          {typeof duplicatedErr.username === "string" && (
-            <p>{duplicatedErr.username}</p>
-          )}
+
           <p
             id="uidnote"
             className={
