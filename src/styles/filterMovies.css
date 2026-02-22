@@ -660,8 +660,6 @@ body {
   font-size: 2rem;
   padding: 4.8rem;
 }
-.error-register {
-}
 
 /* ******* */
 
@@ -2710,4 +2708,12 @@ select {
   font-size: 12px;
   letter-spacing: normal;
   line-height: 18px;
+}
+
+.red-error {
+  color: rgb(255, 72, 72);
+}
+.green-valid {
+  color: rgb(9, 255, 9);
+  font-weight: 600;
 }

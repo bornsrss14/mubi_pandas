@@ -199,23 +199,25 @@ export const Register = () => {
               style={{ display: "flex", flexDirection: "row", gap: ".51rem" }}
             >
               <span>username </span>
-              <span>
-                {typeof duplicatedErr.username === "string" && (
-                  <p>{duplicatedErr.username}</p>
-                )}
-              </span>
-              {duplicatedErr.username ? (
+              {validUser ? (
+                <>
+                  {duplicatedErr.username ? (
+                    typeof duplicatedErr.username === "string" && (
+                      <p className="red-error">{duplicatedErr.username}</p>
+                    )
+                  ) : (
+                    <span className="valid">
+                      <FontAwesomeIcon className="green-valid" icon={faCheck} />
+                    </span>
+                  )}
+                </>
+              ) : (
                 <span
                   className={
                     validUser || !registerUser.username ? "hide" : "invalid"
                   }
                 >
-                  <FontAwesomeIcon icon={faTimes} />
-                </span>
-              ) : (
-                <span className={validUser ? "valid" : "hide"}>
-                  {/*  hide display to none */}
-                  <FontAwesomeIcon icon={faCheck} />
+                  <FontAwesomeIcon className="red-error" icon={faTimes} />
                 </span>
               )}
             </span>
@@ -237,7 +239,6 @@ export const Register = () => {
               handleUsernameCheck();
             }}
           ></input>
-
           <p
             id="uidnote"
             className={
@@ -253,17 +254,31 @@ export const Register = () => {
           </p>
         </div>
         <div className="field">
-          <label htmlFor="email">
-            email
-            <span className={validEmail ? "valid" : "hide"}>
-              {/*  hide display to none */}
-              <FontAwesomeIcon icon={faCheck} />
-            </span>
-            <span
-              className={validEmail || !registerUser.email ? "hide" : "invalid"}
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </span>
+          <label
+            style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+            htmlFor="email"
+          >
+            <p>email</p>
+            {validEmail ? (
+              <>
+                {duplicatedErr.email ? (
+                  <p className="red-error">{duplicatedErr.email}</p>
+                ) : (
+                  <span className="valid">
+                    {/*  hide display to none */}
+                    <FontAwesomeIcon className="green-valid" icon={faCheck} />
+                  </span>
+                )}
+              </>
+            ) : (
+              <span
+                className={
+                  validEmail || !registerUser.email ? "hide" : "invalid"
+                }
+              >
+                <FontAwesomeIcon className="red-error" icon={faTimes} />
+              </span>
+            )}
           </label>
           <input
             required
@@ -280,9 +295,7 @@ export const Register = () => {
             }}
             aria-describedby="emailnote"
           ></input>
-          {duplicatedErr.email && (
-            <p className="error-register">{duplicatedErr.email}</p>
-          )}
+
           <p
             id="emailnote"
             className={emailFocus && !validEmail ? "instructions" : "offscreen"}

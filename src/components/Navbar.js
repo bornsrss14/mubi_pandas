@@ -6,7 +6,7 @@ import {
   IconPlus,
   IconStereoGlasses,
 } from "@tabler/icons-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
@@ -22,7 +22,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
     setBurgerIsOpen(false);
     setSearchIsOpen(false);
     console.log(
-      "Esto abre un modal overly sobre toda la pantalla para agregar una nueva reseña de una pelíucla que buscas, en esste mismo modal"
+      "Esto abre un modal overly sobre toda la pantalla para agregar una nueva reseña de una pelíucla que buscas, en esste mismo modal",
     );
     setAddReview((prev) => !prev);
   }
@@ -39,6 +39,19 @@ export const Navbar = ({ movies, query, setQuery }) => {
       return !prev;
     });
   };
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+
+    const handleResize = (e) => {
+      if (e.matches) {
+        setBurgerIsOpen(false);
+        setSearchIsOpen(false);
+      }
+    };
+
+    mq.addEventListener("change", handleResize);
+    return () => mq.removeEventListener("change", handleResize);
+  }, []);
 
   return (
     <div>
