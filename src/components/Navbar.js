@@ -10,6 +10,8 @@ import { useContext, useEffect, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
+import ComponenteHeader from "../core/ComponenteHeader";
+import ComponenteProfile from "../core/ComponenteProfile";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   const { formData, mainUserData } = useContext(UserContext);
@@ -56,27 +58,44 @@ export const Navbar = ({ movies, query, setQuery }) => {
   return (
     <div>
       <nav className="container-nav-bar">
-        <header id="header-nav">
-          <Link to="/">
-            <ProfilePicUsername
-              withNickname={false}
-              measure="26px"
-              imgProfile={
-                "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
-              }
-            >
-              {" "}
-              {
-                <p style={{ fontSize: "1.45rem", fontWeight: "800" }}>
-                  pandasneezing
-                </p>
-              }
-            </ProfilePicUsername>
-          </Link>
-          <div className="basic-flex-row">
+        <header style={{ border: "solid 1px red" }} id="header-nav">
+          <div>
+            <Link to="/">
+              <ProfilePicUsername
+                withNickname={false}
+                measure="26px"
+                imgProfile={
+                  "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
+                }
+              >
+                {" "}
+                {
+                  <p style={{ fontSize: "1.45rem", fontWeight: "800" }}>
+                    pandasneezing
+                  </p>
+                }
+              </ProfilePicUsername>
+            </Link>
+          </div>
+          <div className="display-mobile">
+            <>
+              <ProfilePicUsername
+                imgProfile={mainUserData.profile_pic_url}
+                withIcon={true}
+                userName={mainUserData.username}
+              />
+            </>
+          </div>
+          <div
+            style={{ border: "1px solid yellow" }}
+            className="basic-flex-row"
+          >
+            <div className="display-mobile">
+              <ComponenteHeader></ComponenteHeader>
+            </div>
             <Link
               to={"/list/new/"}
-              className="burger-button"
+              className="burger-button display-desk"
               aria-label="Abrir modal"
               /* onClick={makeReview} */
 
@@ -84,18 +103,19 @@ export const Navbar = ({ movies, query, setQuery }) => {
             >
               <IconPlus size={"22px"} color="white"></IconPlus>
             </Link>
-
-            <button
-              className="burger-button"
-              onClick={toggleBurger}
-              aria-label="Abrir menu"
-              aria-expanded={burgerIsOpen}
-              aria-controls="main-menu"
-            >
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
-            </button>
+            <div className="display-desk">
+              <button
+                className="burger-button"
+                onClick={toggleBurger}
+                aria-label="Abrir menu"
+                aria-expanded={burgerIsOpen}
+                aria-controls="main-menu"
+              >
+                <span className="burger-line"></span>
+                <span className="burger-line"></span>
+                <span className="burger-line"></span>
+              </button>
+            </div>
             <button
               onClick={toggleSearch}
               aria-label="open search"
@@ -117,12 +137,16 @@ export const Navbar = ({ movies, query, setQuery }) => {
               setBurgerIsOpen(false);
             }
           }}
+          style={{ border: "solid 1rem green" }}
           id="main-menu"
           aria-hidden={!burgerIsOpen}
-          className={`menu-content${burgerIsOpen ? "show" : ""}`}
+          className={`menu-content${burgerIsOpen ? "show" : ""} display-desk`}
         >
-          <div className=" menu-desplegable-mobil ">
-            <ul className="flex-first-submenu">
+          <div className="menu-desplegable-mobil">
+            <ul
+              style={{ border: "1px solid pink" }}
+              className="flex-first-submenu"
+            >
               <li className="">
                 <ProfilePicUsername
                   imgProfile={mainUserData.profile_pic_url}
@@ -132,7 +156,10 @@ export const Navbar = ({ movies, query, setQuery }) => {
               </li>
             </ul>
 
-            <ul className="grid-first-submenu">
+            <ul
+              style={{ border: "2px dotted green" }}
+              className="grid-first-submenu"
+            >
               <li>
                 <Link to={"/"}>Home</Link>
               </li>
@@ -173,38 +200,9 @@ export const Navbar = ({ movies, query, setQuery }) => {
                 Sign Out
               </li>
             </ul>
-            <ul className="flex-first-submenu gap-submenu">
-              <li>
-                <Link className="basic-flex-row" to="/main-films">
-                  <span>
-                    <IconStereoGlasses size={"16px"}></IconStereoGlasses>
-                  </span>
-                  Films
-                </Link>
-              </li>
-              <li>
-                <Link className="basic-flex-row" to="/community">
-                  <span>
-                    <ProfilePicUsername
-                      withNickname={false}
-                      measure="16px"
-                      imgProfile={
-                        "https://firebasestorage.googleapis.com/v0/b/bornsrss-8ab5d.appspot.com/o/splits-bills%2Fpandas.png?alt=media&token=d45078fa-d2c2-4db5-9a5a-322b7fd092d2"
-                      }
-                    ></ProfilePicUsername>
-                  </span>
-                  Community
-                </Link>
-              </li>
-              <li className="">
-                <Link className="basic-flex-row" to="/news">
-                  <span>
-                    <IconNews size={"16px"}></IconNews>
-                  </span>
-                  News
-                </Link>
-              </li>
-            </ul>
+            <div>
+              <ComponenteHeader></ComponenteHeader>
+            </div>
           </div>
         </div>
       </nav>

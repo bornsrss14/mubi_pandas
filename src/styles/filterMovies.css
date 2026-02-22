@@ -1507,6 +1507,10 @@ only desktop
   font-weight: 150;
   color: rgb(214, 211, 211);
 }
+.third-submenu {
+  display: flex;
+  flex-direction: column;
+}
 .gap-submenu {
   gap: 1rem;
 }
@@ -1537,9 +1541,28 @@ only desktop
 .overly-actions {
   display: none;
 }
+.display-mobile {
+  display: none;
+}
+.display-desk {
+  display: initial;
+}
 
 /*ONLY FOR DESKTOP DEVICES */
 @media (min-width: 1023px) {
+  #header-nav {
+    padding: 1rem 25rem;
+  }
+  .third-submenu {
+    display: flex;
+    flex-direction: row;
+  }
+  .display-desk {
+    display: none;
+  }
+  .display-mobile {
+    display: initial;
+  }
   .mubi-description {
     font-size: 1.4rem;
   }
