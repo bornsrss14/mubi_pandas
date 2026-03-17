@@ -1,17 +1,11 @@
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import { Link } from "react-router-dom";
-import {
-  IconSearch,
-  IconNews,
-  IconPlus,
-  IconStereoGlasses,
-} from "@tabler/icons-react";
+import { IconSearch, IconPlus } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
 import ComponenteHeader from "../core/ComponenteHeader";
-import ComponenteProfile from "../core/ComponenteProfile";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   const { formData, mainUserData } = useContext(UserContext);

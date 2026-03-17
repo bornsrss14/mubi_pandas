@@ -4,6 +4,7 @@ import loginService from "../services/loginService.js";
 import { Link } from "react-router-dom";
 import ProfilePicUsername from "../core/ProfilePicUsername.js";
 import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils.js";
+import authService from "../services/authService.js";
 // 4-24 characters, letters, numbers, underscores, hyphens
 
 export const Login = () => {
@@ -47,14 +48,24 @@ export const Login = () => {
     e.preventDefault();
     try {
       //Aquí llamo a mi servicio ˗ˏˋ ☏ ˎˊ˗
-      const data = await loginService.login({ user, pwd });
+      /* const data = await loginService.login({ user, pwd }); */
+
+      const data = await authService.authUser(user, pwd);
+      console.log("login exitoso", data);
+
+      //guardar token si lo tengo ----
+
+      /* if (data.token) {
+        localStorage.setItem("token", data.token);
+      } */
       //guardo en mi contexto
-      setAuth({ user, roles: data.roles, accessToken: data?.accessToken });
+      /*       setAuth({ user, roles: data.roles, accessToken: data?.accessToken });
       setUser("");
       setPwd("");
-      setSuccess(true);
-    } catch (err) {
-      if (!err?.response) {
+      setSuccess(true); */
+    } catch (error) {
+      console.log("Error:", error);
+      /* if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 400) {
         setErrMsg("Missing Username or Password");
@@ -63,7 +74,7 @@ export const Login = () => {
       } else {
         setErrMsg("Login Failed");
       }
-      errRef.current.focus();
+      errRef.current.focus(); */
     }
   };
 
@@ -151,21 +162,18 @@ export const Login = () => {
               <div className="field">
                 <label htmlFor="email">Pasword:</label>
                 <input
+                  required
                   className=""
                   id="password"
                   name="password"
+                  value={pwd}
+                  onChange={(e) => {
+                    setPwd(e.target.value);
+                  }}
                   type="password"
                 ></input>
               </div>
-              <div className="field">
-                <label htmlFor="email">Confirm pasword:</label>
-                <input
-                  className=""
-                  id="password"
-                  name="password"
-                  type="password"
-                ></input>
-              </div>
+
               {/* <div className="">
           <label className="" htmlFor="email">
             username
