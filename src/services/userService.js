@@ -9,12 +9,34 @@ const api = axios.create({
   },
 });
 
+//implementar el manejo manual de refresh
 const userService = {
   getAllUsers: async () => {
     try {
       const response = await api.get("/");
       return response.data;
     } catch (error) {
+      //si el token ya expiró
+      if (error.response?.status === 403) {
+        try {
+          //voy a tratar de refrescar el token
+          const refreshResponse = await api.get("/refresh", {
+            withCredentials: true,
+          });
+
+          const newToken = refreshResponse.data.accessToken;
+          //Guardo el nuevo token
+          localStorage.setItem("token", newToken);
+          //Repetir request del origen
+          const retryResponse = await api.get("/", {
+            headers: { Authorization: `Bearer ${newToken}` },
+          });
+
+          return retryResponse.data;
+        } catch (refreshError) {
+          throw refreshError.response?.data || refreshError.message;
+        }
+      }
       throw error.response?.data || error.message;
     }
   },
