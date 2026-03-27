@@ -81,6 +81,7 @@ const authService = {
 localStorage.setItem("token", res.data.accessToken); */
 
   refreshToken: async () => {
+    //esto no me sirve por el momento ❌❌
     try {
       const response = await api.get("/refresh", { withCredentials: true });
       localStorage.setItem("token", response.data.accessToken);

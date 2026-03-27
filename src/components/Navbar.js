@@ -6,10 +6,14 @@ import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
 import ComponenteHeader from "../core/ComponenteHeader";
+import userService from "../services/userService";
+import authService from "../services/authService";
 
 export const Navbar = ({ movies, query, setQuery }) => {
   const { formData, mainUserData } = useContext(UserContext);
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
+
+  const [dropDeskMenu, setDropDeskMenu] = useState(false);
   /* const [searchIsOpen, setSearchIsOpen] = useState(false); */
   const { searchIsOpen, setSearchIsOpen } = useContext(NavContext);
   const [addReview, setAddReview] = useState(false);
@@ -29,6 +33,12 @@ export const Navbar = ({ movies, query, setQuery }) => {
     });
   };
 
+  const toggleDropDesk = () => {
+    setDropDeskMenu((prev) => {
+      if (!prev) setSearchIsOpen(false);
+      return !prev;
+    });
+  };
   const toggleSearch = () => {
     setSearchIsOpen((prev) => {
       if (!prev) setBurgerIsOpen(false);
@@ -49,10 +59,18 @@ export const Navbar = ({ movies, query, setQuery }) => {
     return () => mq.removeEventListener("change", handleResize);
   }, []);
 
+  const handleLogOut = async () => {
+    try {
+      await authService.logout();
+      console.log("Aquí expira el accessToken. Intenta de nuevo el login");
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
   return (
     <div>
       <nav className="container-nav-bar">
-        <header style={{ border: "solid 1px red" }} id="header-nav">
+        <header id="header-nav">
           <div>
             <Link to="/">
               <ProfilePicUsername
@@ -71,19 +89,66 @@ export const Navbar = ({ movies, query, setQuery }) => {
               </ProfilePicUsername>
             </Link>
           </div>
-          <div className="display-mobile">
-            <>
-              <ProfilePicUsername
-                imgProfile={mainUserData.profile_pic_url}
-                withIcon={true}
-                userName={mainUserData.username}
-              />
-            </>
+          {/*  Este es el que debe contener el menú desplegarse y posicionarse absoluto respecto de su padre*/}
+          <div onClick={toggleDropDesk} className="drop-desk-menu">
+            <ProfilePicUsername
+              imgProfile={mainUserData.profile_pic_url}
+              withIcon={true}
+              userName={mainUserData.username}
+            />
+            <div
+              onClick={(e) => {
+                if (e.target.tagName === "A") {
+                  //esto tiene un bug de afuera
+                  setDropDeskMenu(false);
+                }
+              }}
+              id="main-menu"
+              aria-hidden={!dropDeskMenu}
+              className={`menu-content-desk ${dropDeskMenu ? "show" : ""} `}
+            >
+              <div className="menu-desplegable-desk">
+                <ul className="grid-first-submenu">
+                  <li>
+                    <Link to={"/"}>Home</Link>
+                  </li>
+                  <li>
+                    {/* <Link to={`/user-profile/${useForm.idUser}`}>Profile</Link> */}
+                    <Link to={"/user-profile"}>Profile</Link>
+                  </li>
+                  <li>
+                    <Link to={"/watched"}>Watched</Link>
+                  </li>
+                  <li>
+                    <Link to={"/diary-user"}> Diary</Link>
+                  </li>
+                  <li>
+                    <Link to={"/reviews-user"}>Reviews</Link>
+                  </li>
+                  <li>
+                    <Link to={"/watchlist"}>Watchlist</Link>
+                  </li>
+                  <li>
+                    <Link to={"/listsNavbar"}>Lists</Link>
+                  </li>
+                  <li>
+                    <Link to={"likes-user"}>Likes</Link>
+                  </li>
+                  <li>
+                    <Link to={`/network/${formData.idUser}`}>Network</Link>
+                  </li>
+                  <li>
+                    <Link to={"settings-user"}>Settings</Link>
+                  </li>
+
+                  <li style={{ cursor: "pointer" }} onClick={handleLogOut}>
+                    Sign Out
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div
-            style={{ border: "1px solid yellow" }}
-            className="basic-flex-row"
-          >
+          <div className="basic-flex-row">
             <div className="display-mobile">
               <ComponenteHeader></ComponenteHeader>
             </div>
@@ -125,6 +190,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
         <div className={`menu-search-wrap-uno${searchIsOpen ? "show" : ""}`}>
           <MainFilms></MainFilms>
         </div>
+        {/* Este es el que se posiciona como absoluto del navbar */}
         <div
           onClick={(e) => {
             if (e.target.tagName === "A") {
@@ -136,7 +202,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
           aria-hidden={!burgerIsOpen}
           className={`menu-content${burgerIsOpen ? "show" : ""} display-desk`}
         >
-          <div className="menu-desplegable-mobil">
+          <div className="menu-desplegable-mobil menu-desplegable-desk">
             <ul
               style={{ border: "1px solid pink" }}
               className="flex-first-submenu"
@@ -159,7 +225,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
               </li>
               <li>
                 {/* <Link to={`/user-profile/${useForm.idUser}`}>Profile</Link> */}
-                <Link to={"user-profile"}>Profile</Link>
+                <Link to={"/user-profile"}>Profile</Link>
               </li>
               <li>
                 <Link to={"/watched"}>Watched</Link>
@@ -186,11 +252,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
                 <Link to={"settings-user"}>Settings</Link>
               </li>
 
-              <li
-                onClick={() =>
-                  console.log("Esto hace que cierre sesión el usuario")
-                }
-              >
+              <li style={{ cursor: "pointer" }} onClick={handleLogOut}>
                 Sign Out
               </li>
             </ul>
