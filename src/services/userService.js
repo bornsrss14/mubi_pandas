@@ -68,6 +68,17 @@ const userService = {
       throw error.response?.data || error.message;
     }
   },
+
+  //solo devuelve datos del usuario
+  findUser: async (username) => {
+    try {
+      const response = await api.post("/find-username", { username });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
   findByEmail: async (email) => {
     try {
       const response = await api.post("/check-email", { email });

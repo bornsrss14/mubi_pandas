@@ -58,7 +58,8 @@ const authService = {
         },
         { withCredentials: true },
       );
-      localStorage.setItem("token", response.data.accessToken);
+      /* localStorage.setItem("token", response.data.accessToken); */
+
       //Es la respuesta que me da mi servidor
       /* return res.status(200).json({
       success: true,

@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import AuthContext from "../contexts/AuthProvider.js";
-import loginService from "../services/loginService.js";
-import { Link } from "react-router-dom";
 import ProfilePicUsername from "../core/ProfilePicUsername.js";
 import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils.js";
-import authService from "../services/authService.js";
+import { useAuthUser } from "../contexts/UserAuthProvider.js";
+import HomePage from "./HomePage.js";
 // 4-24 characters, letters, numbers, underscores, hyphens
 
 export const Login = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { loginUserFun, userLog } = useAuthUser();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -46,35 +44,45 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      //Aquí llamo a mi servicio ˗ˏˋ ☏ ˎˊ˗
-      /* const data = await loginService.login({ user, pwd }); */
+      await loginUserFun({ user, pwd });
 
-      const data = await authService.authUser(user, pwd);
-      console.log("login exitoso", data);
+      const accessToken = userLog?.accessToken;
+      if (!accessToken) return;
+      console.log("mi access Token está en", accessToken);
 
+      const impreMessage = userLog?.message;
+      console.log(impreMessage);
+
+      console.log(userLog);
+
+      setSuccess(true);
+
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+      }
+
+      return userLog?.data;
       //guardar token si lo tengo ----
 
-      /* if (data.token) {
-        localStorage.setItem("token", data.token);
-      } */
       //guardo en mi contexto
       /*       setAuth({ user, roles: data.roles, accessToken: data?.accessToken });
       setUser("");
       setPwd("");
-      setSuccess(true); */
+      */
     } catch (error) {
       console.log("Error:", error);
-      /* if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
+      if (!error?.userLog) {
+        setErrMsg("No Server userLog");
+      } else if (error.userLog?.status === 400) {
         setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
+      } else if (error.userLog?.status === 401) {
         setErrMsg("Unauthorized");
       } else {
         setErrMsg("Login Failed");
       }
-      errRef.current.focus(); */
+      errRef.current.focus();
     }
   };
 
@@ -83,15 +91,7 @@ export const Login = () => {
       {" "}
       {success ? (
         <section>
-          <h1>
-            {" "}
-            You are logged in! ദ്ദി◝ ⩊ ◜.ᐟ <br />
-          </h1>
-          <br />
-          <p>
-            {" "}
-            <a href="##">Go to Home</a>
-          </p>
+          <HomePage></HomePage>
         </section>
       ) : (
         <>

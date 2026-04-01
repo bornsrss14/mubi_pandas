@@ -6,7 +6,7 @@ import ReviewOverly from "./ReviewOverly";
 import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
 import ComponenteHeader from "../core/ComponenteHeader";
-import userService from "../services/userService";
+
 import authService from "../services/authService";
 
 export const Navbar = ({ movies, query, setQuery }) => {
@@ -98,7 +98,7 @@ export const Navbar = ({ movies, query, setQuery }) => {
             />
             <div
               onClick={(e) => {
-                if (e.target.tagName === "A") {
+                if (e.target.tagName === "a") {
                   //esto tiene un bug de afuera
                   setDropDeskMenu(false);
                 }

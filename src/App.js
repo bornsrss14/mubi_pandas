@@ -44,6 +44,7 @@ import { ReviewProvider } from "./contexts/ReviewProvider";
 import { Login } from "./pages/Login";
 import Register from "./pages/Register";
 import HomePage from "./pages/HomePage";
+import { UserAuthProvider } from "./contexts/UserAuthProvider";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -57,7 +58,7 @@ export default function App() {
   const [
     mainUser,
     /* setMainUser */
-  ] = useState(4); //recibe mi id
+  ] = useState(4); // esto se va a eliminar
   const [mainUserData, setMainUserData] = useState({});
   const [query, setQuery] = useState("");
   const [movies] = useState(tempMovieData);
@@ -68,10 +69,17 @@ export default function App() {
     handleGetUser(mainUser);
   }, [mainUser]);
 
+  //cambiar para obtener el user por username
   const handleGetUser = async (id) => {
+    const pandas = "pandasneezing";
     try {
       const res = await userService.getUserById(id);
       setMainUserData(res.data);
+      const response = await userService.findUser(pandas); //by username
+
+      //ESTO SE ELIMINA
+      console.log("💗💗💗💗💗💗💗💗💗💗💗💗💗💗");
+      console.log(response.data);
     } catch (error) {
       alert(`Error al tratar de encontrar el usuario con el id: ${id}`);
     }
@@ -97,24 +105,24 @@ export default function App() {
     if (!mainUser?.id) return;
   }
   async function refreshTopFavorites() {
+    //esta función debería ir en el contexto del user
     if (!mainUserData?.id) return;
 
     const four = await fourFavService.getFourFavById(mainUserData.id);
     const ids = four.data.map((item) => item.id_mubi);
     const moviesDataFour = await movieService.getMoviePoster(ids);
 
-    setTopFavorites(moviesDataFour);
+    setTopFavorites(moviesDataFour); // los guarda para utilizarlo en mi contexto
   }
 
   useEffect(() => {
-    if (!mainUserData?.id) return;
-
+    //debería ir en el contexto
+    if (!mainUserData?.id) return; //sino recupera el id del usuario, retorna.
     async function loadTopFavorites() {
       try {
-        const four = await fourFavService.getFourFavById(mainUserData.id);
-        const ids = four.data.map((item) => item.id_mubi);
-
-        const moviesDataFour = await movieService.getMoviePoster(ids);
+        const four = await fourFavService.getFourFavById(mainUserData.id); //recupero mis 4 favoritos
+        const ids = four.data.map((item) => item.id_mubi); //recupero los ids de los favoritos
+        const moviesDataFour = await movieService.getMoviePoster(ids); //esto recupera un array de url de posters
         setTopFavorites(moviesDataFour);
       } catch (error) {
         console.error("Error loading favorites", error);
@@ -288,7 +296,14 @@ export default function App() {
                 path="review&detail/:id/:id_review"
                 element={<ReviewDetails></ReviewDetails>}
               ></Route>
-              <Route path="/login" element={<Login></Login>}></Route>
+              <Route
+                path="/login"
+                element={
+                  <UserAuthProvider>
+                    <Login></Login>
+                  </UserAuthProvider>
+                }
+              ></Route>
               <Route path="/register" element={<Register></Register>}></Route>
               <Route
                 path="review-preview"
