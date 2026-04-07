@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
+import { useEffect, useState } from "react";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 export const useMovieToggle = (id_tmdb) => {
-  const { mainUserData } = useContext(UserContext);
+  const { authUser } = useAuthUser();
 
   const [states, setStates] = useState({
     liked: false,
@@ -13,12 +13,12 @@ export const useMovieToggle = (id_tmdb) => {
   useEffect(() => {
     //  lógica de fetch aquí
     const fetchStatus = async () => {
-      if (!mainUserData?.id || !id_tmdb) {
+      if (!authUser?.id || !id_tmdb) {
         return;
       }
 
       try {
-        const url = `http://localhost:3001/api/user-movies/status/${mainUserData.id}/${id_tmdb}`;
+        const url = `http://localhost:3001/api/user-movies/status/${authUser.id}/${id_tmdb}`;
         const response = await fetch(url);
         console.log("📡 URL completa:");
         if (response.ok) {
@@ -34,16 +34,16 @@ export const useMovieToggle = (id_tmdb) => {
       }
     };
     fetchStatus();
-  }, [mainUserData?.id, id_tmdb]);
+  }, [authUser?.id, id_tmdb]);
 
   //toggle
 
   const toggle = async (field) => {
-    if (!mainUserData?.id || !id_tmdb) return;
+    if (!authUser?.id || !id_tmdb) return;
     setLoadingData(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/user-movies/${mainUserData.id}/${id_tmdb}/toggle`,
+        `http://localhost:3001/api/user-movies/${authUser.id}/${id_tmdb}/toggle`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

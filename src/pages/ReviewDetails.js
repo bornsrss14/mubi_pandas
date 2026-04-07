@@ -18,6 +18,7 @@ import { useReview } from "../contexts/ReviewProvider";
 import { formatDateShortES } from "../utils/dateUtils";
 import commentService from "../services/commentService";
 import reviewService from "../services/reviewService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 /*Mubi recibe un id que va a comparar para buscarlo en su ruta. */
 /* export const RatingContext = createContext(); */
@@ -25,11 +26,13 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
   const userContextValue = useContext(UserContext);
 
   const { id, id_review } = useParams(); // ← obtengo el id de url
-  /*mainUserData */
+  /*authUser */
 
   const { /*allPosters*/ allReviews, loadingRevProv, errorRevProv } =
     useReview();
-  const { formData, mainUserData } = userContextValue || {};
+  const { formData } = userContextValue || {};
+
+  const { authUser } = useAuthUser();
   const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
   const [showTools, setShowTools] = useState(false);
@@ -51,6 +54,9 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
         setLoading(true);
         setError(false);
         const movieData = await movieDatabaseService.getMovieDetails(id);
+        console.log("- - - - - - prueba - - - - - -");
+        console.log(movieData);
+        console.log("💗");
 
         if (!movieData) {
           throw new Error("Not found :c");
@@ -70,7 +76,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
 
   const [commentData, setCommentData] = useState({
     id_review: id_review,
-    id_user: mainUserData?.id || 4, //cambiar
+    id_user: authUser?.id || 4, //cambiar
     comment_txt: "", //
   });
   const handleAddComment = async (commentData) => {
@@ -80,7 +86,7 @@ function ReviewDetails({ objeto, setActiveTab, activeTab, itemMubi }) {
       //2. Reset commentData?.comment_txt: ➜ "" empty;
       setCommentData({
         id_review: id_review,
-        id_user: mainUserData?.id || 4, //cambiar
+        id_user: authUser?.id || 4, //cambiar
         comment_txt: "",
       });
     } catch (error) {

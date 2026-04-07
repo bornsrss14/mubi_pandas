@@ -8,24 +8,25 @@ import movieService from "../services/movieDatabaseService";
 import LinkPoster from "../core/LinkPoster";
 import { TMDB_IMAGE_BASE_URL } from "./Settings";
 import userMoviesService from "../services/userMoviesService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 export const Likes = ({ usrId = "usr_001" }) => {
   const firstFilter = DataBaseLikes.filter(
-    (item) => item.idUserAsociated === usrId
+    (item) => item.idUserAsociated === usrId,
   );
 
   const match = temDataMubisTotal.filter((obj2) =>
-    firstFilter.some((obj1) => obj1.idMubiLiked === obj2.id)
+    firstFilter.some((obj1) => obj1.idMubiLiked === obj2.id),
   );
 
-  const { mainUserData } = useContext(UserContext);
+  const { authUser } = useAuthUser();
   const [allLiked, setAllLiked] = useState(null);
   //montar los {...} de las películas marcadas con liked por {id_user} user
 
   useEffect(() => {
-    if (!mainUserData?.id) return;
+    if (!authUser?.id) return;
     async function getAllLikedMovies() {
       try {
-        const allLikes = await userMoviesService.getAllLiked(mainUserData?.id);
+        const allLikes = await userMoviesService.getAllLiked(authUser?.id);
         const ids = allLikes.movies.map((item) => item.id_tmdb);
         const allFavMoviesData = await movieService.getMoviePoster(ids);
         setAllLiked(allFavMoviesData);
@@ -34,7 +35,7 @@ export const Likes = ({ usrId = "usr_001" }) => {
       }
     }
     getAllLikedMovies();
-  }, [mainUserData?.id]);
+  }, [authUser?.id]);
   return (
     <>
       <div className="card-settings">

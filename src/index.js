@@ -5,12 +5,15 @@ import "./styles/navbarUser.css";
 import "./styles/filterMovies.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { UserAuthProvider } from "./contexts/UserAuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <UserAuthProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </UserAuthProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

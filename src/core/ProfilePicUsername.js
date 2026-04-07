@@ -1,5 +1,6 @@
 import { IconChevronDown } from "@tabler/icons-react";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 export const ProfilePicUsername = ({
   withNickname = true,
   children,
@@ -17,6 +18,7 @@ export const ProfilePicUsername = ({
     objectFit: "cover", // aseguro que la imagen se ajuste sin deformarse
     backgroundColor: "white",
   };
+  const { authUser } = useAuthUser();
   return (
     <>
       <div className="flex-row div-picture-nikname">
@@ -27,12 +29,12 @@ export const ProfilePicUsername = ({
             className="rounded shadow"
             skeletonClassName="rounded"
             alt="img-poster"
-            src={imgProfile}
+            src={authUser?.profile_pic_url}
           ></OptimizedImage>
         </div>
         {withNickname && (
           <p style={{ fontSize: fontSi }} className="nickname">
-            {userName}
+            {authUser?.username}
           </p>
         )}
 

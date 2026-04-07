@@ -1,78 +1,105 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import authService from "../services/authService";
 import userService from "../services/userService";
+import fourFavService from "../services/fourFavoriteService";
+import movieService from "../services/movieDatabaseService";
+import ListService from "../services/listService";
 
 const UserContextAuth = createContext();
-
 export const UserAuthProvider = ({ children }) => {
   const [userLog, setUserLog] = useState();
   const [loadingAuth, setLoadingAuth] = useState(true);
-  const [dataMainUser, setDataMainUser] = useState({});
+  const [topFavorites, setTopFavorites] = useState([]);
+  const [myLists, setMyLists] = useState([]);
+  const [accessToken, setAccessToken] = useState(); //base 64
+  const [authUser, setAuthUser] = useState({});
+
   const loginUserFun = async ({ user, pwd }) => {
-    const response = await authService.authUser(user, pwd);
+    const response = await authService.authUser(user, pwd, setAccessToken);
+    //Después del login, guardo mi accessToken
     if (response) {
-      setUserLog(response);
+      //guardar token si lo tengo ----guardo en mi contexto
+      setAccessToken(response?.accessToken);
+      await funGetUser(response?.accessToken);
     }
     setLoadingAuth(false);
-    //console.log(response.accessToken);
   };
-  /* const authData = JSON.parse(localStorage.getItem("auth"));
-      const accessToken = authData?.accessToken;
-      const username = authData?.userInfo?.username;
-      console.log("Token:", accessToken);
-      console.log("Username:", username); */
 
-  //- - - - - - - - - helpler  - - - - - - - - -
-  const getAuthData = () => {
+  const funGetUser = async (accessToken) => {
     try {
-      return JSON.parse(localStorage.getItem("auth"));
-    } catch {
-      return null;
-    }
-  };
-  //obtener el usuario en base al log
-  const handleGetUser = async () => {
-    try {
-      const authData = getAuthData();
-      const token = authData?.accessToken;
-      console.log(token);
-      if (!authData?.accessToken) return; //- - - - - - aboarto sino hay token - - - - - - - -
-      const userMain = await userService.findUser(authData.userInfo.username); //token
-      setDataMainUser(userMain);
+      if (!accessToken) return; //- - - - - - aborto sino hay token - - - - - - - -
+
+      const decoded = jwtDecode(accessToken);
+      const usernameAuth = decoded.userInfo.username;
+      const userMain = await userService.findUser(usernameAuth, accessToken);
+      //console.log("respuesta userMain:", userMain); success: true, data: object usuario
+      setAuthUser(userMain.data); //aquí ya está mi objeto de usuario
     } catch (error) {
-      alert(`Error al tratar de encontrar al usuario con el username`);
+      console.log("Error completo:", error);
+      console.log("Error response:", error?.response?.data);
+      console.log("Error status:", error?.response?.status);
     }
   };
 
-  const logOutFun = () => {
-    setUserLog(null);
+  const logOutFun = async () => {
+    await authService.logout(setAccessToken);
+    console.log("Se terminó la sesión");
   };
 
   //Para obtener favoritos actualizar ↓
 
   //1. ➜ actualizar lista de favoritos
-  async function refreshFavorites() {}
+  async function refreshFavorites() {
+    if (!authUser?.id) return;
+    const four = await fourFavService.getFourFavById(authUser?.id);
+    const ids = four?.data?.map((item) => item?.id_mubi);
+    const moviesDataFour = await movieService.getMoviePoster(ids);
+    setTopFavorites(moviesDataFour);
+  }
 
-  useEffect(() => {
-    const authData = getAuthData();
-    if (authData) {
-      setUserLog(authData);
+  //2.  ➜ cargar los favoritos
 
-      const username = authData?.userInfo?.username;
-      if (username) {
-        handleGetUser(username);
-      }
-      setLoadingAuth(false);
+  const loadFavorites = useCallback(async () => {
+    if (!authUser?.id) return;
+    try {
+      const four = await fourFavService.getFourFavById(authUser?.id); //recupero mis cuatro favoritos
+      const ids = four.data.map((item) => item.id_mubi); //recupero los ids de los favoritos
+      const moviesDataFour = await movieService.getMoviePoster(ids); // array url de posters
+      setTopFavorites(moviesDataFour);
+    } catch (error) {
+      console.log("Error loading favorites", error);
     }
-  }, []); //al montar mi componente voy a tratar de recuperar el usuario
+  }, [authUser?.id]);
+
+  const getAllListsEntries = useCallback(async () => {
+    try {
+      const all = ListService.getAllListWithEntries(authUser?.id);
+      setMyLists(all);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [authUser?.id]);
+
   return (
     <UserContextAuth.Provider
       value={{
         userLog,
         loadingAuth,
-        loginUserFun,
         logOutFun,
-        dataMainUser,
+        authUser,
+        topFavorites,
+        refreshFavorites,
+        getAllListsEntries,
+        myLists,
+        funGetUser,
+        loadFavorites,
+        setTopFavorites,
+        setLoadingAuth,
+        setUserLog,
+        accessToken,
+        setAccessToken,
+        loginUserFun,
       }}
     >
       {children}

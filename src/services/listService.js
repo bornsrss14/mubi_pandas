@@ -1,15 +1,8 @@
-import axios from "axios";
-const API_URL = "http://localhost:3001/api/user/lists/";
-
-const api = axios.create({
-  baseURL: API_URL,
-  headers: { "Content-Type": "application/json" },
-});
-
+import api from "../api/axios";
 const ListService = {
   addListWithEntries: async (listData) => {
     try {
-      const response = await api.post("/", listData);
+      const response = await api.post("/user/lists/", listData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -18,7 +11,7 @@ const ListService = {
 
   deleteList: async (id_list) => {
     try {
-      const response = await api.delete(`/${id_list}`);
+      const response = await api.delete(`/user/lists/${id_list}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -27,7 +20,7 @@ const ListService = {
 
   getAllListWithEntries: async (id_user) => {
     try {
-      const lists = await api.get(`/details/${id_user}`);
+      const lists = await api.get(`/user/lists/details/${id_user}`);
       return lists.data;
     } catch (error) {
       throw error.response?.data || error.message;

@@ -1,19 +1,20 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import commentService from "../services/commentService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 export const useComments = () => {
-  const { mainUserData } = useContext(UserContext);
   const COMMENTS_LIMIT = 3;
   let REVIEW_ID = 23;
 
+  const { authUser } = useAuthUser();
   const [commentsByRev, setCommentsByRev] = useState([]);
   const [loadingC, setLoadingC] = useState();
   const [errorC, setErrorC] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [commentData, setCommentData] = useState({
     id_review: null,
-    id_user: mainUserData?.id || 4, //cambiar
+    id_user: authUser?.id || 4, //cambiar
     comment_txt: "", //
     id_parent: null,
   });
@@ -91,7 +92,7 @@ export const useComments = () => {
         setSubmitting(true);
         const comment = {
           id_review: REVIEW_ID,
-          id_user: mainUserData?.id || 4, //change fallback
+          id_user: authUser?.id || 4, //change fallback
           comment_txt: commentData.comment_txt.trim(),
           id_parent: commentData.id_parent,
         };
@@ -115,7 +116,7 @@ export const useComments = () => {
         }
         setCommentData({
           id_review: 23,
-          id_user: mainUserData?.id || 4, //cambiar
+          id_user: authUser?.id || 4, //cambiar
           comment_txt: "",
           id_parent: null,
         });
@@ -129,7 +130,7 @@ export const useComments = () => {
         setSubmitting(false);
       }
     },
-    [REVIEW_ID, mainUserData.id],
+    [REVIEW_ID, authUser.id],
   );
 
   const deleteComment = useCallback(async (id) => {

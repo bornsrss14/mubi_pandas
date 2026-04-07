@@ -1,12 +1,8 @@
 import ToFollowBtnDots from "./ToFollowBtnDots";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../App";
-export const ProfilePicProfileView = ({
-  userData,
-  measure,
-  userName = "pandasneezing",
-  fontSi,
-}) => {
+import { useAuthUser } from "../contexts/UserAuthProvider";
+export const ProfilePicProfileView = ({ measure }) => {
   const profilePicture = {
     width: measure,
     height: measure,
@@ -15,7 +11,8 @@ export const ProfilePicProfileView = ({
     objectFit: "cover", // aseguro que la imagen se ajuste sin deformarse
   };
   const { formData } = useContext(UserContext);
-  const toFollow = userData.idUser !== formData.idUser;
+  const { authUser } = useAuthUser();
+  const toFollow = authUser.idUser !== formData.idUser;
   return (
     <>
       <div className="grid-profile-hero">
@@ -23,13 +20,13 @@ export const ProfilePicProfileView = ({
           <img
             className="img-full-cover"
             alt="profile-pic"
-            src={userData?.profile_pic_url || "not found"}
+            src={authUser?.profile_pic_url || "not found"}
           />
         </div>
         <div className="nickname-avatar">
-          <p className="nickname">{userData?.username || "not found"}</p>{" "}
+          <p className="nickname">{authUser?.username || "not found"}</p>{" "}
           <p style={{ margin: "0px", color: "white", fontSize: ".89rem" }}>
-            {userData.pronoun}
+            {authUser.pronoun}
           </p>
         </div>
         <div className="dots-avatar">

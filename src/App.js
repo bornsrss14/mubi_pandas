@@ -34,17 +34,15 @@ import ReviewPreviewSecond from "./components/ReviewPreviewSecond";
 import ReviewDetailed from "./pages/ReviewDetailed";
 import MubiDetails from "./pages/MubiDetails";
 import SignUpForm from "./pages/SignUpForm";
-import userService from "./services/userService";
-import fourFavService from "./services/fourFavoriteService";
-import movieService from "./services/movieDatabaseService";
-import ListService from "./services/listService";
 import ReviewComposer from "./components/ReviewComposer";
 import ReviewDetails from "./pages/ReviewDetails";
 import { ReviewProvider } from "./contexts/ReviewProvider";
 import { Login } from "./pages/Login";
 import Register from "./pages/Register";
 import HomePage from "./pages/HomePage";
-import { UserAuthProvider } from "./contexts/UserAuthProvider";
+
+import { useAuthUser } from "./contexts/UserAuthProvider";
+import { useAxiosInterceptors } from "./hooks/useAxiosInterceptors";
 /* CONTEXT*/
 
 export const UserContext = createContext();
@@ -59,31 +57,16 @@ export default function App() {
     mainUser,
     /* setMainUser */
   ] = useState(4); // esto se va a eliminar
-  const [mainUserData, setMainUserData] = useState({});
+
+  //const [mainUserData, setMainUserData] = useState({});
   const [query, setQuery] = useState("");
   const [movies] = useState(tempMovieData);
   const [watched] = useState(tempWatchedData);
   const [searchIsOpen, setSearchIsOpen] = useState(false);
+  const { loadFavorites, getAllListsEntries, myLists, topFavorites } =
+    useAuthUser();
 
-  useEffect(() => {
-    handleGetUser(mainUser);
-  }, [mainUser]);
-
-  //cambiar para obtener el user por username
-  const handleGetUser = async (id) => {
-    const pandas = "pandasneezing";
-    try {
-      const res = await userService.getUserById(id);
-      setMainUserData(res.data);
-      const response = await userService.findUser(pandas); //by username
-
-      //ESTO SE ELIMINA
-      console.log("💗💗💗💗💗💗💗💗💗💗💗💗💗💗");
-      console.log(response.data);
-    } catch (error) {
-      alert(`Error al tratar de encontrar el usuario con el id: ${id}`);
-    }
-  };
+  //cambiar para obtener el user por username 💗
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
@@ -92,80 +75,38 @@ export default function App() {
   const [userId] = useState("usr_001");
   const [activeTab, setActiveTab] = useState(1001);
   const [formData, setFormData] = useState(getUserById(userId));
-  const [topFavorites, setTopFavorites] = useState([]);
 
   const [draftForm, setDraftForm] = useState(formData);
   const [listsPerUser] = useState(getUserLists(userId));
   const [reviewsUser, setReviewsUser] = useState(madeReviews(userId));
 
   const [dataFour, setDataFour] = useState([]);
-  const [comments, setAllComments] = useState([]);
-
-  async function refreshComments() {
-    if (!mainUser?.id) return;
-  }
-  async function refreshTopFavorites() {
-    //esta función debería ir en el contexto del user
-    if (!mainUserData?.id) return;
-
-    const four = await fourFavService.getFourFavById(mainUserData.id);
-    const ids = four.data.map((item) => item.id_mubi);
-    const moviesDataFour = await movieService.getMoviePoster(ids);
-
-    setTopFavorites(moviesDataFour); // los guarda para utilizarlo en mi contexto
-  }
 
   useEffect(() => {
-    //debería ir en el contexto
-    if (!mainUserData?.id) return; //sino recupera el id del usuario, retorna.
-    async function loadTopFavorites() {
-      try {
-        const four = await fourFavService.getFourFavById(mainUserData.id); //recupero mis 4 favoritos
-        const ids = four.data.map((item) => item.id_mubi); //recupero los ids de los favoritos
-        const moviesDataFour = await movieService.getMoviePoster(ids); //esto recupera un array de url de posters
-        setTopFavorites(moviesDataFour);
-      } catch (error) {
-        console.error("Error loading favorites", error);
-      }
-    }
+    loadFavorites();
+  }, [loadFavorites]);
 
-    loadTopFavorites();
-  }, [mainUserData?.id]);
-
-  const [myLists, setMyLists] = useState([]);
   useEffect(() => {
-    async function getAllListsEntries(id_user) {
-      try {
-        const all = await ListService.getAllListWithEntries(id_user);
-        //todos los objetos de las listas con entidades de películas
-        setMyLists(all);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getAllListsEntries(mainUserData?.id);
-  }, [mainUserData?.id]);
+    getAllListsEntries();
+  }, [getAllListsEntries]);
 
   console.log(topFavorites);
+  useAxiosInterceptors();
   return (
     <NavContext.Provider value={{ searchIsOpen, setSearchIsOpen }}>
       <UserContext.Provider
         value={{
           myLists,
-          refreshTopFavorites,
           topFavorites,
-          setTopFavorites,
           reviewsUser,
           setReviewsUser,
           formData,
           draftForm,
-          mainUserData,
           dataFour,
           setDataFour,
-          setMainUserData,
         }}
       >
-        <ReviewProvider mainUserData={mainUserData}>
+        <ReviewProvider>
           <Router>
             <Navbar movies={movies} query={query} setQuery={setQuery} />
             <Routes>
@@ -174,7 +115,7 @@ export default function App() {
                 element={<HomePage></HomePage>}
               ></Route>
               <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
-              <Route path="/" element={<Home />}></Route>
+              <Route path="/" element={<Home></Home>}></Route>
               <Route
                 path="/films"
                 element={
@@ -296,14 +237,7 @@ export default function App() {
                 path="review&detail/:id/:id_review"
                 element={<ReviewDetails></ReviewDetails>}
               ></Route>
-              <Route
-                path="/login"
-                element={
-                  <UserAuthProvider>
-                    <Login></Login>
-                  </UserAuthProvider>
-                }
-              ></Route>
+              <Route path="/login" element={<Login></Login>}></Route>
               <Route path="/register" element={<Register></Register>}></Route>
               <Route
                 path="review-preview"

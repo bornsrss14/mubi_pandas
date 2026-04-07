@@ -2,6 +2,7 @@ import { IconStar, IconStarFilled, IconX } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import ratingService from "../services/ratingService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 export const Rating = ({
   draftReview,
@@ -17,7 +18,8 @@ export const Rating = ({
 }) => {
   const [hoverRating, setHoverRating] = useState(0);
   const userContextValue = useContext(UserContext);
-  const { mainUserData } = userContextValue || {}; // ← Agrega || {}
+
+  const { authUser } = useAuthUser();
   const [ratingRecord, setRatingRecord] = useState(0); // ← Estado local
 
   const styleContainer = {
@@ -45,13 +47,13 @@ export const Rating = ({
   /* console.log("Rating creada con éxito ⭐"); */
   const handleRating = async (rating) => {
     try {
-      if (!mainUserData?.id) {
+      if (!authUser?.id) {
         console.error("Usuario no autenticado");
         return;
       }
       setRatingRecord(rating);
       const ratingData = {
-        id_user: mainUserData?.id,
+        id_user: authUser?.id,
         id_tmdb: id_tmdb,
         rating: rating,
       };
@@ -81,7 +83,7 @@ export const Rating = ({
       }
       try {
         const record = await ratingService.getByUserAndTmdbId(
-          mainUserData?.id,
+          authUser?.id,
           id_tmdb,
         );
         setRatingRecord(record?.data?.rating);
@@ -90,11 +92,11 @@ export const Rating = ({
       }
     };
 
-    if (mainUserData?.id && id_tmdb) {
+    if (authUser?.id && id_tmdb) {
       // Solo fetch si hay usuario
       fetchRating();
     }
-  }, [mainUserData?.id, id_tmdb]);
+  }, [authUser?.id, id_tmdb]);
 
   // Aquí va tu lógica cuando ratingRecord cambie
   useEffect(() => {
@@ -150,7 +152,7 @@ export const Rating = ({
                           setDraftReview((prev) => ({ ...prev, rating: null }));
                           setRatingRecord(null);
                         }
-                      : () => deleteRating(mainUserData.id, id_tmdb)
+                      : () => deleteRating(authUser.id, id_tmdb)
                   }
                   style={{ margin: "0 0 0 1rem" }}
                   className="burger-button"

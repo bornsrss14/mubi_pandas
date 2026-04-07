@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TagElement from "../core/TagElement";
 import ContainerFilms from "../components/ContainerFilms";
 import ListItemListed from "../core/ListItemListed";
 import SearchBar from "../core/SearchBar";
 import movieService from "../services/movieDatabaseService";
 import FilterMovies from "../components/FilterMovies";
-import { UserContext } from "../App";
 import { IconMenu4, IconLayoutGridRemove } from "@tabler/icons-react";
 import ListService from "../services/listService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 const NewListBoilerplate = () => {
-  const { mainUserData } = useContext(UserContext); //mainUserData.id
+  const { authUser } = useAuthUser();
   const [draftEntry, setDraftEntry] = useState({
-    id_user: mainUserData?.id,
+    id_user: authUser?.id,
     title: "",
     brief_description: "",
     is_public: 1,
@@ -20,8 +20,8 @@ const NewListBoilerplate = () => {
   });
 
   useEffect(() => {
-    setDraftEntry((prev) => ({ ...prev, id_user: mainUserData?.id }));
-  }, [mainUserData?.id]);
+    setDraftEntry((prev) => ({ ...prev, id_user: authUser?.id }));
+  }, [authUser?.id]);
 
   const [query, setQuery] = useState("");
   const [searchFound, setSearchFound] = useState([]);
@@ -108,7 +108,7 @@ year: "2009" */
       await ListService.addListWithEntries(draftEntry);
       console.log("lista creada exitosamente ♥️");
       setDraftEntry({
-        id_user: mainUserData?.id,
+        id_user: authUser?.id,
         title: null,
         brief_description: null,
         is_public: 1,

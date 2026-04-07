@@ -22,6 +22,7 @@ import LinkPoster from "../core/LinkPoster";
 import { UserContext } from "../App";
 import { TMDB_IMAGE_BASE_URL } from "./Settings";
 import { useReview } from "../contexts/ReviewProvider";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 export const Profile = ({
   formData,
   noDaysRated = 8,
@@ -100,12 +101,12 @@ export const Profile = ({
     return Math.max(...Object.values(arrayEnumerar));
   }
   /*topFavorites objeto completo de tmdb {...} */
-  const { /* reviewsUser */ mainUserData, topFavorites } =
-    useContext(UserContext);
+  const { topFavorites } = useContext(UserContext);
+  const { authUser } = useAuthUser();
 
   const normalizedReviews = allReviews?.data?.map((review) => {
     const posterObj = allPosters?.find(
-      (poster) => poster.id === review.id_tmdb
+      (poster) => poster.id === review.id_tmdb,
     );
 
     return {
@@ -122,7 +123,7 @@ export const Profile = ({
           <div className="profile-edit-btns">
             <div>
               <ProfilePicProfileView
-                userData={mainUserData}
+                userData={authUser}
                 measure="70px"
               ></ProfilePicProfileView>
             </div>

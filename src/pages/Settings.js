@@ -7,6 +7,7 @@ import fourFavService from "../services/fourFavoriteService";
 import movieDatabaseService from "../services/movieDatabaseService";
 import { OptimizedImage } from "../hooks/useOptimizedImage";
 import movieService from "../services/movieDatabaseService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"; ///https://image.tmdb.org/t/p/z632eZtXaw76ZE5mMMGOBXCpm1T.jpg
 export const Settings = ({
@@ -15,15 +16,11 @@ export const Settings = ({
 
   setDraftForm,
 }) => {
-  const {
-    draftForm,
-    mainUserData,
-    topFavorites,
-    setTopFavorites,
-    dataFour,
-    setDataFour,
-    refreshTopFavorites,
-  } = useContext(UserContext);
+  const { draftForm, topFavorites, dataFour, setDataFour } =
+    useContext(UserContext);
+
+  const { refreshFavorites, dataMainUser, setTopFavorites } = useAuthUser();
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   //Recuperar el id de las 4 pelìculas favoritas
@@ -83,19 +80,20 @@ export const Settings = ({
   }, [dataFour, setTopFavorites]);
 
   useEffect(() => {
-    if (selected && mainUserData?.id) {
+    if (selected && dataMainUser?.id) {
       setMovieData({
         id_mubi: selected.id,
-        id_user: mainUserData.id,
+        id_user: dataMainUser.id,
       });
     }
-  }, [selected, mainUserData?.id]);
+  }, [selected, dataMainUser?.id]);
 
   const handleDeleteByUserAndMubi = async (id_movie, id_user) => {
     if (window.confirm("Are you sure you want to delete this movie?")) {
       try {
         await fourFavService.deleteByUserAndMubi(id_movie, id_user);
-        refreshTopFavorites();
+        /* refreshTopFavorites(); */
+        refreshFavorites();
         //  IMPORTANTE: actualiza estado local
         setDataFour((prev) =>
           prev.filter((id) => Number(id) !== Number(id_movie)),
@@ -120,7 +118,8 @@ export const Settings = ({
   const handleSelectSubmit = async (movieData) => {
     try {
       await fourFavService.addMovie(movieData);
-      refreshTopFavorites();
+      /* refreshTopFavorites(); */
+      refreshFavorites();
       setMovieData({
         id_mubi: "",
         id_user: "",
@@ -143,7 +142,7 @@ export const Settings = ({
               id="username"
               name="userName"
               type="text"
-              value={mainUserData.username} /* se almacena en el draft */
+              value={dataMainUser?.username} /* se almacena en el draft */
               readOnly
             />
             <button
@@ -164,7 +163,7 @@ export const Settings = ({
                 id="given"
                 name="givenName"
                 type="text"
-                value={mainUserData.given_name}
+                value={dataMainUser?.given_name}
                 onChange={handleChange}
                 placeholder="Rosario"
               />
@@ -176,7 +175,7 @@ export const Settings = ({
                 id="family"
                 name="familyName"
                 type="text"
-                value={mainUserData.family_name}
+                value={dataMainUser?.family_name}
                 onChange={handleChange}
                 placeholder="Fuentes García"
               />
@@ -190,7 +189,7 @@ export const Settings = ({
               id="email"
               name="email"
               type="email"
-              value={mainUserData.email}
+              value={dataMainUser?.email}
               onChange={handleChange}
             />
           </div>
@@ -203,7 +202,7 @@ export const Settings = ({
                 id="location"
                 name="location"
                 type="text"
-                value={mainUserData.location}
+                value={dataMainUser?.location}
                 onChange={handleChange}
                 placeholder="Ciudad, País"
               />
@@ -214,7 +213,7 @@ export const Settings = ({
                 id="website"
                 name="website"
                 type="text"
-                value={mainUserData.website}
+                value={dataMainUser?.website}
                 onChange={handleChange}
                 placeholder="https://"
               />
@@ -228,7 +227,7 @@ export const Settings = ({
               className="txt-area-settings"
               id="bio"
               name="bioDescription"
-              value={mainUserData.bio}
+              value={dataMainUser?.bio}
               onChange={handleChange}
               placeholder="Escribe algo breve sobre ti..."
             />
@@ -240,7 +239,7 @@ export const Settings = ({
             <select
               id="pronoun"
               name="pronoun"
-              value={mainUserData.pronoun}
+              value={dataMainUser?.pronoun}
               onChange={handleChange}
             >
               <option>They / their</option>
@@ -261,7 +260,7 @@ export const Settings = ({
               {topFavorites?.map((mubi) => (
                 <div
                   onClick={() =>
-                    handleDeleteByUserAndMubi(mubi.id, mainUserData.id)
+                    handleDeleteByUserAndMubi(mubi.id, dataMainUser.id)
                   }
                   className="delete-fav-mubi-wrapper"
                 >
@@ -394,7 +393,7 @@ export const Settings = ({
           <div>
             <button
               className="btn"
-              onClick={() => handleDelete(mainUserData.id, "yes")}
+              onClick={() => handleDelete(dataMainUser.id, "yes")}
             >
               Delete account
             </button>

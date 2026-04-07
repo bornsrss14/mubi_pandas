@@ -1,16 +1,9 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3001/api/user-movies";
-
-const api = axios.create({
-  baseURL: API_URL,
-  headers: { "Content-Type": "application/json" },
-});
+import api from "../api/axios";
 
 const userMoviesService = {
   getAllLiked: async (id_user) => {
     try {
-      const response = await api.get(`/liked/${id_user}`);
+      const response = await api.get(`/user-movies/liked/${id_user}`);
       console.log(response.data, "checa esto");
       return response.data;
     } catch (error) {
@@ -20,7 +13,7 @@ const userMoviesService = {
 
   getAllWatched: async (id_user) => {
     try {
-      const response = await api.get(`/watched/${id_user}`);
+      const response = await api.get(`/user-movies/watched/${id_user}`);
       return response.data;
     } catch (error) {
       console.log("Error, found");
@@ -29,7 +22,7 @@ const userMoviesService = {
 
   getAllWatchList: async (id_user) => {
     try {
-      const response = await api.get(`/to_watch/${id_user}`);
+      const response = await api.get(`/user-movies/to_watch/${id_user}`);
       return response.data;
     } catch (error) {
       console.log(error);

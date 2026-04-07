@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProfilePicUsername from "../core/ProfilePicUsername.js";
 import { PWD_REGEX, USER_REGEX } from "../utils/dateUtils.js";
 import { useAuthUser } from "../contexts/UserAuthProvider.js";
-import HomePage from "./HomePage.js";
+import Home from "./Home.js";
 // 4-24 characters, letters, numbers, underscores, hyphens
 
 export const Login = () => {
-  const { loginUserFun, userLog } = useAuthUser();
+  const { loginUserFun } = useAuthUser();
   const userRef = useRef();
   const errRef = useRef();
 
   const [user, setUser] = useState();
-  const [userFocus, setUserFocus] = useState();
+
   const [pwd, setPwd] = useState();
-  const [pwdFocus, setPwdFocus] = useState(false);
-  const [matchPwd, setMatchPwd] = useState();
+  const [matchPwd] = useState();
+  const [userFocus, setUserFocus] = useState();
   const [errMsg, setErrMsg] = useState();
   const [success, setSuccess] = useState(false);
   const [validPwd, setValidPwd] = useState(false);
@@ -23,6 +23,7 @@ export const Login = () => {
   useEffect(() => {
     userRef.current.focus();
   }, []);
+
   useEffect(() => {
     const result = USER_REGEX.test(user); //.test is perfect i just need to know, is this valid?
     console.log(result);
@@ -32,7 +33,6 @@ export const Login = () => {
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log("pwd", result);
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -48,40 +48,14 @@ export const Login = () => {
     try {
       await loginUserFun({ user, pwd });
 
-      const accessToken = userLog?.accessToken;
-      if (!accessToken) return;
-      console.log("mi access Token está en", accessToken);
-
-      const impreMessage = userLog?.message;
-      console.log(impreMessage);
-
-      console.log(userLog);
-
       setSuccess(true);
-
-      if (accessToken) {
-        localStorage.setItem("token", accessToken);
-      }
-
-      return userLog?.data;
-      //guardar token si lo tengo ----
-
-      //guardo en mi contexto
-      /*       setAuth({ user, roles: data.roles, accessToken: data?.accessToken });
+      /*      
       setUser("");
       setPwd("");
       */
     } catch (error) {
       console.log("Error:", error);
-      if (!error?.userLog) {
-        setErrMsg("No Server userLog");
-      } else if (error.userLog?.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (error.userLog?.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg("Login Failed");
-      }
+      setErrMsg("Login Failed");
       errRef.current.focus();
     }
   };
@@ -91,7 +65,7 @@ export const Login = () => {
       {" "}
       {success ? (
         <section>
-          <HomePage></HomePage>
+          <Home></Home>
         </section>
       ) : (
         <>

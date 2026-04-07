@@ -7,16 +7,18 @@ import { NavContext, UserContext } from "../App";
 import MainFilms from "../pages/MainFilms";
 import ComponenteHeader from "../core/ComponenteHeader";
 
-import authService from "../services/authService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 export const Navbar = ({ movies, query, setQuery }) => {
-  const { formData, mainUserData } = useContext(UserContext);
+  const { formData } = useContext(UserContext);
+
   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
 
   const [dropDeskMenu, setDropDeskMenu] = useState(false);
   /* const [searchIsOpen, setSearchIsOpen] = useState(false); */
   const { searchIsOpen, setSearchIsOpen } = useContext(NavContext);
   const [addReview, setAddReview] = useState(false);
+  const { authUser, logOutFun } = useAuthUser();
 
   function makeReview() {
     setBurgerIsOpen(false);
@@ -61,8 +63,8 @@ export const Navbar = ({ movies, query, setQuery }) => {
 
   const handleLogOut = async () => {
     try {
-      await authService.logout();
-      console.log("Aquí expira el accessToken. Intenta de nuevo el login");
+      logOutFun();
+      console.log("Chiao Bella!");
     } catch (error) {
       console.log("Error", error);
     }
@@ -92,9 +94,9 @@ export const Navbar = ({ movies, query, setQuery }) => {
           {/*  Este es el que debe contener el menú desplegarse y posicionarse absoluto respecto de su padre*/}
           <div onClick={toggleDropDesk} className="drop-desk-menu">
             <ProfilePicUsername
-              imgProfile={mainUserData.profile_pic_url}
+              imgProfile={authUser.profile_pic_url}
               withIcon={true}
-              userName={mainUserData.username}
+              userName={authUser.username}
             />
             <div
               onClick={(e) => {
@@ -209,9 +211,9 @@ export const Navbar = ({ movies, query, setQuery }) => {
             >
               <li className="">
                 <ProfilePicUsername
-                  imgProfile={mainUserData.profile_pic_url}
+                  imgProfile={authUser.profile_pic_url}
                   withIcon={true}
-                  userName={mainUserData.username}
+                  userName={authUser.username}
                 />
               </li>
             </ul>

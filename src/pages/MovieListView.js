@@ -6,12 +6,10 @@ import { DataNotesRelatedLists } from "../storage/tempMovieData";
 import ProfilePicUsername from "../core/ProfilePicUsername";
 import ContainerFilms from "../components/ContainerFilms";
 import { formatDate, getMubisByIds } from "../utils/dateUtils";
-import { useContext } from "react";
-import { UserContext } from "../App";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 const MovieListView = ({ listsPerUser, movieItem }) => {
   const { id } = useParams();
-  const { mainUserData, myLists } = useContext(UserContext);
-  console.log(mainUserData);
+  const { authUser } = useAuthUser();
 
   const listWithMubis = listsPerUser.map((obj) => ({
     ...obj,
@@ -22,7 +20,7 @@ const MovieListView = ({ listsPerUser, movieItem }) => {
   const matchingNotes = DataNotesRelatedLists.filter(
     (itemNote) =>
       itemNote?.list === Number(id) &&
-      itemLista?.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi)
+      itemLista?.mubis.some((mubiItem) => mubiItem.id === itemNote.id_mubi),
   );
   if (!itemLista) {
     return (
@@ -64,12 +62,12 @@ const MovieListView = ({ listsPerUser, movieItem }) => {
     <div className="section-persentage-home">
       <div className="basic-flex-row">
         <ProfilePicUsername
-          imgProfile={mainUserData?.profile_pic_url}
+          imgProfile={authUser?.profile_pic_url}
           withNickname={false}
           measure="2rem"
         ></ProfilePicUsername>
         <p>
-          List by <strong> {mainUserData.username}</strong>
+          List by <strong> {authUser?.username}</strong>
         </p>
       </div>
       <FilterMovies

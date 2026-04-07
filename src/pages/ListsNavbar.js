@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import FilterMovies from "../components/FilterMovies";
 import InlineNav from "../core/InlineNav";
 import { arrayTabsList, FilterList } from "../storage/kindOfTabs";
-import { UserContext } from "../App";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 export const ListsNavbar = ({
   listsPerUser,
   templateContainer,
@@ -12,7 +11,9 @@ export const ListsNavbar = ({
   const activeTabItem = templateContainer.find((item) => item.id === activeTab);
   const ComponenteSelected = activeTabItem?.componente; //Asigna nombre del comp
 
-  const { myLists } = useContext(UserContext); // todas las listas con entries
+  //const { myLists } = useContext(UserContext); todas las listas con entries
+
+  const { myLists } = useAuthUser();
 
   /*Cargar en un effect las listas con las entries 
   por el id_usuario*/

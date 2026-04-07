@@ -8,19 +8,20 @@ import userMoviesService from "../services/userMoviesService";
 import movieService from "../services/movieDatabaseService";
 import LinkPoster from "../core/LinkPoster";
 import { TMDB_IMAGE_BASE_URL } from "./Settings";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 //watched
 export const Watched = () => {
-  const { mainUserData } = useContext(UserContext);
   const [allWatched, setAllWatched] = useState(null);
+
+  const { authUser } = useAuthUser();
+
   useEffect(() => {
-    if (!mainUserData.id) return;
+    if (!authUser.id) return;
 
     async function getWatched() {
       try {
-        const allWatched = await userMoviesService.getAllWatched(
-          mainUserData?.id
-        );
+        const allWatched = await userMoviesService.getAllWatched(authUser?.id);
 
         const ids = allWatched.movies.map((item) => item.id_tmdb);
         const allWatchedData = await movieService.getMoviePoster(ids);
@@ -30,7 +31,7 @@ export const Watched = () => {
       }
     }
     getWatched();
-  }, [mainUserData.id]);
+  }, [authUser.id]);
   return (
     <>
       <div className="card-settings">

@@ -13,24 +13,25 @@ import {
 } from "../storage/tempMovieData";
 import { TMDB_IMAGE_BASE_URL } from "./Settings";
 import userMoviesService from "../services/userMoviesService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
 export const Watchlist = ({ watch }) => {
   const { formData } = useContext(UserContext);
   const allWatchListMubis = DataBaseWatchLater.filter(
-    (mubi) => mubi.idUserAsociated === formData.idUser
+    (mubi) => mubi.idUserAsociated === formData.idUser,
   );
 
-  const { mainUserData } = useContext(UserContext);
+  const { authUser } = useAuthUser();
   const [allWatchList, setAllWatchlist] = useState(null);
   /*obtengo y filtro los ids, voy a obtener los {...} .filter((item)=> item.id_user ) */
 
   useEffect(() => {
-    if (!mainUserData?.id) return;
+    if (!authUser?.id) return;
 
     async function getAllWatchedMovies() {
       try {
         const allWatchlist = await userMoviesService.getAllWatchList(
-          mainUserData?.id
+          authUser?.id,
         );
         //filtro los id
 
@@ -41,7 +42,7 @@ export const Watchlist = ({ watch }) => {
       } catch (error) {}
     }
     getAllWatchedMovies();
-  }, [mainUserData?.id]);
+  }, [authUser?.id]);
   console.log(allWatchList);
   return (
     <>

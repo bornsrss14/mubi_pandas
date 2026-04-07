@@ -10,8 +10,11 @@ import FooterListDescription from "./FooterListDescription";
 import ListPreview from "./ListPreview";
 import { getMubisByIds } from "../utils/dateUtils";
 import movieService from "../services/movieDatabaseService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 
-const ContainerMyLists = ({ listsPerUser, myLists }) => {
+const ContainerMyLists = ({ listsPerUser /*  myLists  */ }) => {
+  const { myLists } = useAuthUser();
+
   /* const [listPerUser, setListPerUser] = useState(getUserLists(usrId));
   /*Filtrar objetos de películas que coincidan con las claves de las películas de X usuario 
   const listsPerUser = getUserLists(usrId); */

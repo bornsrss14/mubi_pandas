@@ -6,17 +6,16 @@ import {
 import Rating from "../core/Rating";
 import LinkPoster from "../core/LinkPoster";
 import { TMDB_IMAGE_BASE_URL } from "../pages/Settings";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
+import { useEffect, useState } from "react";
 import reviewService from "../services/reviewService";
 import ratingService from "../services/ratingService";
+import { useAuthUser } from "../contexts/UserAuthProvider";
 /*"id_user": 4, "id_tmdb": 554, "review": " delete this as soon as you see this ","has_spoilers": 1, "rating": 5 */
 export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
-  const userContextValue = useContext(UserContext);
-  const { mainUserData } = userContextValue || {};
+  const { authUser } = useAuthUser();
   const [ratingRecord, setRatingRecord] = useState(null); // ← Estado local
   const [draftReview, setDraftReview] = useState({
-    id_user: mainUserData?.id,
+    id_user: authUser?.id,
     id_tmdb: id_tmdb,
     review: "",
     has_spoilers: false,
@@ -30,8 +29,8 @@ export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
         if (!id_tmdb) return;
 
         const record = await ratingService.getByUserAndTmdbId(
-          mainUserData?.id,
-          id_tmdb
+          authUser?.id,
+          id_tmdb,
         );
         setRatingRecord(record?.data?.rating);
       } catch (error) {
@@ -39,10 +38,10 @@ export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
       }
     };
 
-    if (mainUserData?.id && id_tmdb) {
+    if (authUser?.id && id_tmdb) {
       fetchRating();
     }
-  }, [mainUserData?.id, id_tmdb]);
+  }, [authUser?.id, id_tmdb]);
 
   // ✅ Nuevo useEffect para sincronizar
   useEffect(() => {
@@ -84,7 +83,7 @@ export const ReviewComposer = ({ movieTmdb = 400, id_tmdb, onClose }) => {
       const response = await reviewService.createOrUpdate(reviewObject);
       console.log(response);
       /*   setDraftReview({
-        id_user: mainUserData?.id,
+        id_user: authUser?.id,
         id_tmdb: id,
         review: "",
         has_spoilers: false,

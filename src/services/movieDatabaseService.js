@@ -58,7 +58,7 @@ class MovieService {
         );
         const data = await res.json();
 
-        //verificar si mmi api devuelve un error
+        //verificar si mi api devuelve un error
         if (!res.ok || data.success === false) {
           console.warn(`There's no register with the id: ${id}`);
           return null;
@@ -85,7 +85,7 @@ class MovieService {
 
       const detailsData = await details.json();
       const creditsData = await credits.json(); // Aquí viene el director en los créditos
-      const director = creditsData.crew.find(
+      const director = creditsData?.crew?.find(
         (person) => person.job === "Director",
       );
       /* return console.log("bebecita", {

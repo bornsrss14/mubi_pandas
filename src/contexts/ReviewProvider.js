@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { fetchUserReviews } from "../services/reviewHelpers";
+import { useAuthUser } from "./UserAuthProvider";
 
 const ReviewContext = createContext();
 
-export const ReviewProvider = ({ children, mainUserData }) => {
-  const mainUserDataU = mainUserData;
+export const ReviewProvider = ({ children }) => {
+  const { authUser } = useAuthUser();
   const [allPosters, setAllPosters] = useState([]);
   const [allReviews, setAllReviews] = useState(null);
   const [loadingRevProv, setLoading] = useState(false);
@@ -12,15 +13,13 @@ export const ReviewProvider = ({ children, mainUserData }) => {
 
   useEffect(() => {
     const loadReviews = async () => {
-      const userId = mainUserDataU?.id;
-      if (!userId) {
-        console.log("4. No user ID found, returning");
+      if (!authUser) {
         return;
       }
       try {
         setLoading(true);
         setError(null);
-        const { posters, reviews } = await fetchUserReviews(mainUserDataU?.id);
+        const { posters, reviews } = await fetchUserReviews(authUser);
         setAllPosters(posters);
         setAllReviews(reviews);
       } catch (error) {
@@ -31,7 +30,7 @@ export const ReviewProvider = ({ children, mainUserData }) => {
       }
     };
     loadReviews();
-  }, [mainUserDataU]);
+  }, [authUser]);
 
   return (
     <div>

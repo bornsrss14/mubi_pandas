@@ -1,109 +1,124 @@
-import axios from "axios";
+import api from "../api/axios";
 
-const API_URL = "http://localhost:3001/api/users/auth";
-
-const api = axios.create({
-  baseURL: API_URL,
-  headers: { "Content-Type": "application/json" },
-  withCredentials: true,
-});
-//http://localhost:3001/api/users/auth/login
-
-//agrego interceptos de REQUEST
+// REQUEST INTERCEPTOR
 /* api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    let auth = null;
+
+    try {
+      auth = JSON.parse(localStorage.getItem("auth"));
+    } catch {
+      auth = null;
+    }
+
+    const token = auth?.accessToken;
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error),
 );
 
+// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const prevRequest = error.config;
+    const prevRequest = error?.config || {};
 
-    if ((error.response?.status === 403) & !prevRequest._retry) {
-      prevRequest._retry = true;
+    if (error?.response?.status === 403 && !prevRequest?.sent) {
+      prevRequest.sent = true; //evita el loop infinito
+
       try {
-        const response = await api.get("/refres", { withCredentials: true });
+        const newTokenResponse = await api.get("/refresh", {
+          withCredentials: true,
+        });
+        const newAccessToken = newTokenResponse?.data?.accessToken;
+        //actualizo el Token de mi estado, el accessToken  setAccessToken(newAccessToken)
+        let currentAuth = null;
+        try {
+          currentAuth = JSON.parse(localStorage.getItem("auth"));
+        } catch {
+          currentAuth = null;
+        }
 
-        //genero mi muevo token
-        const newToken = response.data.accessToken;
-        localStorage.setItem("token", newToken);
+        localStorage.setItem(
+          "auth",
+          JSON.stringify({
+            ...currentAuth,
+            accessToken: newAccessToken,
+          }),
+        );
 
-        //actualizo mi header
-
-        prevRequest.headers.Authorization = `Bearer ${newToken}`;
+        prevRequest.headers = prevRequest.headers || {};
+        prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(prevRequest);
       } catch (error) {
         return Promise.reject(error);
       }
     }
+
     return Promise.reject(error);
   },
 ); */
+
 const authService = {
-  authUser: async (username, password_hash) => {
+  authUser: async (username, password_hash, setAccessToken) => {
     try {
-      const response = await api.post(
-        "/login",
-        {
-          username,
-          password_hash,
-        },
-        { withCredentials: true },
-      );
-      /* localStorage.setItem("token", response.data.accessToken); */
+      const response = await api.post("/users/auth/login", {
+        username,
+        password_hash,
+      });
 
-      //Es la respuesta que me da mi servidor
-      /* return res.status(200).json({
-      success: true,
-      message: "Login successful",
-      accessToken,
-    }); */
+      const data = response.data;
+      setAccessToken(data.accessToken);
 
-      return response.data;
+      /* localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          accessToken: data.accessToken,
+        }),
+      ); */
+      return data;
     } catch (error) {
       console.log("Ha ocurrido un error del servidor");
       throw error.response?.data || error.message;
     }
   },
-  /* const res = await api.post(
-  "/api/users/auth/login",
-  { username, password },
-  { withCredentials: true }
-);
-
-localStorage.setItem("token", res.data.accessToken); */
 
   refreshToken: async () => {
-    //esto no me sirve por el momento ❌❌
     try {
-      const response = await api.get("/refresh", { withCredentials: true });
-      localStorage.setItem("token", response.data.accessToken);
+      const response = await api.get("/users/auth/refresh", {
+        withCredentials: true,
+      });
+
+      let currentAuth = null;
+      try {
+        currentAuth = JSON.parse(localStorage.getItem("auth"));
+      } catch {
+        currentAuth = null;
+      }
+
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          ...currentAuth,
+          accessToken: response.data.accessToken,
+        }),
+      );
     } catch (error) {
       console.log("Ha ocurrido un error del servidor");
       throw error.response?.data || error.message;
     }
-
-    /* 
-  await api.post(
-  "/api/users/auth/logout",
-  {},
-  { withCredentials: true }
-);
-
-localStorage.removeItem("token"); */
   },
 
-  logout: async () => {
-    await api.post("/logout", {}, { withCredentials: true });
-    localStorage.removeItem("token");
+  logout: async (setAccessToken) => {
+    await api.post("/users/auth/logout", {}, { withCredentials: true });
+    setAccessToken(null);
+    /* localStorage.removeItem("auth"); */
   },
 };
 

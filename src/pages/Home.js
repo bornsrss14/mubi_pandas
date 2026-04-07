@@ -17,10 +17,10 @@ import {
 import TagElement from "../core/TagElement";
 import FooterListPreview from "../components/FooterListPreview";
 import { temDataMubisTotal } from "../storage/tempMovieData";
-import { UserContext } from "../App";
 
-export const Home = ({ userNikname = "bornsrss" }) => {
-  const { mainUserData } = useContext(UserContext);
+import { useAuthUser } from "../contexts/UserAuthProvider";
+
+export const Home = () => {
   const usrRef = useRef(null);
   {
     const galleryImages = [
@@ -161,6 +161,8 @@ export const Home = ({ userNikname = "bornsrss" }) => {
       </MasonryArticleItem>,
     ];
 
+    const { authUser } = useAuthUser();
+
     useEffect(() => {
       if (usrRef.current) {
         const msnry = new Masonry(usrRef.current, {
@@ -185,7 +187,7 @@ export const Home = ({ userNikname = "bornsrss" }) => {
                 paddingBottom: ".5px",
               }}
             >
-              <Link to={"/user-profile"}> {mainUserData?.username}</Link>
+              <Link to={"/user-profile"}> {authUser?.username}</Link>
             </span>
             <span className="username-txt-second">
               . Here's what we've been watching...
