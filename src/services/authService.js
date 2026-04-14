@@ -72,7 +72,6 @@ const authService = {
         username,
         password_hash,
       });
-
       const data = response.data;
       setAccessToken(data.accessToken);
 
@@ -89,26 +88,22 @@ const authService = {
     }
   },
 
-  refreshToken: async () => {
+  refreshToken: async (setAccessToken) => {
     try {
       const response = await api.get("/users/auth/refresh", {
         withCredentials: true,
       });
 
-      let currentAuth = null;
-      try {
-        currentAuth = JSON.parse(localStorage.getItem("auth"));
-      } catch {
-        currentAuth = null;
+      const newAccessToken = response?.data?.accessToken;
+      if (!newAccessToken) {
+        console.log(
+          "Désolé ( ´• ︿ •` ), there's no new access token, something went wron",
+        );
       }
-
-      localStorage.setItem(
-        "auth",
-        JSON.stringify({
-          ...currentAuth,
-          accessToken: response.data.accessToken,
-        }),
-      );
+      //1.Actualiza el estado (verdadera fuente)
+      setAccessToken(newAccessToken); //primero lo actualizo
+      //después necesito retornarlo
+      return newAccessToken;
     } catch (error) {
       console.log("Ha ocurrido un error del servidor");
       throw error.response?.data || error.message;

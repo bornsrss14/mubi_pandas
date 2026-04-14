@@ -49,13 +49,13 @@ export const Login = () => {
       await loginUserFun({ user, pwd });
 
       setSuccess(true);
-      /*      
+      /*  
       setUser("");
       setPwd("");
       */
     } catch (error) {
       console.log("Error:", error);
-      setErrMsg("Login Failed");
+      setErrMsg("Wrong password, try again (×_×) 🔒");
       errRef.current.focus();
     }
   };
@@ -104,9 +104,7 @@ export const Login = () => {
               ref={errRef}
               className={errMsg ? "errmsg" : "offscreen"}
               aria-live="assertive"
-            >
-              {errMsg}
-            </p>
+            ></p>
             <form className="form-register" onSubmit={handleSubmit}>
               <div className="field">
                 <label className="" htmlFor="username">
@@ -135,6 +133,7 @@ export const Login = () => {
 
               <div className="field">
                 <label htmlFor="email">Pasword:</label>
+                {errMsg}
                 <input
                   required
                   className=""

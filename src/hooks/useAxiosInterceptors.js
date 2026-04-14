@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { useAuthUser } from "../contexts/UserAuthProvider";
 import api from "../api/axios";
+import authService from "../services/authService";
 
 export const useAxiosInterceptors = () => {
   const { accessToken, setAccessToken } = useAuthUser();
@@ -23,11 +24,11 @@ export const useAxiosInterceptors = () => {
           prevRequest.sent = true;
 
           try {
-            const newTokenResponse = await api.get("/refresh", {
-              withCredentials: true,
-            });
-            const newAccessToken = newTokenResponse?.data?.accessToken;
-            setAccessToken(newAccessToken); //ya no lo hago en localstorage
+            // const newTokenResponse = await authService.refreshToken(setAccessToken);
+
+            //comentarlo
+            const newAccessToken =
+              await authService.refreshToken(setAccessToken);
 
             prevRequest.headers = prevRequest.headers || {};
             prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -45,5 +46,5 @@ export const useAxiosInterceptors = () => {
       api.interceptors.request.eject(requestInterceptor);
       api.interceptors.response.eject(responseInterceptors);
     };
-  }, [accessToken]); //cada vez que cambia mi accessToken
+  }, [accessToken, setAccessToken]); //cada vez que cambia mi accessToken
 };
